@@ -1,0 +1,262 @@
+{
+    "genre": "Genre of the game (e.g., Fantasy, Sci-Fi, etc.)",
+    "background": {
+        "setting": "General setting or environment (e.g., city, region, world)",
+        "location": "Specific location within the setting (e.g., Mondstadt Region)",
+        "time_period": "Time of day or period (e.g., Day, Night, Medieval Era, etc.)"
+    },
+    "plot": "Brief description of the main storyline or event driving the dialogue",
+    "characters": [
+        {
+            "name": "Character Name (e.g., Traveler, Venti, etc.)",
+            "personality": "Character's personality traits (e.g., lighthearted, brave, etc.)",
+            "speech_features": "Character's speech style (e.g., formal, slang, repetitive, etc.)"
+        },
+        {
+            "name": "Another Character Name",
+            "personality": "Personality traits of the second character",
+            "speech_features": "Speech style of the second character"
+        }
+    ],
+    "language": "Language of the dialogue output (e.g., English, French, etc.)",
+    "dialogue": {
+        "depth_1": {
+            "character": "Character speaking at depth 1 (e.g., Traveler, Venti)",
+            "line": "Dialogue line spoken by the character at depth 1",
+            "options": {
+                "option_1": {
+                    "response": "First response at depth 1",
+                    "character": "Character responding to this option"
+                },
+                "option_2": {
+                    "response": "Second response at depth 1",
+                    "character": "Character responding to this option"
+                },
+                "option_3": {
+                    "response": "Third response at depth 1",
+                    "character": "Character responding to this option"
+                }
+            }
+        },
+        "depth_2": {
+            "depth_2.1": {  // Corresponds to depth_1 option_1
+                "character": "Character speaking at depth 2.1",
+                "line": "Dialogue line spoken at depth 2.1",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 2.1",
+                        "character": "Character responding to this option"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 2.1",
+                        "character": "Character responding to this option"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 2.1",
+                        "character": "Character responding to this option"
+                    }
+                }
+            },
+            "depth_2.2": {  // Corresponds to depth_1 option_2
+                "character": "Character speaking at depth 2.2",
+                "line": "Dialogue line spoken at depth 2.2",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 2.2",
+                        "character": "Character responding to this option"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 2.2",
+                        "character": "Character responding to this option"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 2.2",
+                        "character": "Character responding to this option"
+                    }
+                }
+            },
+            "depth_2.3": {  // Corresponds to depth_1 option_3
+                "character": "Character speaking at depth 2.3",
+                "line": "Dialogue line spoken at depth 2.3",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 2.3",
+                        "character": "Character responding to this option"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 2.3",
+                        "character": "Character responding to this option"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 2.3",
+                        "character": "Character responding to this option"
+                    }
+                }
+            }
+        },
+        "depth_3": {
+            "depth_3.1.1": {  // Corresponds to depth_2.1 option_1
+                "character": "Character speaking at depth 3.1.1",
+                "line": "Dialogue line spoken at depth 3.1.1",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.1.1",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.1.1",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.1.1",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.1.2": {  // Corresponds to depth_2.1 option_2
+                "character": "Character speaking at depth 3.1.2",
+                "line": "Dialogue line spoken at depth 3.1.2",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.1.2",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.1.2",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.1.2",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.1.3": {  // Corresponds to depth_2.1 option_3
+                "character": "Character speaking at depth 3.1.3",
+                "line": "Dialogue line spoken at depth 3.1.3",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.1.3",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.1.3",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.1.3",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.2.1": {  // Corresponds to depth_2.2 option_1
+                "character": "Character speaking at depth 3.2.1",
+                "line": "Dialogue line spoken at depth 3.2.1",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.2.1",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.2.1",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.2.1",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.2.2": {  // Corresponds to depth_2.2 option_2
+                "character": "Character speaking at depth 3.2.2",
+                "line": "Dialogue line spoken at depth 3.2.2",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.2.2",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.2.2",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.2.2",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.2.3": {  // Corresponds to depth_2.2 option_3
+                "character": "Character speaking at depth 3.2.3",
+                "line": "Dialogue line spoken at depth 3.2.3",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.2.3",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.2.3",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.2.3",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.3.1": {  // Corresponds to depth_2.3 option_1
+                "character": "Character speaking at depth 3.3.1",
+                "line": "Dialogue line spoken at depth 3.3.1",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.3.1",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.3.1",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.3.1",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.3.2": {  // Corresponds to depth_2.3 option_2
+                "character": "Character speaking at depth 3.3.2",
+                "line": "Dialogue line spoken at depth 3.3.2",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.3.2",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.3.2",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.3.2",
+                        "character": "Character responding"
+                    }
+                }
+            },
+            "depth_3.3.3": {  // Corresponds to depth_2.3 option_3
+                "character": "Character speaking at depth 3.3.3",
+                "line": "Dialogue line spoken at depth 3.3.3",
+                "options": {
+                    "option_1": {
+                        "response": "First response at depth 3.3.3",
+                        "character": "Character responding"
+                    },
+                    "option_2": {
+                        "response": "Second response at depth 3.3.3",
+                        "character": "Character responding"
+                    },
+                    "option_3": {
+                        "response": "Third response at depth 3.3.3",
+                        "character": "Character responding"
+                    }
+                }
+            }
+        }
+    }
+}
