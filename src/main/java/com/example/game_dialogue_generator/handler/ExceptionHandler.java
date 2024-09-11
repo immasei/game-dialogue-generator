@@ -17,6 +17,8 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                   HttpStatusCode status, WebRequest request) {
+        // It could throw multiple errors ie i dont put both username and password
+        // We want it to show all errors
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()

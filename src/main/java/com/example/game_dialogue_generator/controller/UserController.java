@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+// @Valid UserDTO: valid the param from request body using UserDTO user
+//                 if it doesnt match the DTO, throw Exception (see Exception handler)
+
 @RestController
 public class UserController {
     @Autowired
