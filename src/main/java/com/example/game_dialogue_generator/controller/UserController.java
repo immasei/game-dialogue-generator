@@ -1,6 +1,7 @@
 package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.dto.UserDTO;
+import com.example.game_dialogue_generator.handler.ResponseHandler;
 import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.service.UserService;
 
@@ -19,9 +20,9 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return ResponseHandler.handle(HttpStatus.OK, "List of all users", users);
     }
 
     @GetMapping("/users/{userid}")
@@ -29,9 +30,8 @@ public class UserController {
         Optional<User> user = userService.getUserById(userid);
 
         if (user.isPresent())
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        return new ResponseEntity<>("No user found", HttpStatus.NOT_FOUND);
-
+            return ResponseHandler.handle(HttpStatus.OK, "User found", userid);
+        return ResponseHandler.handle(HttpStatus.NOT_FOUND, "No user found", null);
     }
 
     @PostMapping("/signup")
@@ -39,8 +39,8 @@ public class UserController {
         Optional<User> newUser = userService.signup(user);
 
         if (newUser.isPresent())
-            return new ResponseEntity<>(newUser.get(),HttpStatus.CREATED);
-        return new ResponseEntity<>("Unable to signup", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseHandler.handle(HttpStatus.CREATED, "Signup OK", newUser.get());
+        return ResponseHandler.handle(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to signup", null);
     }
 
     @PostMapping("/login")
@@ -48,7 +48,7 @@ public class UserController {
         Optional<User> activeUser = userService.login(user);
 
         if (activeUser.isPresent())
-            return new ResponseEntity<>(activeUser.get(),HttpStatus.OK);
-        return new ResponseEntity<>("Unable to login", HttpStatus.NOT_FOUND);
+            return ResponseHandler.handle(HttpStatus.OK, "Login OK", activeUser.get());
+        return ResponseHandler.handle(HttpStatus.NOT_FOUND, "Unable to login", null);
     }
 }
