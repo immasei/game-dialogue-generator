@@ -18,23 +18,16 @@ import java.util.Optional;
 //                 if it doesnt match the DTO, throw Exception (see Exception handler)
 
 @RestController
-public class UserController {
+public class AuthController {
     @Autowired
     UserService userService;
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
+        // this route is used for -get- testing
+        // will be removed in the future
         List<User> users = userService.getAllUsers();
         return ResponseHandler.handle(HttpStatus.OK, "List of all users", users);
-    }
-
-    @GetMapping("/users/{userid}")
-    public ResponseEntity<?> getUser(@PathVariable Integer userid) {
-        Optional<User> user = userService.getUserById(userid);
-
-        if (user.isPresent())
-            return ResponseHandler.handle(HttpStatus.OK, "User found", userid);
-        return ResponseHandler.handle(HttpStatus.NOT_FOUND, "No user found", null);
     }
 
     @PostMapping("/signup")
