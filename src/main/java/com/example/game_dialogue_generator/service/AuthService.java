@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 // Repository: raw crud between db and server - limited method
 // Service: customise method ie login - match by bcrypt
@@ -26,14 +25,10 @@ public class UserService {
         return (List<User>) userRepository.findAll(); // Fetch all users from the repository
     }
 
-    public Optional<User> getUserById(Integer userid) {
-        return userRepository.findById(userid);
-    }
-
-    public Optional<User> signup(UserDTO user) {
+    public User signup(UserDTO user) {
         // duplicate
-        Optional<User> activeUser = userRepository.findByUsername(user.getUsername());
-        if (activeUser.isPresent()) return Optional.empty();
+        User activeUser = userRepository.findByUsername(user.getUsername());
+        if (activeUser != null) return null;
 
         // new user
         User newUser = new User();
@@ -46,15 +41,15 @@ public class UserService {
         return userRepository.findByUsername(newUser.getUsername());
     }
 
-    public Optional<User> login(UserDTO user) {
-        Optional<User> activeUser = userRepository.findByUsername(user.getUsername());
-        if (activeUser.isPresent()) {
-            String expected = activeUser.get().getPassword();
+    public User login(UserDTO user) {
+        User activeUser = userRepository.findByUsername(user.getUsername());
+        if (activeUser != null) {
+            String expected = activeUser.getPassword();
             String actual = user.getPassword();
 
             if (bcrypt.matches(actual, expected))
                 return userRepository.findByUsername(user.getUsername());
         }
-        return Optional.empty();
+        return null;
     }
 }
