@@ -12,7 +12,7 @@
   - `chore`: Changes to the build process or auxiliary tools
   
 - if the report must have smt like 'good repo practice` (i havent checked) then
-- will be using .env in future updates
+- will be using `.env` in future updates
   ```
     Do not push application.properties with your spring.datasource.password
   ```
@@ -20,12 +20,15 @@
 ### Current features
   - **security**
     - csrf disabled (check `config/`)
+    - session authentication
+      - follow [this](https://medium.com/@ZiaurrahmanAthaya/how-to-create-session-authentication-using-spring-boot-801320adcd26)
+      - we may change to [jwt](https://dev.to/m1guelsb/authentication-and-authorization-with-spring-boot-4m2n) in the future
     - only some api endpoints enabled without authenticated
-      - if you add more endpoints, edit this file accordingly
+      - you cannot access `/home` without login/ signup
   - **frontend**: 
-    - null
+    - draft login/signup page, connected to css
   - **backend**:
-    - login/ signup with hashed password (bcrypt)
+    - login/ signup with hashed password (bcrypt only)
     - request body validation (check `dto/`)
     - custom http response format (check `handler/`)
       - status code
@@ -64,13 +67,14 @@
     - I only make up the `handler/` folder to contain my custom http response
 
 ### Test API
-  - install `postman`
+  - via `postman` (install it)
     - post 
       - `/signup`
       - `/login`
     
     - get
       - `/users`: list all users
+  - via `localhost:8080`
       
 ### References
 
@@ -107,3 +111,9 @@ thymeleaf base included https://www.thymeleaf.org/doc/tutorials/3.1/usingthymele
 axios https://axios-http.com/docs/post_example
 
 jwt and authentication manager https://dev.to/m1guelsb/authentication-and-authorization-with-spring-boot-4m2n
+
+lombok getter setter https://stackoverflow.com/questions/17729384/lombok-added-but-getters-and-setters-not-recognized-in-intellij-idea
+
+authentication manager & jwt https://github.com/Erik-Cupsa/Spring-Security-Tutorial/tree/main
+
+http persist session https://medium.com/@ZiaurrahmanAthaya/how-to-create-session-authentication-using-spring-boot-801320adcd26
