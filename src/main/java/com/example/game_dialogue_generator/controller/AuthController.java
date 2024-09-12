@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolderStrategy;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,6 @@ import java.util.Optional;
 
 // @Valid UserDTO: valid the param from request body using UserDTO user
 //                 if it doesnt match the DTO, throw Exception (see Exception handler)
-
 @RestController
 public class AuthController {
     @Autowired
@@ -59,20 +57,11 @@ public class AuthController {
                         );
                 Authentication authentication = authenticationManager.authenticate(token);
                 SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-
-                context.setAuthentication(authentication); //set context application from authentication
+                context.setAuthentication(authentication);
                 securityContextHolderStrategy.setContext(context);
-
                 securityContextRepository.saveContext(context, request, response);
-//            try {
-//                Authentication authenticationRequest =
-//                        UsernamePasswordAuthenticationToken.unauthenticated(newUser.get().getUsername(), newUser.get().getPassword());
-//                Authentication authenticationResponse =
-//                        this.authenticationManager.authenticate(authenticationRequest);
-//            } catch (AuthenticationException e) {
-//                // Handle authentication failure
-//                System.out.println("Authentication failed: " + e.getMessage());
-//            }
+
+                System.out.println("Authentication successful.");
             } catch (AuthenticationException e) {
                 System.out.println("Authentication failed: " + e.getMessage());
             }
@@ -94,25 +83,14 @@ public class AuthController {
                         );
                 Authentication authentication = authenticationManager.authenticate(token);
                 SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-
-                context.setAuthentication(authentication); //set context application from authentication
+                context.setAuthentication(authentication);
                 securityContextHolderStrategy.setContext(context);
-
                 securityContextRepository.saveContext(context, request, response);
-//                Authentication authentication = authenticationManager.authenticate(
-//                        new UsernamePasswordAuthenticationToken(
-//                                activeUser.get().getUsername(),
-//                                user.getPassword()
-//                        )
-//                );
-//                if (authentication.isAuthenticated()) {
-//                    SecurityContextHolder.getContext().setAuthentication(authentication);
-//                    HttpSession session = request.getSession(true); // Creates a new session if it doesn't exist
-//                    session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-//                    System.out.println("Authentication successful.");
-//                }
+
+                System.out.println("Authentication OK.");
+
             } catch (AuthenticationException e) {
-                System.out.println("Authentication failed: " + e.getMessage());
+                System.out.println("Authentication Failed: " + e.getMessage());
             }
             return ResponseHandler.handle(HttpStatus.OK, "Login OK", activeUser);
         }

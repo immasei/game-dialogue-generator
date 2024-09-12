@@ -1,14 +1,10 @@
 package com.example.game_dialogue_generator.service;
 
-
 import com.example.game_dialogue_generator.dto.UserDTO;
 import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +21,8 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder bcrypt;
 
-//    private final UserRepository userRepository;
-//    private final BCryptPasswordEncoder bcrypt;
-//
-//    @Autowired
-//    public AuthService(UserRepository userRepository, BCryptPasswordEncoder bcrypt) {
-//        this.userRepository = userRepository;
-//        this.bcrypt = bcrypt;
-//    }
-
     public List<User> getAllUsers() {
-        return (List<User>) userRepository.findAll(); // Fetch all users from the repository
+        return (List<User>) userRepository.findAll();
     }
 
     public Optional<User> signup(UserDTO user) {
@@ -65,14 +52,4 @@ public class AuthService {
         }
         return activeUser;
     }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        // Load user by username
-//        User user = userRepository.findByUsername(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found with username: " + username);
-//        }
-//        return user;
-//    }
 }
