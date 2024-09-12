@@ -6,29 +6,42 @@ import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 // Repository: raw crud between db and server - limited method
 // Service: customise method ie login - match by bcrypt
 @Service
-public class UserService {
+public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private BCryptPasswordEncoder bcrypt;
 
+//    private final UserRepository userRepository;
+//    private final BCryptPasswordEncoder bcrypt;
+//
+//    @Autowired
+//    public AuthService(UserRepository userRepository, BCryptPasswordEncoder bcrypt) {
+//        this.userRepository = userRepository;
+//        this.bcrypt = bcrypt;
+//    }
+
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll(); // Fetch all users from the repository
     }
 
-    public User signup(UserDTO user) {
+    public Optional<User> signup(UserDTO user) {
         // duplicate
-        User activeUser = userRepository.findByUsername(user.getUsername());
-        if (activeUser != null) return null;
+        Optional<User> activeUser = userRepository.findByUsername(user.getUsername());
+        if (activeUser.isPresent()) return null;
 
         // new user
         User newUser = new User();
@@ -41,15 +54,25 @@ public class UserService {
         return userRepository.findByUsername(newUser.getUsername());
     }
 
-    public User login(UserDTO user) {
-        User activeUser = userRepository.findByUsername(user.getUsername());
-        if (activeUser != null) {
-            String expected = activeUser.getPassword();
+    public Optional<User> login(UserDTO user) {
+        Optional<User> activeUser = userRepository.findByUsername(user.getUsername());
+        if (activeUser.isPresent()) {
+            String expected = activeUser.get().getPassword();
             String actual = user.getPassword();
 
             if (bcrypt.matches(actual, expected))
                 return userRepository.findByUsername(user.getUsername());
         }
-        return null;
+        return activeUser;
     }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        // Load user by username
+//        User user = userRepository.findByUsername(username);
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found with username: " + username);
+//        }
+//        return user;
+//    }
 }

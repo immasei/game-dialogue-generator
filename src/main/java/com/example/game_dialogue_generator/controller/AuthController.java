@@ -3,8 +3,12 @@ package com.example.game_dialogue_generator.controller;
 import com.example.game_dialogue_generator.dto.UserDTO;
 import com.example.game_dialogue_generator.handler.ResponseHandler;
 import com.example.game_dialogue_generator.model.User;
-import com.example.game_dialogue_generator.service.UserService;
+import com.example.game_dialogue_generator.service.AuthService;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,41 +32,90 @@ import java.util.Optional;
 @RestController
 public class AuthController {
     @Autowired
-    UserService userService;
-
+    AuthService authService;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
+
+    private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
         // this route is used for -get- testing
         // will be removed in the future
-        List<User> users = userService.getAllUsers();
+        List<User> users = authService.getAllUsers();
         return ResponseHandler.handle(HttpStatus.OK, "List of all users", users);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody UserDTO user) {
-        Optional<User> newUser = userService.signup(user);
+    public ResponseEntity<?> signup(@Valid @RequestBody UserDTO user, HttpServletRequest request, HttpServletResponse response) {
+        Optional<User> newUser = authService.signup(user);
 
-        if (newUser.isPresent())
-            return ResponseHandler.handle(HttpStatus.CREATED, "Signup OK", newUser.get());
+        if (newUser.isPresent()) {
+            try {
+                UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken
+                        .unauthenticated(
+                                newUser.get().getUsername(), user.getPassword()
+                        );
+                Authentication authentication = authenticationManager.authenticate(token);
+                SecurityContext context = securityContextHolderStrategy.createEmptyContext();
+
+                context.setAuthentication(authentication); //set context application from authentication
+                securityContextHolderStrategy.setContext(context);
+
+                securityContextRepository.saveContext(context, request, response);
+//            try {
+//                Authentication authenticationRequest =
+//                        UsernamePasswordAuthenticationToken.unauthenticated(newUser.get().getUsername(), newUser.get().getPassword());
+//                Authentication authenticationResponse =
+//                        this.authenticationManager.authenticate(authenticationRequest);
+//            } catch (AuthenticationException e) {
+//                // Handle authentication failure
+//                System.out.println("Authentication failed: " + e.getMessage());
+//            }
+            } catch (AuthenticationException e) {
+                System.out.println("Authentication failed: " + e.getMessage());
+            }
+            return ResponseHandler.handle(HttpStatus.CREATED, "Signup OK", newUser);
+        }
+
         return ResponseHandler.handle(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to signup", null);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserDTO user) {
-        Optional<User> activeUser = userService.login(user);
+    public ResponseEntity<?> login(@Valid @RequestBody UserDTO user, HttpServletRequest request, HttpServletResponse response) {
+        Optional<User> activeUser = authService.login(user);
 
         if (activeUser.isPresent()) {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-//
-//            // Set the authentication in the SecurityContext
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseHandler.handle(HttpStatus.OK, "Login OK", activeUser.get());
-        }
+            try {
+                UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken
+                        .unauthenticated(
+                                activeUser.get().getUsername(), user.getPassword()
+                        );
+                Authentication authentication = authenticationManager.authenticate(token);
+                SecurityContext context = securityContextHolderStrategy.createEmptyContext();
 
+                context.setAuthentication(authentication); //set context application from authentication
+                securityContextHolderStrategy.setContext(context);
+
+                securityContextRepository.saveContext(context, request, response);
+//                Authentication authentication = authenticationManager.authenticate(
+//                        new UsernamePasswordAuthenticationToken(
+//                                activeUser.get().getUsername(),
+//                                user.getPassword()
+//                        )
+//                );
+//                if (authentication.isAuthenticated()) {
+//                    SecurityContextHolder.getContext().setAuthentication(authentication);
+//                    HttpSession session = request.getSession(true); // Creates a new session if it doesn't exist
+//                    session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+//                    System.out.println("Authentication successful.");
+//                }
+            } catch (AuthenticationException e) {
+                System.out.println("Authentication failed: " + e.getMessage());
+            }
+            return ResponseHandler.handle(HttpStatus.OK, "Login OK", activeUser);
+        }
 
         return ResponseHandler.handle(HttpStatus.NOT_FOUND, "Unable to login", null);
     }
