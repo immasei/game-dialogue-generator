@@ -58,7 +58,15 @@
                "status": 400
             }
         ```
-    
+    - **note**
+      - we have 2 types of controller
+        - `@RestController` (ie AuthController) returns {} like above example
+        - `@Controller` returns html view
+      - work flow will be 
+        - frontend using `axios` send http request via `@RestController` that returns `json response` (customisable, see `handler/`)
+        - if returning response ok ie 200 201
+          - front end do the redirection via `@Controller` that returns `html view`
+
 ### Setup
   - go to `application.properties` under `main/java/resources`
   - insert mysql password `spring.datasource.password`
