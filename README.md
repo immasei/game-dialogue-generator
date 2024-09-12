@@ -12,6 +12,7 @@
   - `chore`: Changes to the build process or auxiliary tools
   
 - if the report must have smt like 'good repo practice` (i havent checked) then
+- will be using .env in future updates
   ```
     Do not push application.properties with your spring.datasource.password
   ```
@@ -79,6 +80,8 @@ https://spring.io/guides/gs/accessing-data-mysql
 spring boot file structure best practice
 https://malshani-wijekoon.medium.com/spring-boot-folder-structure-best-practices-18ef78a81819
 
+another file structure https://github.com/sidharthsahoodev/user-auth/tree/main/src/main/java/org/example/config
+
 mysql create new user
 https://stackoverflow.com/questions/1720244/create-new-user-in-mysql-and-give-it-full-access-to-one-database
 
@@ -98,3 +101,9 @@ dto https://www.devglan.com/spring-boot/spring-boot-jpa-hibernate-login
 dto validation https://medium.com/paysafe-bulgaria/springboot-dto-validation-good-practices-and-breakdown-fee69277b3b0
 
 validation exception handler https://stackoverflow.com/questions/59952013/how-to-override-handlemethodargumentnotvalid-properly-in-spring-boot https://medium.com/@tericcabrel/validate-request-body-and-parameter-in-spring-boot-53ca77f97fe9 https://stackoverflow.com/questions/75493219/responseentityexceptionhandler-error-with-new-spring-boot-version/75493408
+
+thymeleaf base included https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#defining-and-referencing-fragments
+
+axios https://axios-http.com/docs/post_example
+
+jwt and authentication manager https://dev.to/m1guelsb/authentication-and-authorization-with-spring-boot-4m2n

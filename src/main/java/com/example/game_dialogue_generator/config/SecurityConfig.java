@@ -1,6 +1,8 @@
 package com.example.game_dialogue_generator.config;
 
 import org.springframework.context.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,9 +22,19 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/login", "/signup", "/users").permitAll()
+                .requestMatchers("/", "/login", "/signup", "/users", "/js/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
-
+            )
+            .formLogin((form) -> form
+                .loginPage("/")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/home")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll()
             );
 
         return http.build();
@@ -34,6 +46,12 @@ public class SecurityConfig {
 //                    .permitAll()
 //            )
 //            .logout((logout) -> logout.permitAll());
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean

@@ -9,4 +9,9 @@ public class ViewController {
     public String index() {
         return "auth";
     }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
 }
