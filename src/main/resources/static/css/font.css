@@ -1,0 +1,25 @@
+body {
+    font-family: "Ubuntu", monospace;
+}
+.left-bottom-corner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px; /* Add padding from the edge */
+}
+
+.right-bottom-corner {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 30px;
+}
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /*height: 100vh;*/
+
+}

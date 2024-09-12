@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
+
 </head>
 <body>
-$END$
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 27%;">
+            <div class="modal-content theme-wrapper justify-content-between">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="was-validated">
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input id="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input id="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn" style="background-color: #B4D6CD; border: 1px solid #96CEB4; width: 49%" onclick="signup()">Signup</button>
+                            <button type="button" class="btn" style="background-color: #C8CFA0; border: 1px solid #C0C78C; width: 49%" onclick="login()">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button data-bs-toggle="modal" data-bs-target="#staticBackdrop">Click me!</button>
+
 </body>
+<script>
+    async function login() {
+        axios.post('/login', {
+                username: $("#username").val(),
+                password: $("#password").val()
+            })
+            .then(function (response) {
+                console.log(response.data);
+                window.open('/home', "_self")
+            })
+            .catch(function (error) {
+                alert(JSON.stringify(error.response.data, null, 2));
+                console.log(error.response.data);
+            });
+    }
+
+    async function signup() {
+        axios.post('/signup', {
+                username: $("#username").val(),
+                password: $("#password").val()
+            })
+            .then(function (response) {
+                console.log(response.data);
+                window.open('/home', "_self")
+            })
+            .catch(function (error) {
+                alert(JSON.stringify(error.response.data, null, 2));
+                console.log(error.response.data);
+            });
+    }
+</script>
 </html>
