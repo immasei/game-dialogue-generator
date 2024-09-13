@@ -22,7 +22,7 @@
     - csrf disabled (check `config/`)
     - session authentication
       - follow [this](https://medium.com/@ZiaurrahmanAthaya/how-to-create-session-authentication-using-spring-boot-801320adcd26)
-      - we may change to [jwt](https://dev.to/m1guelsb/authentication-and-authorization-with-spring-boot-4m2n) in the future
+      - we may change to [jwt](https://github.com/Erik-Cupsa/Spring-Security-Tutorial/tree/main) in the future
     - only some api endpoints enabled without authenticated
       - you cannot access `/home` without login/ signup
   - **frontend**: 
