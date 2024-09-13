@@ -71,6 +71,7 @@
   - go to `application.properties` under `main/java/resources`
   - insert mysql password `spring.datasource.password`
   - you only need the account, you dont need to create a db beforehand
+  - if you have error for `@Getter`, `@Setter`, try [this](https://stackoverflow.com/questions/17729384/lombok-added-but-getters-and-setters-not-recognized-in-intellij-idea)
   - file structure follow [this](https://malshani-wijekoon.medium.com/spring-boot-folder-structure-best-practices-18ef78a81819)
     - I only make up the `handler/` folder to contain my custom http response
 
