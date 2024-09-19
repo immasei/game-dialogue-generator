@@ -5,5 +5,29 @@
 </head>
 <body>
     This is homepage
+
+    <select id="genre-dropdown">
+
+    </select>
 </body>
+
+<script>
+    function getGenres() {
+        axios.get('/genres')
+            .then(function (response) {
+                const genres = response.data.data;
+                const genreDropdown = document.getElementById('genre-dropdown');
+                genres.forEach(function (genre) {
+                    const option = document.createElement('option');
+                    option.value = genre.genreid;
+                    option.textContent = genre.name;
+                    genreDropdown.appendChild(option);
+                });
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+    }
+    window.onload = getGenres;
+</script>
 </html>
