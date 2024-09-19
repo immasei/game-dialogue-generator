@@ -1,5 +1,6 @@
 package com.example.game_dialogue_generator.model;
 
+import com.example.game_dialogue_generator.enums.GenreEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,5 +15,6 @@ public class Genre {
     private Integer genreid;
 
     @Column(nullable = false, unique = true, length = 25)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private GenreEnum name;
 }
