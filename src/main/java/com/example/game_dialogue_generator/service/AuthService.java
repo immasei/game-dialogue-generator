@@ -28,7 +28,7 @@ public class AuthService {
     public Optional<User> signup(UserDTO user) {
         // duplicate
         Optional<User> activeUser = userRepository.findByUsername(user.getUsername());
-        if (activeUser.isPresent()) return null;
+        if (activeUser.isPresent()) return Optional.empty();
 
         // new user
         User newUser = new User();
@@ -50,6 +50,6 @@ public class AuthService {
             if (bcrypt.matches(actual, expected))
                 return userRepository.findByUsername(user.getUsername());
         }
-        return activeUser;
+        return Optional.empty();
     }
 }
