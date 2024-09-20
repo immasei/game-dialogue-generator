@@ -106,11 +106,13 @@ h6 {
   --canvasColor: #111;
   --backgroundColor: #141414;
   --foregroundColor: #e3f2fd;
-  --c1: #EA907A;
-  --c1-1: rgb(242, 189, 172);
+  --c1: #CAF7E3;
+  --c1-1: #EDFFEC;
 
-  --c2: #FBC687;
-  --c2-1: #efdc9e;
+  --c2: #F2C18D;
+  --c2-1: #FFEEBB;
+
+
 }
 
 .auth-form {
