@@ -5,5 +5,50 @@
 </head>
 <body>
     This is homepage
+
+    <select id="genre-dropdown"></select>
+
+    <select id="language-dropdown"></select>
 </body>
+
+<script>
+    function getGenres() {
+        axios.get('/genres')
+            .then(function (response) {
+                const genres = response.data.data;
+                const genreDropdown = document.getElementById('genre-dropdown');
+                genres.forEach(function (genre) {
+                    const option = document.createElement('option');
+                    option.value = genre.genreid;
+                    option.textContent = genre.name;
+                    genreDropdown.appendChild(option);
+                });
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+    }
+
+    function getLanguages() {
+        axios.get('/languages')
+            .then(function (response) {
+                const languages = response.data.data;
+                const languageDropdown = document.getElementById('language-dropdown');
+                languages.forEach(function (language) {
+                    const option = document.createElement('option');
+                    option.value = language.languageid;
+                    option.textContent = language.name;
+                    languageDropdown.appendChild(option);
+                });
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+    }
+
+    window.onload = function() {
+        getGenres();
+        getLanguages();
+    };
+</script>
 </html>
