@@ -4,38 +4,42 @@
 
 </head>
 <body>
+    <input class="theme" id="light-theme" type="radio" value="1" name="color" checked="checked"/>
+    <input class="theme" id="dark-theme" type="radio" value="2" name="color"/>
 
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 27%;">
-            <div class="modal-content theme-wrapper justify-content-between">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <main>
+        <section class="form">
+            <h6>Game Dialogue Generator</h6>
+            <h2>Welcome.</h2>
+
+            <form class="auth-form">
+                <div class="field">
+                    <label>User</label>
+                    <input id="username" type="text" placeholder="Username from 1 to 20 chars"/>
                 </div>
-                <div class="modal-body">
-                    <form class="was-validated">
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input id="username" type="text" class="form-control" placeholder="Enter Username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input id="password" type="password" class="form-control" placeholder="Enter Password" required>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn" style="background-color: #B4D6CD; border: 1px solid #96CEB4; width: 49%" onclick="signup()">Signup</button>
-                            <button type="button" class="btn" style="background-color: #C8CFA0; border: 1px solid #C0C78C; width: 49%" onclick="login()">Login</button>
-                        </div>
-                    </form>
+                <div class="field">
+                    <label>Password</label>
+                    <input id="password" type="password" placeholder="Password from 8 to 20 chars"/>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <button data-bs-toggle="modal" data-bs-target="#staticBackdrop">Click me!</button>
-
+                <div class="buttons">
+                    <button type="button" class="button" onclick="signup()">Signup</button>
+                    <button type="button" class="button c2" onclick="login()">Login</button>
+                </div>
+            </form>
+        </section>
+    </main>
 </body>
 <script>
+    $("input.theme").on("click", function() {
+        if ($(this).val() > 1) {
+            $("body").css("background", "rgba(20,20,20,0.97)");
+            $("footer").attr("class", "dark");
+        } else {
+            $("body").css("background", "#f9f9f9");
+            $("footer").attr("class", "");
+        }
+    });
+
     async function login() {
         axios.post('/login', {
                 username: $("#username").val(),
