@@ -23,6 +23,15 @@
                           placeholder="lively, despair, tense, suspenseful, ..."></textarea>
             </div>
 <!--                TODO FIGURE OUT THE MULTIPLE CHARACTERS-->
+            <div class="form-group">
+                <label for="add-character">Describe your Characters</label>
+                <button type="button" class="button" id="add-character" onclick="addCharacter()">Add Character</button>
+                <div id="character-container">
+                <label for="character1">Character 1</label>
+                <textarea class="form-control" id="character1" rows="3"
+                          placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
+                </div>
+            </div>
             <div class="row">
                 <div class="col form-inline form-group">
                     <label for="max-dialogue-depth">Maximum Dialogue Depth:</label>
@@ -90,6 +99,27 @@
 
     function sendPrompt() {
     //     TODO: Send information to backend
+    }
+
+    let characterCount = 1
+    function addCharacter() {
+    //     Dynamically adds another character text box
+    //     TODO: Dynamically add another text box
+        characterCount += 1
+        let newLabel = Document.createElement("label")
+        newLabel.setAttribute("for", "character"+characterCount)
+        newLabel.textContent = "Character " + characterCount
+
+        let newTextarea = Document.createElement("textarea")
+        newTextarea.setAttribute("class", "form-control")
+        newTextarea.setAttribute("id", "character"+characterCount)
+        newTextarea.setAttribute("rows", "3")
+        newTextarea.setAttribute("placeholder",
+            "Describe the character's role, personality, relationship with other characters ...")
+
+        let container = Document.getElementById("character-container")
+        container.appendChild(newLabel)
+        container.appendChild(newTextarea)
     }
 
     window.onload = function() {
