@@ -106,18 +106,18 @@
     //     Dynamically adds another character text box
     //     TODO: Dynamically add another text box
         characterCount += 1
-        let newLabel = Document.createElement("label")
+        let newLabel = document.createElement("label")
         newLabel.setAttribute("for", "character"+characterCount)
         newLabel.textContent = "Character " + characterCount
 
-        let newTextarea = Document.createElement("textarea")
+        let newTextarea = document.createElement("textarea")
         newTextarea.setAttribute("class", "form-control")
         newTextarea.setAttribute("id", "character"+characterCount)
         newTextarea.setAttribute("rows", "3")
         newTextarea.setAttribute("placeholder",
             "Describe the character's role, personality, relationship with other characters ...")
 
-        let container = Document.getElementById("character-container")
+        let container = document.getElementById("character-container")
         container.appendChild(newLabel)
         container.appendChild(newTextarea)
     }
