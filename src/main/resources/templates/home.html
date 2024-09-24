@@ -4,55 +4,53 @@
 
 </head>
 <body>
-    <main>
-        <section class="form">
-            <h1>Generate Dialogue</h1>
+    <section class="form">
+        <h1>Generate Dialogue</h1>
 
-            <form class="prompt-form">
-                <div class="form-group">
-                    <label for="game-context">Describe the Game Context:</label>
-                    <textarea class="form-control" id="game-context" rows="5"
-                              placeholder="Describe the game setting, world history, main conflict or goals, key events... (200 words)"></textarea>
-                </div>
-                <div class="form-inline form-group">
-                    <label for="genre-dropdown">Pick a Genre:</label>
-                    <select class="form-control dropdown-toggle" id="genre-dropdown"></select>
-                </div>
-                <div class="form-group">
-                    <label for="tone-description">Describe the Tone:</label>
-                    <textarea class="form-control" id="tone-description" rows="2"
-                              placeholder="lively, despair, tense, suspenseful, ..."></textarea>
-                </div>
+        <form class="prompt-form">
+            <div class="form-group">
+                <label for="game-context">Describe the Game Context:</label>
+                <textarea class="form-control" id="game-context" rows="5"
+                          placeholder="Describe the game setting, world history, main conflict or goals, key events... (200 words)"></textarea>
+            </div>
+            <div class="form-inline form-group">
+                <label for="genre-dropdown">Pick a Genre:</label>
+                <select class="form-control dropdown-toggle" id="genre-dropdown"></select>
+            </div>
+            <div class="form-group">
+                <label for="tone-description">Describe the Tone:</label>
+                <textarea class="form-control" id="tone-description" rows="2"
+                          placeholder="lively, despair, tense, suspenseful, ..."></textarea>
+            </div>
 <!--                TODO FIGURE OUT THE MULTIPLE CHARACTERS-->
-                <div class="row">
-                    <div class="col form-inline form-group">
-                        <label for="max-dialogue-depth">Maximum Dialogue Depth:</label>
-                        <select class="form-control" id="max-dialogue-depth">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                    <div class="col form-inline form-group">
-                        <label for="num-endings">Number of Endings:</label>
-                        <select class="form-control" id="num-endings">
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                    <div class="col form-inline form-group">
-                        <label for="language-dropdown">Pick a Language:</label>
-                        <select class="form-control" id="language-dropdown"></select>
-                    </div>
+            <div class="row">
+                <div class="col form-inline form-group">
+                    <label for="max-dialogue-depth">Maximum Dialogue Depth:</label>
+                    <select class="form-control" id="max-dialogue-depth">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
                 </div>
-                <button type="button" class="button" onclick="sendPrompt()">Generate</button>
-            </form>
-        </section>
-    </main>
+                <div class="col form-inline form-group">
+                    <label for="num-endings">Number of Endings:</label>
+                    <select class="form-control" id="num-endings">
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="col form-inline form-group">
+                    <label for="language-dropdown">Pick a Language:</label>
+                    <select class="form-control" id="language-dropdown"></select>
+                </div>
+            </div>
+            <button type="button" class="button" onclick="sendPrompt()">Generate</button>
+        </form>
+    </section>
 </body>
 
 <script>
