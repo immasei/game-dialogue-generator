@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
 
+
 </head>
+<link href="/css/auth.css" rel="stylesheet">
 <body>
     <input class="theme" id="light-theme" type="radio" value="1" name="color" checked="checked"/>
     <input class="theme" id="dark-theme" type="radio" value="2" name="color"/>
@@ -10,12 +12,11 @@
     <main>
         <section class="form">
             <h6>Game Dialogue Generator</h6>
-            <h2>Welcome.</h2>
+            <h4>Welcome back!</h4>
 
             <form class="auth-form">
-<!--                <div class="space-container">-->
                 <div class="field">
-                    <label>User</label>
+                    <label>Username</label>
                     <input id="username" type="text" placeholder="Username from 1 to 20 chars"/>
                 </div>
                 <div class="field">
@@ -26,7 +27,6 @@
                     <button type="button" class="button" onclick="signup()">Signup</button>
                     <button type="button" class="button c2" onclick="login()">Login</button>
                 </div>
-<!--                </div>-->
             </form>
         </section>
     </main>
