@@ -13,6 +13,7 @@
             <h2>Welcome.</h2>
 
             <form class="auth-form">
+<!--                <div class="space-container">-->
                 <div class="field">
                     <label>User</label>
                     <input id="username" type="text" placeholder="Username from 1 to 20 chars"/>
@@ -25,6 +26,7 @@
                     <button type="button" class="button" onclick="signup()">Signup</button>
                     <button type="button" class="button c2" onclick="login()">Login</button>
                 </div>
+<!--                </div>-->
             </form>
         </section>
     </main>
@@ -32,7 +34,7 @@
 <script>
     $("input.theme").on("click", function() {
         if ($(this).val() > 1) {
-            $("body").css("background", "rgba(20,20,20,0.97)");
+            $("body").css("background", "#2F2E2E");
             $("footer").attr("class", "dark");
         } else {
             $("body").css("background", "#f9f9f9");
