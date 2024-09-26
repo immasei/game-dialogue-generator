@@ -21,7 +21,7 @@
                     <span>Saved Dialogues</span>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item" onclick="logout()">
                     <i class="fa-solid fa-user"></i>
                     <span>Logout</span>
                 </div>
@@ -115,6 +115,18 @@
             $("footer").attr("class", "");
         }
     });
+
+    function logout() {
+        axios.post('/logout')
+            .then(function (response) {
+                window.open('/', "_self");
+
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+
+    }
 
     function getGenres() {
         axios.get('/genres')
