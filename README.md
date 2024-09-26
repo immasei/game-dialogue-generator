@@ -87,6 +87,21 @@
       
 ### References
 
+#### Frontend
+
+original idea for login/signup and theme switch (modified enough) https://codepen.io/oliviale/pen/GbmyYx?fbclid=IwY2xjawFhtahleHRuA2FlbQIxMAABHc25h0OC2oKJgmixFtmCRAcTs8pKfdc4kdRYgUT3lhzcG_X-z3MB6rPw_A_aem_zv7_ZxKDOQgQt4_hNnFF7w
+
+original idea for sidebar (mini modification but it's easy-understandable html css) https://www.youtube.com/watch?v=neb7WcDixoY
+
+state of theme switch https://stackoverflow.com/questions/24278494/jquery-if-checkbox-is-checked-bootstrap-switch
+
+set input checked https://stackoverflow.com/questions/16906018/bootstrap-doesnt-use-checked-attribute-of-checkbox
+
+bootstrap 5 https://getbootstrap.com/docs/5.0/getting-started/introduction/
+
+sidebar footer https://stackoverflow.com/questions/76061838/make-footer-not-a-direct-child-of-body-stick-to-bottom-in-flexbox-based-layout
+
+#### Backend
 mysql & java spring boot
 https://spring.io/guides/gs/accessing-data-mysql
 
