@@ -101,6 +101,8 @@ bootstrap 5 https://getbootstrap.com/docs/5.0/getting-started/introduction/
 
 sidebar footer https://stackoverflow.com/questions/76061838/make-footer-not-a-direct-child-of-body-stick-to-bottom-in-flexbox-based-layout
 
+font awesome https://stackoverflow.com/questions/71146319/how-to-use-font-awesome-icons-in-html https://fontawesome.com/search?q=save&o=r&m=free&s=solid&f=classic%2Csharp
+
 #### Backend
 mysql & java spring boot
 https://spring.io/guides/gs/accessing-data-mysql
