@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }"></head>
 <link href="/css/sidebar.css" rel="stylesheet">
+<link href="/css/content.css" rel="stylesheet">
 <body>
     <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
     <input class="theme" id="dark-theme" type="radio" style="display: none"/>
@@ -11,12 +12,12 @@
             <h3>Menu</h3>
 
             <nav class="menu">
-                <div class="menu-item is-active">
+                <div class="menu-item" onclick="generator()">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     <span>Generator</span>
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item" onclick="archive()">
                     <i class="fa-solid fa-floppy-disk"></i>
                     <span>Saved Dialogues</span>
                 </div>
@@ -101,33 +102,8 @@
     </main>
 </body>
 
+<script src="/js/script.js"></script>
 <script>
-    $("#theme-switch").on("click", function() {
-        if ($(this).prop('checked')) {
-            $("#light-theme").prop("checked", false);
-            $("#dark-theme").prop("checked", true);
-            $("body").css("background", "#2F2E2E");
-            $("footer").attr("class", "dark");
-        } else {
-            $("#dark-theme").prop("checked", false);
-            $("#light-theme").prop("checked", true);
-            $("body").css("background", "#F7F7F7");
-            $("footer").attr("class", "");
-        }
-    });
-
-    function logout() {
-        axios.post('/logout')
-            .then(function (response) {
-                window.open('/', "_self");
-
-            })
-            .catch(function (error) {
-                console.log(error.response.data);
-            });
-
-    }
-
     function getGenres() {
         axios.get('/genres')
             .then(function (response) {
