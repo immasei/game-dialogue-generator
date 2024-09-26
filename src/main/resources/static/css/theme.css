@@ -29,6 +29,7 @@ main {
     --border-color: #d1d3d4;
     --backgroundColor: #fff;
     --foregroundColor: #111;
+    --foregroundColor-1: #5C88C4;
     --c1: #EA907A;
     --c1-1: rgb(242, 189, 172);
     --c2: #FBC687;
@@ -41,7 +42,8 @@ main {
     --border-color: #666a6d;
     --canvasColor: #2F2E2E;
     --backgroundColor: #141414;
-    --foregroundColor: #e3f2fd;
+    --foregroundColor: #ffffff;
+    --foregroundColor-1: #7FC7D9;
     --c1: #CAF7E3;
     --c1-1: #EDFFEC;
     --c2: #DAF7A6;

@@ -1,13 +1,13 @@
 body {
     background: var(--canvasColor);
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 main {
     display: flex;
     min-height: 100vh;
-    /*color: var(--foregroundColor);*/
 }
+
 
 .sidebar {
     flex: 1 1 300px;
@@ -16,7 +16,8 @@ main {
     background-color: var(--c3);
     display: flex;
     flex-direction: column;
-    font-family: sans-serif;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
 }
 
 .sidebar h3 {
@@ -34,20 +35,24 @@ main {
 .sidebar .menu .menu-item {
     display: block;
     padding: 1em 1.5em;
-    color: black;
+    color: rgba(0, 0, 0, 0.6);
     text-decoration: none;
     transition: 0.2s linear;
     margin-bottom: 1em;
 }
 
 .sidebar .menu .menu-item i {
-    width: 10%;
+    width: 15%;
     font-size: 15px;
-    color: black;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .sidebar .menu .menu-item:hover {
     border-right: 7px solid #5C88C4;
+}
+
+.sidebar .form-check .form-switch .d-flex .align-items-center label {
+    color: rgba(0, 0, 0, 0.6); /* Apply your desired style here */
 }
 
 .content {
@@ -56,14 +61,69 @@ main {
 }
 
 .content h1 {
-    color: var(--foregroundColor);
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    color: var(--foregroundColor) !important;
+    font-size: 26px;
+    margin-bottom: 0.5rem;
+    margin-top: 0.1rem;
+    margin-left: 0.1rem;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
 }
 
-.content p {
-    color: #969cb2;
+.content .prompt-form {
+    padding: 20px 30px;
 }
+
+.content .prompt-form label {
+    margin-bottom: 0.8rem;
+    color: var(--foregroundColor);
+}
+
+.content .prompt-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.content .prompt-form textarea, .content .prompt-form select {
+    border: none;
+    border-radius: 12px;
+    background-color: var(--backgroundColor);
+    color: var(--foregroundColor);
+}
+
+.in-button {
+    outline: none;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: black;
+    background-color: var(--c3);
+    border: none;
+    margin-left: 5px;
+}
+
+.in-button i {
+    font-size: 15px;
+}
+
+.in-button span {
+    font-size: 13px;
+}
+
+.out-button {
+    outline: none;
+    text-align: center;
+    padding: 12px 15px;
+    border-radius: 10px;
+    color: black;
+    background-color: var(--c3);
+    border: none;
+}
+
+.in-button:hover, .out-button:hover {
+    background-color: #E0E5B6;
+}
+
+
 
 @media (max-width: 768px) {
     .sidebar {
