@@ -46,6 +46,7 @@ main section {
   margin-bottom: 10%;
   padding: 40px 40px 50px;
 }
+
 main section > h6 {
   color: var(--c1);
   background: var(--canvasColor);
@@ -114,7 +115,7 @@ h6 {
 .field input {
   height: 48px;
   font-size: 14px;
-  border: 1.5px solid var(--neutralShade3);
+  border: 1.5px solid var(--border-color);
   width: 100%;
   padding: 12px;
   border-radius: var(--borderRadius);

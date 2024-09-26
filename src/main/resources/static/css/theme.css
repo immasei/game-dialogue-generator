@@ -4,24 +4,25 @@
 
 /* light */
 #light-theme:checked ~ main {
+    --border-color: #d1d3d4;
     --backgroundColor: #fff;
     --foregroundColor: #111;
     --c1: #EA907A;
     --c1-1: rgb(242, 189, 172);
-
     --c2: #FBC687;
     --c2-1: #efdc9e;
+    --c3: #A8DADC;
 }
 
 /* dark */
 #dark-theme:checked ~ main {
-    border-color: #fff;
+    --border-color: #666a6d;
     --canvasColor: #2F2E2E;
     --backgroundColor: #141414;
     --foregroundColor: #e3f2fd;
     --c1: #CAF7E3;
     --c1-1: #EDFFEC;
-
     --c2: #DAF7A6;
     --c2-1: #f8ffbb;
+    --c3: #A8DADC;
 }

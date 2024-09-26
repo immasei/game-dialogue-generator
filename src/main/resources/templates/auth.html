@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
-
-
-</head>
+<head th:replace="~{ base :: common_header(~{::title},~{::link}) }"></head>
 <link href="/css/auth.css" rel="stylesheet">
 <body>
-    <input class="theme" id="light-theme" type="radio" value="1" name="color" checked="checked"/>
-    <input class="theme" id="dark-theme" type="radio" value="2" name="color"/>
+    <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
+    <input class="theme" id="dark-theme" type="radio" style="display: none"/>
 
     <main>
         <section class="form">
@@ -29,14 +26,24 @@
                 </div>
             </form>
         </section>
+        <div class="form-check form-switch d-flex align-items-center" style="margin-left: 5%;">
+            <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
+        </div>
     </main>
 </body>
 <script>
-    $("input.theme").on("click", function() {
-        if ($(this).val() > 1) {
+    $("#theme-switch").on("click", function() {
+        if ($(this).prop('checked')) {
+            $("#light-theme").prop("checked", false);
+
+            $("#dark-theme").prop("checked", true);
             $("body").css("background", "#2F2E2E");
             $("footer").attr("class", "dark");
         } else {
+            $("#dark-theme").prop("checked", false);
+
+            $("#light-theme").prop("checked", true);
             $("body").css("background", "#f9f9f9");
             $("footer").attr("class", "");
         }
