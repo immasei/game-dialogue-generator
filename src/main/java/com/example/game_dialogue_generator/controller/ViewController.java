@@ -14,4 +14,7 @@ public class ViewController {
     public String home() {
         return "home";
     }
+
+    @GetMapping("/output")
+    public String output() {return "output";}
 }

@@ -1,0 +1,98 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.icon{
+    min-height: 20vh;
+}
+
+.navbar{
+    gap:15px;
+}
+
+.sidebar {
+    height: 100vh;
+    background-color: #a8dadc;
+}
+
+.theme-switch {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.dialogue-list {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.dialogue-item {
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.accordion {
+    width: 100%;
+    max-width: 600px;
+    margin: 10px 0;
+}
+
+.accordion-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.accordion-button {
+    background-color: #f1f1f1;
+    color: #333;
+    cursor: pointer;
+    padding: 10px;
+    text-align: left;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.accordion-button:hover {
+    background-color: #ddd;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-left: 10px;
+}
+
+.content{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content .inner-title{
+    display:flex;
+}
+
+.content>div:first-child{
+    height:20%;
+}
+
+.content>div:nth-child(2){
+    height:70%;
+}
+
+.content>div:last-child{
+    height:10%;
+}

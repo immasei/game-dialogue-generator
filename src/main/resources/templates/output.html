@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<link rel="stylesheet" th:href="@{/css/output.css}">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar p-4">
+            <div class="icon"><img src="/images/pic3.jpg" alt="Website Logo"></div>
+            <nav class="navbar navbar-light flex-column align-items-start">
+                <a class="navbar-brand" href="#">Generator</a>
+                <a class="navbar-brand" href="#">Log out</a>
+                <a class="navbar-brand" href="#">Saved Dialogues</a>
+            </nav>
+            <div class="theme-switch">
+                <label>Theme Switch</label>
+                <input type="checkbox">
+            </div>
+        </div>
+
+        <div class="col-md-10 content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="inner-title">
+                    <h4 class="mb-0">Title of Dialogue</h4>
+                    <a>
+                        <img src="/images/icon.png" alt="icon" style="width: 32px; height: 32px;">
+                    </a>
+
+                </div>
+
+
+            </div>
+
+            <div class="dialogue-list">
+                <div id="accordion-container">
+
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <p>Word limits: Current: 3200 Max: 4000</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+<script>
+    const depth = 3;
+    const branch = 3;
+
+    const accordionContainer = document.getElementById('accordion-container');
+
+    function generateAccordion(depth, branch, currentDepth = 1) {
+        if (currentDepth > depth) return null;
+
+        const accordion = document.createElement('div');
+        accordion.classList.add('accordion');
+
+        for (let i = 0; i < branch; i++) {
+            const accordionItem = document.createElement('div');
+            accordionItem.classList.add('accordion-item');
+
+            const accordionButton = document.createElement('button');
+            accordionButton.classList.add('accordion-button');
+            accordionButton.innerText = `Layer ${currentDepth} - Option ${i + 1}`;
+
+            const accordionContent = document.createElement('div');
+            accordionContent.classList.add('accordion-content');
+
+            const nestedAccordion = generateAccordion(depth, branch, currentDepth + 1);
+            if (nestedAccordion) {
+                const paragraph = document.createElement('p');
+                paragraph.innerText = `Layer ${currentDepth} , Option ${i + 1}`;
+                accordionContent.appendChild(paragraph);
+                accordionContent.appendChild(nestedAccordion);
+            } else {
+                const paragraph = document.createElement('p');
+                paragraph.innerText = `Layer ${currentDepth} , Option ${i + 1}`;
+                accordionContent.appendChild(paragraph);
+            }
+
+            accordionButton.addEventListener('click', () => {
+                const isDisplayed = accordionContent.style.display === "block";
+                accordionContent.style.display = isDisplayed ? "none" : "block";
+            });
+
+            accordionItem.appendChild(accordionButton);
+            accordionItem.appendChild(accordionContent);
+            accordion.appendChild(accordionItem);
+        }
+
+        return accordion;
+    }
+
+const accordionStructure = generateAccordion(depth, branch);
+accordionContainer.appendChild(accordionStructure);
+
+</script>
+</html>
