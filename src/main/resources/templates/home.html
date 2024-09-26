@@ -55,8 +55,8 @@
                 </div>
                 <div class="form-group">
                     <label for="add-character">Describe your Characters</label>
-                    <button type="button" class="in-button" id="add-character" onclick="addCharacter()">
-                        <i class="fa-solid fa-circle-plus"></i>
+                    <button type="button" class="add-btn" id="add-character" onclick="addCharacter()">
+                        <i class="fa-solid fa-square-plus"></i>
                         <span>Add</span>
                     </button>
                     <div id="character-container">
@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="out-button" onclick="sendPrompt()">Generate</button>
+                    <button type="button" class="submit-btn" onclick="sendPrompt()">Generate</button>
                 </div>
             </form>
         </div>
@@ -174,12 +174,18 @@
 
         let deleteButton = document.createElement("button");
         deleteButton.setAttribute("type", "button");
-        deleteButton.setAttribute("class", "button");
+        deleteButton.setAttribute("class", "del-btn");
         deleteButton.setAttribute("id", "delete-button"+characterCount);
-        deleteButton.textContent = "Delete Character";
         deleteButton.onclick = function() {
             deleteCharacter(deleteButton.id);
         };
+
+        let icon = document.createElement("i");
+        icon.setAttribute("class", "fa-solid fa-delete-left");
+        let op = document.createElement("span");
+        op.textContent = "Del";
+        deleteButton.appendChild(icon);
+        deleteButton.appendChild(op);
 
         let container = document.getElementById("character-container");
         container.appendChild(newLabel);

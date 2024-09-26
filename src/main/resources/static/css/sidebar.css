@@ -93,26 +93,46 @@ main {
     color: var(--foregroundColor);
 }
 
-.in-button {
+.add-btn {
     outline: none;
     text-align: center;
     padding: 5px 10px;
-    border-radius: 10px;
-    color: black;
-    background-color: var(--c3);
+    border-radius: 5px;
+    color:  var(--foregroundColor);;
+    background: none;
     border: none;
     margin-left: 5px;
 }
 
-.in-button i {
+.del-btn {
+    border-radius: 5px;
+    background: none;
+    outline: none;
+    text-align: center;
+    padding: 5px;
+    color: var(--foregroundColor);
+    border: none;
+    margin-left: 5px;
+}
+
+.del-btn:hover {
+    background-color: #FFD18E;
+}
+
+.add-btn i, .del-btn i {
     font-size: 15px;
 }
 
-.in-button span {
+.del-btn i {
+    margin-right: 5px;
+}
+
+.add-btn span, .del-btn span {
+    margin-left: 5px;
     font-size: 13px;
 }
 
-.out-button {
+.submit-btn{
     outline: none;
     text-align: center;
     padding: 12px 15px;
@@ -122,11 +142,13 @@ main {
     border: none;
 }
 
-.in-button:hover, .out-button:hover {
+.add-btn:hover, .submit-btn:hover {
     background-color: #E0E5B6;
 }
 
-
+.add-btn:hover, .del-btn:hover {
+    color: #000;
+}
 
 @media (max-width: 768px) {
     .sidebar {
