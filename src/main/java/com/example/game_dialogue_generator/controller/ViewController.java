@@ -20,4 +20,7 @@ public class ViewController {
     public String archive() {
         return "archive";
     }
+
+    @GetMapping("/output")
+    public String output() {return "output";}
 }
