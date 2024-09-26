@@ -4,6 +4,7 @@
 
 </head>
 <body>
+    <main>
     <section class="form">
         <h1>Generate Dialogue</h1>
 
@@ -22,13 +23,12 @@
                 <textarea class="form-control" id="tone-description" rows="2"
                           placeholder="lively, despair, tense, suspenseful, ..."></textarea>
             </div>
-<!--                TODO FIGURE OUT THE MULTIPLE CHARACTERS-->
             <div class="form-group">
                 <label for="add-character">Describe your Characters</label>
                 <button type="button" class="button" id="add-character" onclick="addCharacter()">Add Character</button>
                 <div id="character-container">
-                <label for="character1">Character 1</label>
-                <textarea class="form-control" id="character1" rows="3"
+                <label id="labelcharacter1" for="textcharacter1">Character 1</label>
+                <textarea class="form-control" id="textcharacter1" rows="3"
                           placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
                 </div>
             </div>
@@ -60,6 +60,7 @@
             <button type="button" class="button" onclick="sendPrompt()">Generate</button>
         </form>
     </section>
+    </main>
 </body>
 
 <script>
@@ -101,25 +102,79 @@
     //     TODO: Send information to backend
     }
 
-    let characterCount = 1
+    let characterCount = 1;
     function addCharacter() {
     //     Dynamically adds another character text box
-    //     TODO: Dynamically add another text box
-        characterCount += 1
-        let newLabel = document.createElement("label")
-        newLabel.setAttribute("for", "character"+characterCount)
-        newLabel.textContent = "Character " + characterCount
+        characterCount += 1;
+        let newLabel = document.createElement("label");
+        newLabel.setAttribute("for", "textcharacter"+characterCount);
+        newLabel.setAttribute("id", "labelcharacter"+characterCount);
+        newLabel.textContent = "Character " + characterCount;
 
-        let newTextarea = document.createElement("textarea")
-        newTextarea.setAttribute("class", "form-control")
-        newTextarea.setAttribute("id", "character"+characterCount)
-        newTextarea.setAttribute("rows", "3")
+        let newTextarea = document.createElement("textarea");
+        newTextarea.setAttribute("class", "form-control");
+        newTextarea.setAttribute("id", "textcharacter"+characterCount);
+        newTextarea.setAttribute("rows", "3");
         newTextarea.setAttribute("placeholder",
-            "Describe the character's role, personality, relationship with other characters ...")
+            "Describe the character's role, personality, relationship with other characters ...");
 
-        let container = document.getElementById("character-container")
-        container.appendChild(newLabel)
-        container.appendChild(newTextarea)
+        let deleteButton = document.createElement("button");
+        deleteButton.setAttribute("type", "button");
+        deleteButton.setAttribute("class", "button");
+        deleteButton.setAttribute("id", "delete-button"+characterCount);
+        deleteButton.textContent = "Delete Character";
+        deleteButton.onclick = function() {
+            deleteCharacter(deleteButton.id);
+        };
+
+        let container = document.getElementById("character-container");
+        container.appendChild(newLabel);
+        container.appendChild(deleteButton);
+        container.appendChild(newTextarea);
+
+        // Limit the number of characters
+        if (characterCount >= 4) {
+            let button = document.getElementById("add-character");
+            button.disabled = true;
+        }
+    }
+
+    function deleteCharacter(buttonId) {
+    //     Deletes a character text box
+        let id = buttonId.slice(-1);
+        let container = document.getElementById("character-container");
+        container.removeChild(document.getElementById("labelcharacter"+id));
+        container.removeChild(document.getElementById("textcharacter"+id));
+        container.removeChild(document.getElementById("delete-button"+id));
+
+        characterCount -= 1;
+
+        let button = document.getElementById("add-character");
+        button.disabled = false;
+
+        updateCharacters();
+    }
+
+    function updateCharacters() {
+        //     Update the Character numberings
+        let labels = document.querySelectorAll('[id^="labelcharacter"]');
+        let textareas = document.querySelectorAll('[id^="textcharacter"]');
+        let deleteButtons = document.querySelectorAll('[id^="delete-button"]');
+
+        for (let i = 0; i < labels.length; i++) {
+            labels[i].setAttribute("for", "textcharacter"+(i+1));
+            labels[i].setAttribute("id", "labelcharacter"+(i+1));
+            labels[i].textContent = "Character " + (i+1);
+
+            textareas[i].setAttribute("id", "textcharacter"+(i+1));
+        }
+
+        for (let i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].setAttribute("id", "delete-button"+(i+2));
+            deleteButtons[i].onclick = function () {
+                deleteCharacter(deleteButtons[i].id);
+            };
+        }
     }
 
     window.onload = function() {
