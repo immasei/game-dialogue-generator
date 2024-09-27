@@ -79,6 +79,7 @@ public class SecurityConfig {
                 )
                 .logout((logout) -> {
                             logout.logoutUrl("/logout");
+                            logout.logoutSuccessUrl("/");
                             logout.addLogoutHandler(
                                     new HeaderWriterLogoutHandler(
                                             new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.COOKIES)

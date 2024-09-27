@@ -1,38 +1,14 @@
-:root {
-  --canvasColor: #f9f9f9;
-}
-
 body {
   background: var(--canvasColor);
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   line-height: 1.5;
-  font-size: 16px;
+  font-size: 13px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-main {
-  --neutralShade0: #f8f8f8;
-  --neutralShade1: #f2f2f2;
-  --neutralShade2: #e8e9e9;
-  --neutralShade3: #d1d3d4;
-  --neutralShade4: #babdbf;
-  --neutralShade5: #808488;
-  --neutralShade6: #666a6d;
-  --neutralShade7: #4d5052;
-  --neutralShade8: #212122;
-  --grayColor: #999;
-  --lightGrayColor: #ddd;
-  --borderRadius: 6px;
-  --boxShadow: 0 2px 5px rgba(#333, 0.2);
 }
 
 /*overall layout*/
@@ -50,12 +26,20 @@ main section {
   margin-bottom: 10%;
   padding: 40px 40px 50px;
 }
+
 main section > h6 {
   color: var(--c1);
   background: var(--canvasColor);
   position: absolute;
-  top: -10px;
-  left: 20px;
+  top: 30px;
+  left: 50px;
+  padding: 0 10px;
+}
+
+main section > h4 {
+  position: absolute;
+  top: 60px;
+  left: 50px;
   padding: 0 10px;
 }
 
@@ -89,36 +73,10 @@ h6 {
   text-transform: uppercase;
 }
 
-/* light */
-#light-theme:checked ~ main {
-  --backgroundColor: #fff;
-  --foregroundColor: #111;
-  --c1: #EA907A;
-  --c1-1: rgb(242, 189, 172);
-
-  --c2: #FBC687;
-  --c2-1: #efdc9e;
-}
-
-/* dark */
-#dark-theme:checked ~ main {
-  border-color: #fff;
-  --canvasColor: #111;
-  --backgroundColor: #141414;
-  --foregroundColor: #e3f2fd;
-  --c1: #CAF7E3;
-  --c1-1: #EDFFEC;
-
-  --c2: #DAF7A6;
-  --c2-1: #f8ffbb;
-
-
-}
-
 .auth-form {
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 3px 15px rgba(51, 51, 51, 0.2);
+  border-radius: 32px;
+  padding: 40px 60px;
+  /*box-shadow: 0 3px 15px rgba(51, 51, 51, 0.2);*/
   margin-top: 30px;
   position: relative;
 }
@@ -128,15 +86,16 @@ h6 {
 }
 
 .field label {
-  font-weight: 500;
+  font-weight: 450;
   display: block;
-  margin-bottom: 7px;
+  margin-bottom: 9px;
+  text-transform: uppercase;
 }
 
 .field input {
-  height: 50px;
-  font-size: 16px;
-  border: 2px solid var(--neutralShade3);
+  height: 48px;
+  font-size: 14px;
+  border: 1.5px solid var(--border-color);
   width: 100%;
   padding: 12px;
   border-radius: var(--borderRadius);
@@ -153,7 +112,7 @@ h6 {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 button {
