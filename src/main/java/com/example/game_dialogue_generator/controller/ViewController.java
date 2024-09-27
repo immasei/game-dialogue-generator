@@ -11,10 +11,16 @@ public class ViewController {
     }
 
     @GetMapping("/home")
+    // prompt
     public String home() {
         return "home";
     }
 
     @GetMapping("/output")
     public String output() {return "output";}
+
+    @GetMapping("/archive")
+    public String archive() {
+        return "archive";
+    }
 }
