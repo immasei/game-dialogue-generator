@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class GenreLoader implements ApplicationRunner {
-    // https://bootify.io/next-steps/load-initial-data-in-spring-boot.html
-    // https://dev.to/noelopez/spring-rest-working-with-enums-ma
 
     @Autowired
     private GenreRepository genreRepository;
