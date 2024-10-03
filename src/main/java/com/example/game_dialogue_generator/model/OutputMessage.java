@@ -14,45 +14,12 @@ public class OutputMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Flattened genre and language fields
-    @Column(nullable = false, length = 50)
-    private String genre;
-
-    @Column(nullable = false, length = 25)
-    private String language;
-
-    // Background fields
-    private String setting;
-    private String location;
-    private String timePeriod;
-
-    @Column(columnDefinition = "TEXT")
-    private String plot;
-
-    // Each index in characterNames, characterPersonalities and characterSpeechFeatures corresponds to the same character.
-    // i.e if characterNames.get(0) is Alex then characterPersonalities.get(0) and characterSpeechFeatures.get(0)
-    // describe Alex's personality and speech features respectively
-    @ElementCollection
-    @CollectionTable(name = "character_names", joinColumns = @JoinColumn(name = "output_message_id"))
-    @Column(name = "character_name")
-    private List<String> characterNames;
-
-    @ElementCollection
-    @CollectionTable(name = "character_personalities", joinColumns = @JoinColumn(name = "output_message_id"))
-    @Column(name = "character_personality")
-    private List<String> characterPersonalities;
-
-    @ElementCollection
-    @CollectionTable(name = "character_speech_features", joinColumns = @JoinColumn(name = "output_message_id"))
-    @Column(name = "character_speech_feature")
-    private List<String> characterSpeechFeatures;
-
-    // Depth 1 dialogue structure:
+    // dialogue structure per depth:
     // 1. Dialogue line spoken by the character
-    // 2. Name of the character speaking
-    // 3. Option 1 response text
-    // 4. Option 2 response text
-    // 5. Option 3 response text
+    // 2. Name of the character speaking (NPC)
+    // 3. Option 1 response text (Player)
+    // 4. Option 2 response text (Player)
+    // 5. Option 3 response text (Player)
     @ElementCollection
     @CollectionTable(name = "dialogue_depth1", joinColumns = @JoinColumn(name = "output_message_id"))
     @Column(name = "dialogue_line")

@@ -9,6 +9,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * controller for managing OutputMessage
+ *
+ * it provides CRUD operations including:
+ * - create
+ * - retrieve all or by id.
+ * - update by id
+ * - delete by id
+ *
+ * Endpoints:
+ * - POST /api/outputmessages: create
+ * - GET /api/outputmessages: get all
+ * - GET /api/outputmessages/{id}: get by id
+ * - PUT /api/outputmessages/{id}: update by id
+ * - DELETE /api/outputmessages/{id}: delete by id
+ *
+ * @see OutputMessage
+ * @see OutputMessageService
+ */
 @RestController
 @RequestMapping("/api/outputmessages")
 public class OutputMessageController {
@@ -49,8 +68,9 @@ public class OutputMessageController {
 
     // delete by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOutputMessage(@PathVariable Long id) {
+    public ResponseEntity<String> deleteOutputMessage(@PathVariable Long id) {
         service.deleteOutputMessage(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("OutputMessage: " + id + " has been deleted successfully.");
     }
+
 }
