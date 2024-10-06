@@ -78,4 +78,25 @@ public class OpenAIRequestController {
         return ResponseEntity.ok(response);
     }
 
+    //test getting raw json string
+    @GetMapping("/test/string")
+    public ResponseEntity<String> getRawContentFromChatGPT() {
+        OpenAIRequest mockRequest = new OpenAIRequest();
+        mockRequest.setGenre("scifi, fantasy");
+        mockRequest.setSetting("Planet of Penacony - the land of dreams");
+        mockRequest.setLocation("Penacony Grand Hotel");
+        mockRequest.setTimePeriod("Day");
+        mockRequest.setLanguage("English");
+        mockRequest.setPlot("The Trailblazer is attempting to check in at the hotel, but she is not on the invite list.");
+        mockRequest.setCharacterNames(List.of("Trailblazer", "Hotel Manager"));
+        mockRequest.setCharacterPersonalities(List.of("curious, slightly dumb", "polite and patient"));
+        mockRequest.setCharacterSpeechFeatures(List.of(
+                "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
+                "polite speech, attempting to explain how she can't let the Trailblazer check in if she's not on the guest list"
+        ));
+
+        String content = openAIRequestService.getOpenAIResponseContent(mockRequest);
+        return ResponseEntity.ok(content);
+    }
+
 }

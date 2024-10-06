@@ -70,8 +70,8 @@ public class OpenAIRequestService {
                 .build();
 
         // Prepare the JSON request body
-        //String requestBody = buildOpenAIRequestBody(openAIRequest); // actual code
-        String requestBody = buildOpenAIRequestBodyTest(); // test
+        String requestBody = buildOpenAIRequestBody(openAIRequest); // actual code
+        //String requestBody = buildOpenAIRequestBodyTest(); // test
         System.out.println(requestBody);
 
         // Send the POST request to OpenAI and return the response body
@@ -89,28 +89,59 @@ public class OpenAIRequestService {
     // Parse the OpenAI response into OutputMessage structure
     private OutputMessage parseOpenAIResponse(String openAIResponse) {
         OutputMessage outputMessage = new OutputMessage();
-        System.out.println(openAIResponse);
         try {
+            // Parse the root JSON node of the OpenAI response
             JsonNode rootNode = objectMapper.readTree(openAIResponse);
 
-            // Assuming response JSON has the exact structure
-            outputMessage.setDepth1(parseDialogueDepth(rootNode, "depth1"));
-            outputMessage.setDepth2_1(parseDialogueDepth(rootNode, "depth2_1"));
-            outputMessage.setDepth2_2(parseDialogueDepth(rootNode, "depth2_2"));
-            outputMessage.setDepth2_3(parseDialogueDepth(rootNode, "depth2_3"));
+            // Extract the "choices" array and the first "content" field within "message"
+            JsonNode choicesNode = rootNode.path("choices");
+            if (choicesNode.isArray() && choicesNode.size() > 0) {
+                JsonNode messageContentNode = choicesNode.get(0).path("message").path("content");
 
-            outputMessage.setDepth3_1_1(parseDialogueDepth(rootNode, "depth3_1_1"));
-            outputMessage.setDepth3_1_2(parseDialogueDepth(rootNode, "depth3_1_2"));
-            outputMessage.setDepth3_1_3(parseDialogueDepth(rootNode, "depth3_1_3"));
+                // Ensure that the "content" field is a valid JSON string
+                if (messageContentNode.isTextual()) {
+                    // Clean up the content string to remove problematic characters
+                    String contentString = messageContentNode.asText().trim();
 
-            outputMessage.setDepth3_2_1(parseDialogueDepth(rootNode, "depth3_2_1"));
-            outputMessage.setDepth3_2_2(parseDialogueDepth(rootNode, "depth3_2_2"));
-            outputMessage.setDepth3_2_3(parseDialogueDepth(rootNode, "depth3_2_3"));
+                    // Remove chatgpt api markdown code markers
+                    if (contentString.startsWith("```json")) {
+                        contentString = contentString.substring(7).trim();
+                    }
+                    if (contentString.endsWith("```")) {
+                        contentString = contentString.substring(0, contentString.length() - 3).trim();
+                    }
 
-            outputMessage.setDepth3_3_1(parseDialogueDepth(rootNode, "depth3_3_1"));
-            outputMessage.setDepth3_3_2(parseDialogueDepth(rootNode, "depth3_3_2"));
-            outputMessage.setDepth3_3_3(parseDialogueDepth(rootNode, "depth3_3_3"));
+                    // Replace problematic characters (e.g., non-standard characters)
+                    contentString = contentString.replace("Æ", "'").replace("`", "").replace("\\n", "\n");
+
+                    // Debug: Print the cleaned-up content to verify
+                    System.out.println("Cleaned Content: " + contentString);
+
+                    // Attempt to parse the cleaned string as a new JSON structure
+                    JsonNode dialogueNode = objectMapper.readTree(contentString);
+
+                    // Extract and map the dialogue depths
+                    outputMessage.setDepth1(parseDialogueDepth(dialogueNode, "depth1"));
+                    outputMessage.setDepth2_1(parseDialogueDepth(dialogueNode, "depth2_1"));
+                    outputMessage.setDepth2_2(parseDialogueDepth(dialogueNode, "depth2_2"));
+                    outputMessage.setDepth2_3(parseDialogueDepth(dialogueNode, "depth2_3"));
+
+                    outputMessage.setDepth3_1_1(parseDialogueDepth(dialogueNode, "depth3_1_1"));
+                    outputMessage.setDepth3_1_2(parseDialogueDepth(dialogueNode, "depth3_1_2"));
+                    outputMessage.setDepth3_1_3(parseDialogueDepth(dialogueNode, "depth3_1_3"));
+
+                    outputMessage.setDepth3_2_1(parseDialogueDepth(dialogueNode, "depth3_2_1"));
+                    outputMessage.setDepth3_2_2(parseDialogueDepth(dialogueNode, "depth3_2_2"));
+                    outputMessage.setDepth3_2_3(parseDialogueDepth(dialogueNode, "depth3_2_3"));
+
+                    outputMessage.setDepth3_3_1(parseDialogueDepth(dialogueNode, "depth3_3_1"));
+                    outputMessage.setDepth3_3_2(parseDialogueDepth(dialogueNode, "depth3_3_2"));
+                    outputMessage.setDepth3_3_3(parseDialogueDepth(dialogueNode, "depth3_3_3"));
+                }
+            }
         } catch (IOException e) {
+            // Print the error to help with debugging
+            System.err.println("Failed to parse OpenAI response: " + e.getMessage());
             e.printStackTrace();
         }
         return outputMessage;
@@ -150,20 +181,134 @@ public class OpenAIRequestService {
         }
     }
 
-    // Build OpenAI request body, DO NOT CHANGE THE PROMPT!!!!!! changed to public for testing
-    public String buildOpenAIRequestBody(OpenAIRequest openAIRequest) {
-        // Convert the OpenAIRequest object to a JSON string
-        String requestJson = convertToJson(openAIRequest);
-        System.out.println(requestJson);
 
+
+    // Build OpenAI request body, DO NOT CHANGE THE PROMPT!!!!!!
+    private String buildOpenAIRequestBody(OpenAIRequest openAIRequest) {
         return String.format(
-                "{\"model\": \"gpt-4o\", \"messages\": [ " +
-                        "{ \"role\": \"system\", \"content\": \"You are a dialogue generator assistant. Your task is to generate structured, multi-layered branching dialogues for games based on the input provided. Use the following JSON as the reference for game details and character descriptions. Please maintain the structure and use the provided information as guidelines: %s\" }, " +
-                        "{ \"role\": \"user\", \"content\": \"Sanity check: Ensure correct template with branching depths.\" } " +
+                "{ \"model\": \"gpt-4o\", \"messages\": [ " +
+                        "{ \"role\": \"system\", \"content\": \"%s\" }, " +
+                        "{ \"role\": \"user\", \"content\": \"%s\" } " +
                         "], \"max_tokens\": 2500 }",
-                requestJson
+
+                // System role content
+                "You are a dialogue generator assistant. Your task is to generate structured, multi-layered branching dialogues for games based on the input provided. " +
+                        "The dialogue should follow a strict template with branching depths, formatted as follows:\\n" +
+                        "{\\n" +
+                        "  \\\"depth1\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC at depth 1\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth2_1\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth1 option 1\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth2_2\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth1 option 2\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth2_3\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth1 option 3\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_1_1\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_1 option 1\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_1_2\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_1 option 2\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_1_3\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_1 option 3\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_2_1\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_2 option 1\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_2_2\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_2 option 2\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_2_3\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_2 option 3\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_3_1\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_3 option 1\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_3_2\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_3 option 2\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ],\\n" +
+                        "  \\\"depth3_3_3\\\": [\\n" +
+                        "    \\\"Dialogue line spoken by NPC in response to depth2_3 option 3\\\",\\n" +
+                        "    \\\"Name of the NPC speaking\\\",\\n" +
+                        "    \\\"Option 1 response text (Player)\\\",\\n" +
+                        "    \\\"Option 2 response text (Player)\\\",\\n" +
+                        "    \\\"Option 3 response text (Player)\\\"\\n" +
+                        "  ]\\n" +
+                        "}",
+
+                // Properly formatted user content
+                String.format(
+                        "Genre: %s, Language: %s, Setting: %s, Location: %s, Time Period: %s, Plot: %s. " +
+                                "The dialogue involves the player and a NPC. Player: Name: %s, Personality: %s, Speech Style: %s. " +
+                                "NPC: Name: %s, Personality: %s, Speech Style: %s.",
+                        openAIRequest.getGenre(),
+                        openAIRequest.getLanguage(),
+                        openAIRequest.getSetting(),
+                        openAIRequest.getLocation(),
+                        openAIRequest.getTimePeriod(),
+                        openAIRequest.getPlot(),
+                        openAIRequest.getCharacterNames().get(0),
+                        openAIRequest.getCharacterPersonalities().get(0),
+                        openAIRequest.getCharacterSpeechFeatures().get(0),
+                        openAIRequest.getCharacterNames().get(1),
+                        openAIRequest.getCharacterPersonalities().get(1),
+                        openAIRequest.getCharacterSpeechFeatures().get(1)
+                )
         );
     }
+
 
 
     public String buildOpenAIRequestBodyTest() {
@@ -181,6 +326,32 @@ public class OpenAIRequestService {
         );
     }
 
+    // Test get raw output
+    public String getOpenAIResponseContent(OpenAIRequest openAIRequest) {
+        String openAIResponse = callOpenAIAPI(openAIRequest);
+        try {
+            JsonNode rootNode = objectMapper.readTree(openAIResponse);
+            JsonNode choicesNode = rootNode.path("choices");
+            if (choicesNode.isArray() && choicesNode.size() > 0) {
+                JsonNode messageContentNode = choicesNode.get(0).path("message").path("content");
+                if (messageContentNode.isTextual()) {
+                    String contentString = messageContentNode.asText().trim();
 
+                    // Remove markdown code markers (```json and ```)
+                    if (contentString.startsWith("```json")) {
+                        contentString = contentString.substring(7).trim();
+                    }
+                    if (contentString.endsWith("```")) {
+                        contentString = contentString.substring(0, contentString.length() - 3).trim();
+                    }
+
+                    return contentString;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 }
