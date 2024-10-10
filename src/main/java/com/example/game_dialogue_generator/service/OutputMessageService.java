@@ -19,10 +19,6 @@ public class OutputMessageService {
         return repository.save(outputMessage);
     }
 
-    // get all
-    public List<OutputMessage> getAllOutputMessages() {
-        return (List<OutputMessage>) repository.findAll();
-    }
 
     // get by id
     public Optional<OutputMessage> getOutputMessageById(Long id) {

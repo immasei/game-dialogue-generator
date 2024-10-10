@@ -42,13 +42,6 @@ public class OutputMessageController {
         return ResponseEntity.ok(createdOutputMessage);
     }
 
-    // get all
-    @GetMapping
-    public ResponseEntity<List<OutputMessage>> getAllOutputMessages() {
-        List<OutputMessage> messages = service.getAllOutputMessages();
-        return ResponseEntity.ok(messages);
-    }
-
     // get by id
     @GetMapping("/{id}")
     public ResponseEntity<OutputMessage> getOutputMessageById(@PathVariable Long id) {

@@ -16,6 +16,8 @@ import java.util.List;
  *   - location: Specific location within the setting (e.g., Mondstadt Region)
  *   - timePeriod: Time of day or period (e.g., Day, Night, Medieval Era, etc.)
  *   - plot: Brief description of the main storyline or event driving the dialogue
+ *   - depth: The depth of branching dialogue up to 3
+ *   - width: The width of branching dialogue options up to 3
  *
  * - Character details:
  *   - characterNames: List of character names (Player at index 0, NPC at index 1)
@@ -36,10 +38,11 @@ public class OpenAIRequestDTO {
     private String location;
     private String timePeriod;
     private String plot;
+    private int depth;
+    private int width; // number of options
 
     // Character details (must be exactly 2 characters for the dialogue: Player and NPC)
     private List<String> characterNames;          // E.g., ["Trailblazer (Player)", "Venti (NPC)"]
     private List<String> characterPersonalities;  // E.g., ["Like trash cans", "drunk bard"]
-    private List<String> characterSpeechFeatures; // E.g., ["refers to herself as the galatic baseballer, and her catchphrase is rules are meant to be broken", "Casual and poetic, likes to say ehe when awkward"]
-
+    private List<String> characterSpeechFeatures; // E.g., ["refers to herself as the galactic baseballer, and her catchphrase is rules are meant to be broken", "Casual and poetic, likes to say ehe when awkward"]
 }

@@ -9,16 +9,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -191,108 +185,44 @@ public class OpenAIRequestService {
                         "{ \"role\": \"user\", \"content\": \"%s\" } " +
                         "], \"max_tokens\": 2500 }",
 
-                // System role content
-                "You are a dialogue generator assistant. Your task is to generate structured, multi-layered branching dialogues for games based on the input provided. " +
-                        "The dialogue should follow a strict template with branching depths, formatted as follows:\\n" +
-                        "{\\n" +
-                        "  \\\"depth1\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC at depth 1\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth2_1\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth1 option 1\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth2_2\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth1 option 2\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth2_3\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth1 option 3\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_1_1\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_1 option 1\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_1_2\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_1 option 2\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_1_3\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_1 option 3\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_2_1\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_2 option 1\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_2_2\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_2 option 2\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_2_3\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_2 option 3\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_3_1\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_3 option 1\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_3_2\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_3 option 2\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ],\\n" +
-                        "  \\\"depth3_3_3\\\": [\\n" +
-                        "    \\\"Dialogue line spoken by NPC in response to depth2_3 option 3\\\",\\n" +
-                        "    \\\"Name of the NPC speaking\\\",\\n" +
-                        "    \\\"Option 1 response text (Player)\\\",\\n" +
-                        "    \\\"Option 2 response text (Player)\\\",\\n" +
-                        "    \\\"Option 3 response text (Player)\\\"\\n" +
-                        "  ]\\n" +
-                        "}",
+                // System role content with depth and width explanation
+                String.format(
+                        "You are a dialogue generator assistant. Your task is to generate structured, multi-layered branching dialogues for games based on the input provided. (Do not add additional tags or change the order of the output contents as the api output is parsed by a jsonparser for an enterprise application.) " +
+                                "The dialogue should follow a strict template with branching depths and widths.\\n" +
+                                "The depth parameter (n) indicates how many levels of conversation there are, with values ranging from 1 to 3, which determines the n of depthn_m_nm.\\n" +
+                                "The width parameter (m) indicates how many response options are available at each level, also ranging from 1 to 3 which determines the m and nm (where nm only occurs in dpeth3_m_nm) of depthn_m_nm. Note: nm is not n*m it is determined by m as the highest option number.\\n" +
+                                "The branching is represented by specific depth levels, as explained below:\\n" +
+                                "\\n" +
+                                "1. **depth1**: The initial dialogue line spoken by the NPC. This should be followed by width number of possible response options from the player, corresponding to the width parameter.\\n" +
+                                "\\n" +
+                                "2. **depth2_x**: Represents the NPC response to the player's choice from **depth1**. Here, 'x' stands for the option selected by the player (e.g., depth2_1 means the NPC is responding to the player's selection of Option 1 in **depth1**). " +
+                                "Each **depth2_x** should have an NPC response, the NPC's name, and up to width number of new options for the player to respond, as determined by the width parameter.\\n" +
+                                "\\n" +
+                                "3. **depth3_x_x**: Represents the next level of the NPC's response based on the player's selection at **depth2_x**. " +
+                                "The first 'x' refers to the player's choice in **depth1**, and the second 'x' refers to the player's choice in **depth2**. " +
+                                "For example, **depth3_1_2** means the NPC is responding to the player's selection of Option 1 in **depth1** and then Option 2 in **depth2_1**. " +
+                                "Each **depth3_x_x** should include the NPC's response, the NPC's name, and up to width number possible responses for the player, as defined by the width parameter.\\n" +
+                                "\\n" +
+                                "Please ensure that the structure of the dialogue is consistent with the given depth and width, providing appropriate branching for each level up to the specified parameters.\\n" +
+                                "Use the format below to structure the dialogue - note if width < 3 then number of options you generate will be based on width, e.g. a width of 2 will mean only 2 options provided, the 3rd option is empty and therefore in the subsequent depth, there will only be 2 options corresponding to option 1 and 2 for depth 1, and so forth:\\n" +
+                                "{\\n" +
+                                "  \\\"depth1\\\": [\\n" +
+                                "    \\\"Dialogue line spoken by NPC at depth 1\\\",\\n" +
+                                "    \\\"Name of the NPC speaking\\\",\\n" +
+                                "    \\\"Option 1 response text (Player)\\\",\\n" +
+                                "    \\\"Option 2 response text (Player)\\\",\\n" +
+                                "    \\\"Option 3 response text (Player)\\\"\\n" +
+                                "  ],\\n" +
+                                "  (similarly structured branches for subsequent depths up to depthx_x_x based on the given depth and width)\\n" +
+                                "}"
+                ),
 
                 // Properly formatted user content
                 String.format(
                         "Genre: %s, Language: %s, Setting: %s, Location: %s, Time Period: %s, Plot: %s. " +
                                 "The dialogue involves the player and a NPC. Player: Name: %s, Personality: %s, Speech Style: %s. " +
-                                "NPC: Name: %s, Personality: %s, Speech Style: %s.",
+                                "NPC: Name: %s, Personality: %s, Speech Style: %s. " +
+                                "Generate dialogue with depth: %d and width: %d.",
                         openAIRequest.getGenre(),
                         openAIRequest.getLanguage(),
                         openAIRequest.getSetting(),
@@ -304,7 +234,9 @@ public class OpenAIRequestService {
                         openAIRequest.getCharacterSpeechFeatures().get(0),
                         openAIRequest.getCharacterNames().get(1),
                         openAIRequest.getCharacterPersonalities().get(1),
-                        openAIRequest.getCharacterSpeechFeatures().get(1)
+                        openAIRequest.getCharacterSpeechFeatures().get(1),
+                        openAIRequest.getDepth(),
+                        openAIRequest.getWidth()
                 )
         );
     }

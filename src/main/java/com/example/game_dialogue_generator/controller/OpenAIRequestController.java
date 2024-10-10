@@ -12,8 +12,21 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Controller for OpenAI API calls.
- * Note: update is not supported as to update you just make a new request.
+ * Controller for managing OpenAI requests.
+ *
+ * This controller provides operations for creating new OpenAI requests, retrieving requests by ID,
+ * retrieving all OpenAI requests, and deleting requests. Additionally, it provides endpoints for testing
+ * the OpenAI API response.
+ *
+ * Endpoints:
+ * - POST /api/openai: Create a new OpenAI request and generate dialogue
+ * - GET /api/openai/{id}: Get a request by ID
+ * - DELETE /api/openai/{id}: Delete a request by ID
+ * - GET /api/openai/test: Test OpenAI API call with a mock request
+ * - GET /api/openai/test/string: Get raw JSON response string from OpenAI API
+ *
+ * @see OpenAIRequest
+ * @see OpenAIRequestService
  */
 @RestController
 @RequestMapping("/api/openai")
@@ -28,14 +41,11 @@ public class OpenAIRequestController {
     // Create new request and return the generated OutputMessage
     @PostMapping
     public ResponseEntity<OutputMessage> createOpenAIRequest(@RequestBody OpenAIRequest openAIRequest) {
+        if (openAIRequest.getDepth() < 1 || openAIRequest.getDepth() > 3 || openAIRequest.getWidth() < 1 || openAIRequest.getWidth() > 3) {
+            return ResponseEntity.badRequest().body(null);
+        }
         OutputMessage createdOutputMessage = openAIRequestService.createOpenAIRequest(openAIRequest);
         return ResponseEntity.ok(createdOutputMessage);
-    }
-
-    // Get all OutputMessages
-    @GetMapping("/outputmessages")
-    public ResponseEntity<Iterable<OutputMessage>> getAllOutputMessages() {
-        return ResponseEntity.ok(outputMessageService.getAllOutputMessages());
     }
 
     // Get request by ID
@@ -71,6 +81,8 @@ public class OpenAIRequestController {
         mockRequest.setCharacterSpeechFeatures(List.of(
                 "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
                 "polite speech, attempting to explain how she cannot let the Trailblazer check in if she is not on the guest list"));
+        mockRequest.setDepth(2);
+        mockRequest.setWidth(2);
 
         // Call OpenAI API and retrieve the output message
         OutputMessage response = openAIRequestService.createOpenAIRequest(mockRequest);
@@ -78,7 +90,7 @@ public class OpenAIRequestController {
         return ResponseEntity.ok(response);
     }
 
-    //test getting raw json string
+    // Test getting raw json string
     @GetMapping("/test/string")
     public ResponseEntity<String> getRawContentFromChatGPT() {
         OpenAIRequest mockRequest = new OpenAIRequest();
@@ -94,9 +106,10 @@ public class OpenAIRequestController {
                 "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
                 "polite speech, attempting to explain how she can't let the Trailblazer check in if she's not on the guest list"
         ));
+        mockRequest.setDepth(3);
+        mockRequest.setWidth(2);
 
         String content = openAIRequestService.getOpenAIResponseContent(mockRequest);
         return ResponseEntity.ok(content);
     }
-
 }
