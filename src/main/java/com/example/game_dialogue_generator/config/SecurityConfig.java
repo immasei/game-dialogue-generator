@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/login", "/signup","/home", "/users", "/js/**", "/css/**", "output").permitAll()
+                        .requestMatchers("/", "/login", "/signup","/home", "/users", "/js/**", "/css/**","/images/**", "output").permitAll()
                         .anyRequest().authenticated()
                 )
                 .securityContext((context) -> context.securityContextRepository(securityContextRepository))
