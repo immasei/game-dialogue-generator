@@ -1,0 +1,33 @@
+public String buildOpenAIRequestBody(OpenAIRequest openAIRequest) {
+        return String.format(
+                "{ \"model\": \"gpt-4o\", \"messages\": [ " +
+                        "{ \"role\": \"system\", \"content\": \"%s\" }, " +
+                        "{ \"role\": \"user\", \"content\": \"%s\" } " +
+                        "], \"max_tokens\": 2500 }",
+
+                // System role content
+                "You are a dialogue generator assistant. Your task is to generate structured, multi-layered branching dialogues for games based on the input provided.",
+
+                // Properly escape special characters in the user content
+                String.format(
+                        "Genre: %s, Language: %s, Setting: %s, Location: %s, Time Period: %s, Plot: %s. " +
+                                "The dialogue involves the player and a NPC. " +
+                                "Player: Name: %s, Personality: %s, Speech Style: %s. " +
+                                "NPC: Name: %s, Personality: %s, Speech Style: %s. " +
+                                "The dialogue should follow a strict template with branching depths, formatted as follows:\\n{\\n  \\\"depth1\\\": [\\n    \\\"Dialogue line spoken by NPC at depth 1\\\",\\n    \\\"Name of the NPC speaking\\\",\\n    \\\"Option 1 response text (Player)\\\",\\n    \\\"Option 2 response text (Player)\\\",\\n    \\\"Option 3 response text (Player)\\\"\\n  ],\\n  \\\"depth2_1\\\": [\\n    \\\"Dialogue line spoken by NPC in response to depth1 option 1\\\",\\n    \\\"Name of the NPC speaking\\\",\\n    \\\"Option 1 response text (Player)\\\",\\n    \\\"Option 2 response text (Player)\\\",\\n    \\\"Option 3 response text (Player)\\\"\\n  ],\\n  \\\"depth2_2\\\": [\\n    \\\"Dialogue line spoken by NPC in response to depth1 option 2\\\",\\n    \\\"Name of the NPC speaking\\\",\\n    \\\"Option 1 response text (Player)\\\",\\n    \\\"Option 2 response text (Player)\\\",\\n    \\\"Option 3 response text (Player)\\\"\\n  ],\\n  \\\"depth2_3\\\": [\\n    \\\"Dialogue line spoken by NPC in response to depth1 option 3\\\",\\n    \\\"Name of the NPC speaking\\\",\\n    \\\"Option 1 response text (Player)\\\",\\n    \\\"Option 2 response text (Player)\\\",\\n    \\\"Option 3 response text (Player)\\\"\\n  ]\\n}"
+                        ,
+                        openAIRequest.getGenre(),
+                        openAIRequest.getLanguage(),
+                        openAIRequest.getSetting(),
+                        openAIRequest.getLocation(),
+                        openAIRequest.getTimePeriod(),
+                        openAIRequest.getPlot(),
+                        openAIRequest.getCharacterNames().get(0),
+                        openAIRequest.getCharacterPersonalities().get(0),
+                        openAIRequest.getCharacterSpeechFeatures().get(0),
+                        openAIRequest.getCharacterNames().get(1),
+                        openAIRequest.getCharacterPersonalities().get(1),
+                        openAIRequest.getCharacterSpeechFeatures().get(1)
+                )
+        );
+    }
