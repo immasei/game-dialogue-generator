@@ -1,4 +1,4 @@
-# FriGroup3
+git p# FriGroup3
 
 ### Reminder
 
@@ -102,6 +102,14 @@ bootstrap 5 https://getbootstrap.com/docs/5.0/getting-started/introduction/
 sidebar footer https://stackoverflow.com/questions/76061838/make-footer-not-a-direct-child-of-body-stick-to-bottom-in-flexbox-based-layout
 
 font awesome https://stackoverflow.com/questions/71146319/how-to-use-font-awesome-icons-in-html https://fontawesome.com/search?q=save&o=r&m=free&s=solid&f=classic%2Csharp
+
+icon api https://www.dicebear.com/
+
+fetch https://www.w3schools.com/jsref/api_fetch.asp?gidzl=EFrj2Nz0n0auvsaDUrR02p_hR0jW1y4B8xXeN6i3nGuglZq4EWV3L7ZjEWOnNSS1UELeLsHnYPmpUaF83W https://stackoverflow.com/questions/25515936/perform-curl-request-in-javascript
+
+random seed https://stackoverflow.com/questions/20728783/shortest-code-to-get-random-string-of-numbers-and-letters https://www.youtube.com/shorts/TqnC96-nXAA
+
+loader effect https://css3loaders.huckbit.com/loader/3
 
 #### Backend
 mysql & java spring boot

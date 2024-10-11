@@ -3,6 +3,7 @@
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }"></head>
 <link href="/css/sidebar.css" rel="stylesheet">
 <link href="/css/content.css" rel="stylesheet">
+<link href="/css/loader.css" rel="stylesheet">
 <body>
 <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
 <input class="theme" id="dark-theme" type="radio" style="display: none"/>
@@ -95,15 +96,41 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="button" class="submit-btn" onclick="sendPrompt()">Generate</button>
+                <button id="prompt-btn" type="button" class="submit-btn" onclick="sendPrompt()">Generate</button>
             </div>
         </form>
-    </div>
-</main>
+
+            <div class="loader-area">
+                <div id="loader" class="loader-icon"></div>
+                <p>Generating ...</p>
+            </div>
+        </div>
+    </main>
 </body>
 
 <script src="/js/script.js"></script>
 <script>
+    function get_loader_icon() {
+        var random_str = Math.random().toString(36).substring(3, 9);
+        const url = 'https://api.dicebear.com/9.x/thumbs/svg?radius=10&seed=' + random_str;
+
+        fetch(url)
+            .then(response => { return response.text();})
+            .then(data => $("#loader").html(data))
+            .catch(error => console.error(error));
+
+        // in the future replace time out with manual cancellation after receiving gpt story
+        // demo: cancel loader
+        setTimeout(function () {
+            $("#loader").html("");
+            $(".loader-area").css({ opacity: 0, "z-index": -1 });
+        }, 8000);
+    }
+
+    $("#prompt-btn").on("click", function() {
+        get_loader_icon();
+        $(".loader-area").css({ opacity: 1, "z-index": 5 });
+    });
     function getGenres() {
         axios.get('/genres')
             .then(function (response) {
