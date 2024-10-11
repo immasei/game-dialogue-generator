@@ -16,6 +16,9 @@ public class ViewController {
         return "home";
     }
 
+    @GetMapping("/output")
+    public String output() {return "output";}
+
     @GetMapping("/archive")
     public String archive() {
         return "archive";
