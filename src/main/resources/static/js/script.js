@@ -14,13 +14,13 @@ $("#theme-switch").on("click", function() {
 
 function logout() {
     axios.post('/logout')
-    .then(function (response) {
-    window.open('/', "_self");
+        .then(function (response) {
+            window.open('/', "_self");
 
-    })
-    .catch(function (error) {
-    console.log(error.response.data);
-    });
+        })
+        .catch(function (error) {
+            console.log(error.response.data);
+        });
     // return back to unauthenticated conn
 }
 
@@ -31,3 +31,25 @@ function archive() {
 function generator() {
     window.open('/home', "_self");
 }
+
+function toggleTitDiv() {
+    const titDiv = document.querySelector('.titdiv');
+    if (titDiv) {
+        titDiv.style.display = titDiv.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+function showContent1() {
+    document.querySelector('.content').style.display = 'none';
+    document.querySelector('.content1').style.display = 'block';
+}
+
+function returnToContent() {
+    document.querySelector('.content').style.display = 'block';
+    document.querySelector('.content1').style.display = 'none';
+}
+
+// Event listeners
+document.querySelector(".tit svg").addEventListener("click", toggleTitDiv);
+document.querySelector(".link").addEventListener("click", showContent1);
+document.querySelector(".return").addEventListener("click", returnToContent);

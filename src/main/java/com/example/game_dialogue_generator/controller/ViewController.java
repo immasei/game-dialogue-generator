@@ -20,4 +20,10 @@ public class ViewController {
     public String archive() {
         return "archive";
     }
+
+    @GetMapping("/bb")
+    public String bb() {
+        return "bb";
+    }
+
 }
