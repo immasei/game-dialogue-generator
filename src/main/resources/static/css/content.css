@@ -2,6 +2,7 @@
     flex: 1 1 0;
     padding: 2rem;
     margin-left: 270px;
+    position: relative;
 }
 
 .content h1 {
