@@ -24,6 +24,4 @@ public class ViewController {
         return "archive";
     }
 
-    @GetMapping("/output")
-    public String output() {return "output";}
 }
