@@ -97,4 +97,5 @@ public class AuthController {
 
         return ResponseHandler.handle(HttpStatus.NOT_FOUND, "Unable to login", null);
     }
+    //
 }

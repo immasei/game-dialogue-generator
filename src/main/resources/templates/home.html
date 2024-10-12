@@ -5,100 +5,100 @@
 <link href="/css/content.css" rel="stylesheet">
 <link href="/css/loader.css" rel="stylesheet">
 <body>
-    <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
-    <input class="theme" id="dark-theme" type="radio" style="display: none"/>
+<input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
+<input class="theme" id="dark-theme" type="radio" style="display: none"/>
 
-    <main>
-        <div class="sidebar">
-            <h3>Menu</h3>
+<main>
+    <div class="sidebar">
+        <h3>Menu</h3>
 
-            <nav class="menu">
-                <div class="menu-item" onclick="generator()">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Generator</span>
-                </div>
-
-                <div class="menu-item" onclick="archive()">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    <span>Saved Dialogues</span>
-                </div>
-
-                <div class="menu-item" onclick="logout()">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Logout</span>
-                </div>
-            </nav>
-
-            <div class="form-check form-switch d-flex align-items-center">
-                <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
-                <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
+        <nav class="menu">
+            <div class="menu-item" onclick="generator()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Generator</span>
             </div>
+
+            <div class="menu-item" onclick="archive()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Saved Dialogues</span>
+            </div>
+
+            <div class="menu-item" onclick="logout()">
+                <i class="fa-solid fa-user"></i>
+                <span>Logout</span>
+            </div>
+        </nav>
+
+        <div class="form-check form-switch d-flex align-items-center">
+            <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
         </div>
+    </div>
 
-        <div class="content">
-            <h1>Generate Dialogue</h1>
+    <div class="content">
+        <h1>Generate Dialogue</h1>
 
-            <form class="prompt-form">
-                <div class="form-group">
-                    <label for="game-context">Describe the Game Context:</label>
-                    <textarea class="form-control" id="game-context" rows="5" maxlength="500"
-                              placeholder="Describe the game setting, world history, main conflict or goals, key events... (500 characters)"></textarea>
+        <form class="prompt-form">
+            <div class="form-group">
+                <label for="game-context">Describe the Game Context:</label>
+                <textarea class="form-control" id="game-context" rows="5"
+                          placeholder="Describe the game setting, world history, main conflict or goals, key events... (200 words)"></textarea>
+            </div>
+            <div class="form-group mb-3 row">
+                <label for="genre-dropdown" class="col-auto col-form-label">Pick a Genre:</label>
+                <div class="col-3">
+                    <select class="form-select" id="genre-dropdown"></select>
                 </div>
-                <div class="form-group mb-3 row">
-                    <label for="genre-dropdown" class="col-auto col-form-label">Pick a Genre:</label>
-                    <div class="col-3">
-                        <select class="form-select" id="genre-dropdown"></select>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="tone-description">Describe the Tone:</label>
+                <textarea class="form-control" id="tone-description" rows="2"
+                          placeholder="lively, despair, tense, suspenseful, ..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="add-character">Describe your Characters</label>
+                <button type="button" class="add-btn" id="add-character" onclick="addCharacter()">
+                    <i class="fa-solid fa-square-plus"></i>
+                    <span>Add</span>
+                </button>
+                <div id="character-container">
+                    <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Character 1</label>
+                    <textarea class="form-control" id="textcharacter1" rows="3"
+                              placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="tone-description">Describe the Tone:</label>
-                    <textarea class="form-control" id="tone-description" rows="2" maxlength="250"
-                              placeholder="lively, despair, tense, suspenseful, ..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="add-character">Describe your Characters</label>
-                    <button type="button" class="add-btn" id="add-character" onclick="addCharacter()">
-                        <i class="fa-solid fa-square-plus"></i>
-                        <span>Add</span>
-                    </button>
-                    <div id="character-container">
-                        <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Character 1</label>
-                        <textarea class="form-control" id="textcharacter1" rows="3" maxlength="250"
-                                  placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
-                    </div>
-                </div>
-                <div class="form-group row d-flex justify-content-between">
-                    <label for="max-dialogue-depth" class="col-auto col-form-label">Maximum Dialogue Depth:</label>
-                    <div class="col-1">
-                        <select class="form-select" id="max-dialogue-depth">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-
-                    <label for="num-endings" class="col-auto col-form-label">Number of Endings:</label>
-                    <div class="col-1">
-                        <select class="form-select" id="num-endings">
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-
-                    <label for="language-dropdown" class="col-auto col-form-label">Pick a Language:</label>
-                    <div class="col-3">
-                        <select class="form-select" id="language-dropdown"></select>
-                    </div>
+            </div>
+            <div class="form-group row d-flex justify-content-between">
+                <label for="max-dialogue-depth" class="col-auto col-form-label">Maximum Dialogue Depth:</label>
+                <div class="col-1">
+                    <select class="form-select" id="max-dialogue-depth">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
                 </div>
 
-                <div class="d-flex justify-content-end">
-                    <button id="prompt-btn" type="button" class="submit-btn" onclick="sendPrompt()">Generate</button>
+                <label for="num-endings" class="col-auto col-form-label">Number of Endings:</label>
+                <div class="col-1">
+                    <select class="form-select" id="num-endings">
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
                 </div>
-            </form>
+
+                <label for="language-dropdown" class="col-auto col-form-label">Pick a Language:</label>
+                <div class="col-3">
+                    <select class="form-select" id="language-dropdown"></select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button id="prompt-btn" type="button" class="submit-btn" onclick="sendPrompt()">Generate</button>
+            </div>
+        </form>
 
             <div class="loader-area">
                 <div id="loader" class="loader-icon"></div>
@@ -166,12 +166,12 @@
     }
 
     function sendPrompt() {
-    //     TODO: Send information to backend
+        //     TODO: Send information to backend
     }
 
     let characterCount = 1;
     function addCharacter() {
-    //     Dynamically adds another character text box
+        //     Dynamically adds another character text box
         characterCount += 1;
         let newLabel = document.createElement("label");
         newLabel.setAttribute("for", "textcharacter"+characterCount);
@@ -223,7 +223,7 @@
     }
 
     function deleteCharacter(buttonId) {
-    //     Deletes a character text box
+        //     Deletes a character text box
         let id = buttonId.slice(-1);
         let container = document.getElementById("character-container");
         container.removeChild(document.getElementById("labelcharacter"+id));

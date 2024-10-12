@@ -1,78 +1,336 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }"></head>
 <link href="/css/sidebar.css" rel="stylesheet">
 <link href="/css/content.css" rel="stylesheet">
+<link href="/css/archive.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <body>
-    <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
-    <input class="theme" id="dark-theme" type="radio" style="display: none"/>
+<input class="theme" id="light-theme" type="radio" checked="checked" style="display: none" />
+<input class="theme" id="dark-theme" type="radio" style="display: none" />
 
-    <main>
-        <div class="sidebar">
-            <h3>Menu</h3>
+<style>
 
-            <nav class="menu">
-                <div class="menu-item" onclick="generator()">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Generator</span>
-                </div>
+</style>
+<main>
+    <div class="sidebar">
+        <h3>Menu</h3>
 
-                <div class="menu-item" onclick="archive()">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    <span>Saved Dialogues</span>
-                </div>
-
-                <div class="menu-item" onclick="logout()">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Logout</span>
-                </div>
-            </nav>
-
-            <div class="form-check form-switch d-flex align-items-center">
-                <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
-                <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
-            </div>
-        </div>
-
-        <div class="content">
-            <h1>Saved Dialogues</h1>
-            <div class="prompt-form">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-info">
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Genre</th>
-                        <th>Depth</th>
-                        <th>Branch</th>
-                        <th>Created</th>
-                        <th>Link</th>
-                    </tr>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Butcher</td>
-                        <td>Adventure</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>01/09/2024</td>
-                        <td><a href="#">here</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-
+        <nav class="menu">
+            <div class="menu-item" onclick="generator()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Generator</span>
             </div>
 
+            <div class="menu-item" onclick="archive()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Saved Dialogues</span>
+            </div>
+
+            <div class="menu-item" onclick="logout()">
+                <i class="fa-solid fa-user"></i>
+                <span>Logout</span>
+            </div>
+        </nav>
+
+        <div class="form-check form-switch d-flex align-items-center">
+            <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Saved Dialogues</h1>
+        <div class="prompt-form">
+            <table class="table table-bordered table-striped">
+                <thead class="table-info">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Depth</th>
+                    <th>Branch</th>
+                    <th>Created</th>
+                    <th>Link</th>
+                </tr>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Butcher</td>
+                    <td>Adventure</td>
+                    <td>3</td>
+                    <td>3</td>
+
+                    <td>01/09/2024</td>
+                    <td><a> <svg class="link" style="cursor: pointer;" width="30" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="m679.872 348.8-301.76 188.608a127.808 127.808 0 0 1 5.12 52.16l279.936 104.96a128 128 0 1 1-22.464 59.904l-279.872-104.96a128 128 0 1 1-16.64-166.272l301.696-188.608a128 128 0 1 1 33.92 54.272z">
+                        </path>
+                    </svg>
+                    </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
 
         </div>
-    </main>
+    </div>
+    <div class="content content1">
+        <svg class="return point" style="cursor: pointer;" width="20" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 1024 1024" >
+            <path fill="currentColor"
+                  d="M118.656 438.656a32 32 0 0 1 0-45.248L416 96l4.48-3.776A32 32 0 0 1 461.248 96l3.712 4.48a32.064 32.064 0 0 1-3.712 40.832L218.56 384H928a32 32 0 1 1 0 64H141.248a32 32 0 0 1-22.592-9.344zM64 608a32 32 0 0 1 32-32h786.752a32 32 0 0 1 22.656 54.592L608 928l-4.48 3.776a32.064 32.064 0 0 1-40.832-49.024L805.632 640H96a32 32 0 0 1-32-32">
+            </path>
+        </svg>
+        <div class="tit">
+            <h1>Title of Dialogue
+            </h1>
+            <svg class="titsvg" style="cursor: pointer;" width="30" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 1024 1024">
+                <path fill="currentColor"
+                      d="m679.872 348.8-301.76 188.608a127.808 127.808 0 0 1 5.12 52.16l279.936 104.96a128 128 0 1 1-22.464 59.904l-279.872-104.96a128 128 0 1 1-16.64-166.272l301.696-188.608a128 128 0 1 1 33.92 54.272z">
+                </path>
+            </svg>
+            <div class="titdiv">
+                <button id="download-pdf">PDF</button>
+                <button id="download-json">JSON</button>
+                <button id="download-txt">TXT</button>
+            </div>
+
+        </div>
+        <div class="treeContent">
+            <div class="firstLevel">
+                <div class="fstcon">Dialogue 1
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z">
+                        </path>
+                        <path fill="currentColor"
+                              d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z">
+                        </path>
+                    </svg>
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M771.776 794.88A384 384 0 0 1 128 512h64a320 320 0 0 0 555.712 216.448H654.72a32 32 0 1 1 0-64h149.056a32 32 0 0 1 32 32v148.928a32 32 0 1 1-64 0v-50.56zM276.288 295.616h92.992a32 32 0 0 1 0 64H220.16a32 32 0 0 1-32-32V178.56a32 32 0 0 1 64 0v50.56A384 384 0 0 1 896.128 512h-64a320 320 0 0 0-555.776-216.384z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="fstipt">
+                    <div class="fstbox">
+                        <div>
+                            <i class="dian"></i>
+                            <span>Bob asks for Wagyu Beef at the Butchers</span>
+                        </div>
+                        <div>
+                            <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="m160 96.064 192 .192a32 32 0 0 1 0 64l-192-.192V352a32 32 0 0 1-64 0V96h64zm0 831.872V928H96V672a32 32 0 1 1 64 0v191.936l192-.192a32 32 0 1 1 0 64zM864 96.064V96h64v256a32 32 0 1 1-64 0V160.064l-192 .192a32 32 0 1 1 0-64l192-.192zm0 831.872-192-.192a32 32 0 0 1 0-64l192 .192V672a32 32 0 1 1 64 0v256h-64z">
+                                </path>
+                            </svg>
+                            <svg style="cursor: pointer;margin: 0 5px;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z">
+                                </path>
+                                <path fill="currentColor"
+                                      d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="secondLevel">
+                <div class="secondcon">Dialogue 1.1
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z">
+                        </path>
+                        <path fill="currentColor"
+                              d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z">
+                        </path>
+                    </svg>
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M771.776 794.88A384 384 0 0 1 128 512h64a320 320 0 0 0 555.712 216.448H654.72a32 32 0 1 1 0-64h149.056a32 32 0 0 1 32 32v148.928a32 32 0 1 1-64 0v-50.56zM276.288 295.616h92.992a32 32 0 0 1 0 64H220.16a32 32 0 0 1-32-32V178.56a32 32 0 0 1 64 0v50.56A384 384 0 0 1 896.128 512h-64a320 320 0 0 0-555.776-216.384z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="secondipt">
+                    <div class="secondbox">
+                        <div>
+                            <i class="dian"></i>
+                            <span>Bob asks for Wagyu Beef at the Butchers</span>
+                        </div>
+                        <div> <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                   viewBox="0 0 1024 1024">
+                            <path fill="currentColor"
+                                  d="m160 96.064 192 .192a32 32 0 0 1 0 64l-192-.192V352a32 32 0 0 1-64 0V96h64zm0 831.872V928H96V672a32 32 0 1 1 64 0v191.936l192-.192a32 32 0 1 1 0 64zM864 96.064V96h64v256a32 32 0 1 1-64 0V160.064l-192 .192a32 32 0 1 1 0-64l192-.192zm0 831.872-192-.192a32 32 0 0 1 0-64l192 .192V672a32 32 0 1 1 64 0v256h-64z">
+                            </path>
+                        </svg>
+                            <svg style="cursor: pointer;margin: 0 5px;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z">
+                                </path>
+                                <path fill="currentColor"
+                                      d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="thirdLevel">
+                <div class="thirdcon">Dialogue 1.1.1
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z">
+                        </path>
+                        <path fill="currentColor"
+                              d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z">
+                        </path>
+                    </svg>
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M771.776 794.88A384 384 0 0 1 128 512h64a320 320 0 0 0 555.712 216.448H654.72a32 32 0 1 1 0-64h149.056a32 32 0 0 1 32 32v148.928a32 32 0 1 1-64 0v-50.56zM276.288 295.616h92.992a32 32 0 0 1 0 64H220.16a32 32 0 0 1-32-32V178.56a32 32 0 0 1 64 0v50.56A384 384 0 0 1 896.128 512h-64a320 320 0 0 0-555.776-216.384z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="thirdipt">
+                    <div class="thirdbox">
+                        <div>
+                            <i class="dian"></i>
+                            <span>Bob asks for Wagyu Beef at the Butchers</span>
+                        </div>
+                        <div> <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                   viewBox="0 0 1024 1024">
+                            <path fill="currentColor"
+                                  d="m160 96.064 192 .192a32 32 0 0 1 0 64l-192-.192V352a32 32 0 0 1-64 0V96h64zm0 831.872V928H96V672a32 32 0 1 1 64 0v191.936l192-.192a32 32 0 1 1 0 64zM864 96.064V96h64v256a32 32 0 1 1-64 0V160.064l-192 .192a32 32 0 1 1 0-64l192-.192zm0 831.872-192-.192a32 32 0 0 1 0-64l192 .192V672a32 32 0 1 1 64 0v256h-64z">
+                            </path>
+                        </svg>
+                            <svg style="cursor: pointer;margin: 0 5px;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z">
+                                </path>
+                                <path fill="currentColor"
+                                      d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="thirdLevel">
+                <div class="thirdcon">Dialogue 1.1.2
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z">
+                        </path>
+                        <path fill="currentColor"
+                              d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z">
+                        </path>
+                    </svg>
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M771.776 794.88A384 384 0 0 1 128 512h64a320 320 0 0 0 555.712 216.448H654.72a32 32 0 1 1 0-64h149.056a32 32 0 0 1 32 32v148.928a32 32 0 1 1-64 0v-50.56zM276.288 295.616h92.992a32 32 0 0 1 0 64H220.16a32 32 0 0 1-32-32V178.56a32 32 0 0 1 64 0v50.56A384 384 0 0 1 896.128 512h-64a320 320 0 0 0-555.776-216.384z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="thirdipt">
+                    <div class="thirdbox">
+                        <div>
+                            <i class="dian"></i>
+                            <span>Bob asks for Wagyu Beef at the Butchers</span>
+                        </div>
+                        <div> <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                   viewBox="0 0 1024 1024">
+                            <path fill="currentColor"
+                                  d="m160 96.064 192 .192a32 32 0 0 1 0 64l-192-.192V352a32 32 0 0 1-64 0V96h64zm0 831.872V928H96V672a32 32 0 1 1 64 0v191.936l192-.192a32 32 0 1 1 0 64zM864 96.064V96h64v256a32 32 0 1 1-64 0V160.064l-192 .192a32 32 0 1 1 0-64l192-.192zm0 831.872-192-.192a32 32 0 0 1 0-64l192 .192V672a32 32 0 1 1 64 0v256h-64z">
+                            </path>
+                        </svg>
+                            <svg style="cursor: pointer;margin: 0 5px;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z">
+                                </path>
+                                <path fill="currentColor"
+                                      d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="firstLevel">
+                <div class="fstcon">Dialogue 2
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z">
+                        </path>
+                        <path fill="currentColor"
+                              d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z">
+                        </path>
+                    </svg>
+                    <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                              d="M771.776 794.88A384 384 0 0 1 128 512h64a320 320 0 0 0 555.712 216.448H654.72a32 32 0 1 1 0-64h149.056a32 32 0 0 1 32 32v148.928a32 32 0 1 1-64 0v-50.56zM276.288 295.616h92.992a32 32 0 0 1 0 64H220.16a32 32 0 0 1-32-32V178.56a32 32 0 0 1 64 0v50.56A384 384 0 0 1 896.128 512h-64a320 320 0 0 0-555.776-216.384z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="fstipt">
+                    <div class="fstbox">
+                        <div>
+                            <i class="dian"></i>
+                            <span>Bob asks for Wagyu Beef at the Butchers</span>
+                        </div>
+                        <div>
+                            <svg style="cursor: pointer;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="m160 96.064 192 .192a32 32 0 0 1 0 64l-192-.192V352a32 32 0 0 1-64 0V96h64zm0 831.872V928H96V672a32 32 0 1 1 64 0v191.936l192-.192a32 32 0 1 1 0 64zM864 96.064V96h64v256a32 32 0 1 1-64 0V160.064l-192 .192a32 32 0 1 1 0-64l192-.192zm0 831.872-192-.192a32 32 0 0 1 0-64l192 .192V672a32 32 0 1 1 64 0v256h-64z">
+                                </path>
+                            </svg>
+                            <svg style="cursor: pointer;margin: 0 5px;" width="24" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 1024 1024">
+                                <path fill="currentColor"
+                                      d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z">
+                                </path>
+                                <path fill="currentColor"
+                                      d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="information">
+            <span>Word limits: Current: 3200</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>Max:4000</span>
+        </div>
+    </div>
+</main>
 </body>
 
 <script src="/js/script.js"></script>
 <script>
 
-
 </script>
+
 </html>
