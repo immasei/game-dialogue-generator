@@ -151,3 +151,6 @@ lombok getter setter https://stackoverflow.com/questions/17729384/lombok-added-b
 authentication manager & jwt https://github.com/Erik-Cupsa/Spring-Security-Tutorial/tree/main
 
 http persist session https://medium.com/@ZiaurrahmanAthaya/how-to-create-session-authentication-using-spring-boot-801320adcd26
+
+write enums into database https://bootify.io/next-steps/load-initial-data-in-spring-boot.html
+https://dev.to/noelopez/spring-rest-working-with-enums-ma

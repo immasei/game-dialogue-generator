@@ -16,9 +16,7 @@ public class LanguageLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        if (languageRepository.count() != 0) {
-            return;
-        }
+        languageRepository.deleteAll();
 
         for (int i = 0; i < LanguageEnum.values().length; i++) {
             this.createLanguage(LanguageEnum.values()[i]);
