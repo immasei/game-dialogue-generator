@@ -20,11 +20,21 @@ public class PastebinController {
     @Autowired
     private PastebinService pastebinService;
 
-    // Creates a paste
     @GetMapping
-    public ResponseEntity<String> getPastebin(@RequestBody String outputMessage) {
+    public ResponseEntity<String> getPastebin(@RequestBody OutputMessage outputMessage) {
         String response = pastebinService.callPastebinAi(outputMessage);
+
+        if (response.contains("Bad API request")) {
+            return ResponseEntity.badRequest().body(response);
+        } else {
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    // Creates a paste
+    @GetMapping("/test")
+    public ResponseEntity<String> getPastebinTest(@RequestBody String outputMessage) {
+        String response = pastebinService.callPastebinAiTest(outputMessage);
         return ResponseEntity.ok(response);
-//        return ResponseEntity.ok("good");
     }
 }
