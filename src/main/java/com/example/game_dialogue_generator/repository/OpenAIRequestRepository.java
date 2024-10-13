@@ -10,4 +10,7 @@ import java.util.List;
  * Repository interface for OpenAI requests.
  */
 @Repository
-public interface OpenAIRequestRepository extends CrudRepository<OpenAIRequest, Long> {}
+public interface OpenAIRequestRepository extends CrudRepository<OpenAIRequest, Long> {
+    @Override
+    List<OpenAIRequest> findAll();
+}

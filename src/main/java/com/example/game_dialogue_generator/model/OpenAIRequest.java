@@ -18,6 +18,10 @@ public class OpenAIRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // FK to user id
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
+
     // Core game information
     private String genre;
     private String language;

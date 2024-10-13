@@ -20,6 +20,7 @@ import java.util.List;
 public class OutputMessageDTO {
 
     private Long id;  // PK
+    private Integer userId;  // Foreign key referencing User
 
     // dialogue structure
     // 1. Dialogue line spoken by the NPC character
