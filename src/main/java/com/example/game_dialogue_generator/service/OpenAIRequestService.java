@@ -1,5 +1,7 @@
 package com.example.game_dialogue_generator.service;
 
+import com.example.game_dialogue_generator.dto.OpenAIRequestDTO;
+import com.example.game_dialogue_generator.dto.OutputMessageDTO;
 import com.example.game_dialogue_generator.model.OpenAIRequest;
 import com.example.game_dialogue_generator.model.OutputMessage;
 import com.example.game_dialogue_generator.repository.OpenAIRequestRepository;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Service class for managing OpenAI API calls.
@@ -37,11 +40,13 @@ public class OpenAIRequestService {
     @Value("${openai.api.key}")
     private String apiKey;
 
-    //private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    // Create a new OpenAI request, call OpenAI, and map response to OutputMessage
-    public OutputMessage createOpenAIRequest(OpenAIRequest openAIRequest) {
+    // Create a new OpenAI request, call OpenAI, and map response to OutputMessageDTO
+    public OutputMessageDTO createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
+        // Convert DTO to model
+        OpenAIRequest openAIRequest = convertToModel(openAIRequestDTO);
+
         // Save request details to the database
         openAIRequestRepository.save(openAIRequest);
 
@@ -50,12 +55,14 @@ public class OpenAIRequestService {
 
         // Parse OpenAI response into OutputMessage
         OutputMessage outputMessage = parseOpenAIResponse(openAIResponse);
+        outputMessage.setUserId(openAIRequest.getUserId());
 
-        // Save and return the output message
-        return outputMessageRepository.save(outputMessage);
+        // Save and return the output message as DTO
+        OutputMessage savedOutputMessage = outputMessageRepository.save(outputMessage);
+        return convertToDTO(savedOutputMessage);
     }
 
-    // api call v2
+    // API call to OpenAI
     private String callOpenAIAPI(OpenAIRequest openAIRequest) {
         WebClient webClient = WebClient.builder()
                 .baseUrl(openAiApiUrl)
@@ -64,8 +71,7 @@ public class OpenAIRequestService {
                 .build();
 
         // Prepare the JSON request body
-        String requestBody = buildOpenAIRequestBody(openAIRequest); // actual code
-        //String requestBody = buildOpenAIRequestBodyTest(); // test
+        String requestBody = buildOpenAIRequestBody(openAIRequest);
         System.out.println(requestBody);
 
         // Send the POST request to OpenAI and return the response body
@@ -75,9 +81,7 @@ public class OpenAIRequestService {
                 .bodyToMono(String.class);
 
         // Block to wait for response (suitable for synchronous applications)
-        String response = responseMono.block();
-
-        return response;
+        return responseMono.block();
     }
 
     // Parse the OpenAI response into OutputMessage structure
@@ -106,7 +110,7 @@ public class OpenAIRequestService {
                     }
 
                     // Replace problematic characters (e.g., non-standard characters)
-                    contentString = contentString.replace("Æ", "'").replace("`", "").replace("\\n", "\n");
+                    contentString = contentString.replace("Æ", "'").replace("`", "").replace("\n", "\n");
 
                     // Debug: Print the cleaned-up content to verify
                     System.out.println("Cleaned Content: " + contentString);
@@ -160,9 +164,69 @@ public class OpenAIRequestService {
     }
 
     // Retrieve request by ID
-    public OpenAIRequest getRequestById(Long id) {
-        return openAIRequestRepository.findById(id)
+    public OpenAIRequestDTO getRequestById(Long id) {
+        OpenAIRequest request = openAIRequestRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Request with ID " + id + " not found"));
+        return convertToDTO(request);
+    }
+
+    // Convert OpenAIRequest model to DTO
+    private OpenAIRequestDTO convertToDTO(OpenAIRequest openAIRequest) {
+        OpenAIRequestDTO dto = new OpenAIRequestDTO();
+        dto.setId(openAIRequest.getId());
+        dto.setGenre(openAIRequest.getGenre());
+        dto.setLanguage(openAIRequest.getLanguage());
+        dto.setSetting(openAIRequest.getSetting());
+        dto.setLocation(openAIRequest.getLocation());
+        dto.setTimePeriod(openAIRequest.getTimePeriod());
+        dto.setPlot(openAIRequest.getPlot());
+        dto.setCharacterNames(openAIRequest.getCharacterNames());
+        dto.setCharacterPersonalities(openAIRequest.getCharacterPersonalities());
+        dto.setCharacterSpeechFeatures(openAIRequest.getCharacterSpeechFeatures());
+        dto.setDepth(openAIRequest.getDepth());
+        dto.setWidth(openAIRequest.getWidth());
+        dto.setUserId(openAIRequest.getUserId());
+        return dto;
+    }
+
+    // Convert DTO to OpenAIRequest model
+    private OpenAIRequest convertToModel(OpenAIRequestDTO dto) {
+        OpenAIRequest openAIRequest = new OpenAIRequest();
+        openAIRequest.setId(dto.getId());
+        openAIRequest.setGenre(dto.getGenre());
+        openAIRequest.setLanguage(dto.getLanguage());
+        openAIRequest.setSetting(dto.getSetting());
+        openAIRequest.setLocation(dto.getLocation());
+        openAIRequest.setTimePeriod(dto.getTimePeriod());
+        openAIRequest.setPlot(dto.getPlot());
+        openAIRequest.setCharacterNames(dto.getCharacterNames());
+        openAIRequest.setCharacterPersonalities(dto.getCharacterPersonalities());
+        openAIRequest.setCharacterSpeechFeatures(dto.getCharacterSpeechFeatures());
+        openAIRequest.setDepth(dto.getDepth());
+        openAIRequest.setWidth(dto.getWidth());
+        openAIRequest.setUserId(dto.getUserId());
+        return openAIRequest;
+    }
+
+    // Convert OutputMessage model to DTO
+    private OutputMessageDTO convertToDTO(OutputMessage outputMessage) {
+        OutputMessageDTO dto = new OutputMessageDTO();
+        dto.setId(outputMessage.getId());
+        dto.setDepth1(outputMessage.getDepth1());
+        dto.setDepth2_1(outputMessage.getDepth2_1());
+        dto.setDepth2_2(outputMessage.getDepth2_2());
+        dto.setDepth2_3(outputMessage.getDepth2_3());
+        dto.setDepth3_1_1(outputMessage.getDepth3_1_1());
+        dto.setDepth3_1_2(outputMessage.getDepth3_1_2());
+        dto.setDepth3_1_3(outputMessage.getDepth3_1_3());
+        dto.setDepth3_2_1(outputMessage.getDepth3_2_1());
+        dto.setDepth3_2_2(outputMessage.getDepth3_2_2());
+        dto.setDepth3_2_3(outputMessage.getDepth3_2_3());
+        dto.setDepth3_3_1(outputMessage.getDepth3_3_1());
+        dto.setDepth3_3_2(outputMessage.getDepth3_3_2());
+        dto.setDepth3_3_3(outputMessage.getDepth3_3_3());
+        dto.setUserId(outputMessage.getUserId());
+        return dto;
     }
 
     // Convert OpenAIRequest object to JSON String
@@ -175,9 +239,36 @@ public class OpenAIRequestService {
         }
     }
 
+    // Test get raw output
+    public String getOpenAIResponseContent(OpenAIRequestDTO openAIRequestDTO) {
+        OpenAIRequest openAIRequest = convertToModel(openAIRequestDTO);
+        String openAIResponse = callOpenAIAPI(openAIRequest);
+        try {
+            JsonNode rootNode = objectMapper.readTree(openAIResponse);
+            JsonNode choicesNode = rootNode.path("choices");
+            if (choicesNode.isArray() && choicesNode.size() > 0) {
+                JsonNode messageContentNode = choicesNode.get(0).path("message").path("content");
+                if (messageContentNode.isTextual()) {
+                    String contentString = messageContentNode.asText().trim();
 
+                    // Remove markdown code markers (```json and ```)
+                    if (contentString.startsWith("```json")) {
+                        contentString = contentString.substring(7).trim();
+                    }
+                    if (contentString.endsWith("```")) {
+                        contentString = contentString.substring(0, contentString.length() - 3).trim();
+                    }
 
-    // Build OpenAI request body, DO NOT CHANGE THE PROMPT!!!!!!
+                    return contentString;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    // Build OpenAI request body
     private String buildOpenAIRequestBody(OpenAIRequest openAIRequest) {
         return String.format(
                 "{ \"model\": \"gpt-4o\", \"messages\": [ " +
@@ -190,7 +281,7 @@ public class OpenAIRequestService {
                         "You are a dialogue generator assistant. Your task is to generate structured, multi-layered branching dialogues for games based on the input provided. (Do not add additional tags or change the order of the output contents as the api output is parsed by a jsonparser for an enterprise application.) " +
                                 "The dialogue should follow a strict template with branching depths and widths.\\n" +
                                 "The depth parameter (n) indicates how many levels of conversation there are, with values ranging from 1 to 3, which determines the n of depthn_m_nm.\\n" +
-                                "The width parameter (m) indicates how many response options are available at each level, also ranging from 1 to 3 which determines the m and nm (where nm only occurs in dpeth3_m_nm) of depthn_m_nm. Note: nm is not n*m it is determined by m as the highest option number.\\n" +
+                                "The width parameter (m) indicates how many response options are available at each level, also ranging from 1 to 3 which determines the m and nm (where nm only occurs in depth3_m_nm) of depthn_m_nm. Note: nm is not n*m it is determined by m as the highest option number.\\n" +
                                 "The branching is represented by specific depth levels, as explained below:\\n" +
                                 "\\n" +
                                 "1. **depth1**: The initial dialogue line spoken by the NPC. This should be followed by width number of possible response options from the player, corresponding to the width parameter.\\n" +
@@ -220,7 +311,7 @@ public class OpenAIRequestService {
                 // Properly formatted user content
                 String.format(
                         "Genre: %s, Language: %s, Setting: %s, Location: %s, Time Period: %s, Plot: %s. " +
-                                "The dialogue involves the player and a NPC. Player: Name: %s, Personality: %s, Speech Style: %s. " +
+                                "The dialogue involves the player and an NPC. Player: Name: %s, Personality: %s, Speech Style: %s. " +
                                 "NPC: Name: %s, Personality: %s, Speech Style: %s. " +
                                 "Generate dialogue with depth: %d and width: %d.",
                         openAIRequest.getGenre(),
@@ -239,51 +330,6 @@ public class OpenAIRequestService {
                         openAIRequest.getWidth()
                 )
         );
-    }
-
-
-
-    public String buildOpenAIRequestBodyTest() {
-        return String.format(
-                "{\"model\": \"gpt-4o\", \"messages\": [ " +
-                        "{ \"role\": \"system\", \"content\": \"%s\" }, " +
-                        "{ \"role\": \"user\", \"content\": \"%s\" } " +
-                        "], \"max_tokens\": 50 }",
-
-                // System role content: simple instruction for sanity check
-                "You are an AI assistant performing a basic sanity check, ignore the following prompt as it is for testing purposes." ,
-
-                // User content: short message to test the request structure
-                "This is a basic test to validate this request has been received. ignore the following: "
-        );
-    }
-
-    // Test get raw output
-    public String getOpenAIResponseContent(OpenAIRequest openAIRequest) {
-        String openAIResponse = callOpenAIAPI(openAIRequest);
-        try {
-            JsonNode rootNode = objectMapper.readTree(openAIResponse);
-            JsonNode choicesNode = rootNode.path("choices");
-            if (choicesNode.isArray() && choicesNode.size() > 0) {
-                JsonNode messageContentNode = choicesNode.get(0).path("message").path("content");
-                if (messageContentNode.isTextual()) {
-                    String contentString = messageContentNode.asText().trim();
-
-                    // Remove markdown code markers (```json and ```)
-                    if (contentString.startsWith("```json")) {
-                        contentString = contentString.substring(7).trim();
-                    }
-                    if (contentString.endsWith("```")) {
-                        contentString = contentString.substring(0, contentString.length() - 3).trim();
-                    }
-
-                    return contentString;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
 }
