@@ -1,0 +1,178 @@
+.content {
+    display: block;
+}
+
+.content1 {
+    width: 100vw;
+    height: 100VH;
+    display: none;
+    background-color: #f7f7f7;
+    position: relative;
+}
+.content1 .information{
+    position: absolute;
+    left: 60px;
+    bottom: 40px;
+    color: #c8c8c8;
+    font-size: 24px;
+}
+
+.tit {
+    display: flex;
+    align-items: center;
+
+}
+
+.tit svg {
+    margin-left: 10px;
+    margin-top: -20px;
+}
+
+.tit>div span {
+    display: flex;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    border-right: 1px solid #eee;
+}
+
+.titdiv {
+    margin-top: -30px;
+    background-color: #fff;
+    /* background-color: rebeccapurple; */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 8px;
+    display: none;
+}
+
+.treeContent .firstLevel {
+    width: 1000px;
+}
+
+.treeContent .firstLevel .fstcon {
+    width: 1000px;
+}
+
+.treeContent .firstLevel .fstipt {
+    width: 1000px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.treeContent .firstLevel .fstipt .fstbox {
+    width: 1000px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.treeContent .firstLevel .fstipt .fstbox div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.treeContent .secondLevel {
+    width: 950px;
+    margin-left: 50px;
+}
+
+.treeContent .secondLevel .secondcon {
+    width: 950px;
+}
+
+.treeContent .secondLevel .secondipt {
+    width: 950px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.treeContent .secondLevel .secondipt .secondbox {
+    width: 950px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.treeContent .secondLevel .secondipt .secondbox div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.treeContent .thirdLevel {
+    width: 900px;
+    margin-left: 100px;
+}
+
+.treeContent .thirdLevel .thirdcon {
+    width: 900px;
+}
+
+.treeContent .thirdLevel .thirdipt {
+    width: 900px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.treeContent .thirdLevel .thirdipt .thirdbox {
+    width: 900px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.treeContent .thirdLevel .thirdipt .thirdbox div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.treeContent>div>div:nth-child(1) {
+    font-weight: 700;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.treeContent>div>div:nth-child(1) svg {
+    margin: 0 3px;
+}
+
+.dian {
+    display: flex;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #626275;
+    margin-right: 5px;
+}
+
+.return {
+    position: absolute;
+    right: 50px;
+    bottom: 100px;
+}

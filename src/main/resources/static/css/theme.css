@@ -28,6 +28,7 @@ main {
 #light-theme:checked ~ main {
     --border-color: #d1d3d4;
     --backgroundColor: #fff;
+    --backgroundColor-1: rgba(255, 255, 255, 0.65);
     --foregroundColor: #111;
     --foregroundColor-1: #5C88C4;
     --c1: #EA907A;
@@ -42,6 +43,7 @@ main {
     --border-color: #666a6d;
     --canvasColor: #2F2E2E;
     --backgroundColor: #141414;
+    --backgroundColor-1: rgba(47, 46, 46, 0.65);
     --foregroundColor: #ffffff;
     --foregroundColor-1: #7FC7D9;
     --c1: #CAF7E3;

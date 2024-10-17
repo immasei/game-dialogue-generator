@@ -1,4 +1,4 @@
-# FriGroup3
+git p# FriGroup3
 
 ### Reminder
 
@@ -170,6 +170,14 @@ sidebar footer https://stackoverflow.com/questions/76061838/make-footer-not-a-di
 
 font awesome https://stackoverflow.com/questions/71146319/how-to-use-font-awesome-icons-in-html https://fontawesome.com/search?q=save&o=r&m=free&s=solid&f=classic%2Csharp
 
+icon api https://www.dicebear.com/
+
+fetch https://www.w3schools.com/jsref/api_fetch.asp?gidzl=EFrj2Nz0n0auvsaDUrR02p_hR0jW1y4B8xXeN6i3nGuglZq4EWV3L7ZjEWOnNSS1UELeLsHnYPmpUaF83W https://stackoverflow.com/questions/25515936/perform-curl-request-in-javascript
+
+random seed https://stackoverflow.com/questions/20728783/shortest-code-to-get-random-string-of-numbers-and-letters https://www.youtube.com/shorts/TqnC96-nXAA
+
+loader effect https://css3loaders.huckbit.com/loader/3
+
 #### Backend
 mysql & java spring boot
 https://spring.io/guides/gs/accessing-data-mysql
@@ -210,3 +218,6 @@ lombok getter setter https://stackoverflow.com/questions/17729384/lombok-added-b
 authentication manager & jwt https://github.com/Erik-Cupsa/Spring-Security-Tutorial/tree/main
 
 http persist session https://medium.com/@ZiaurrahmanAthaya/how-to-create-session-authentication-using-spring-boot-801320adcd26
+
+write enums into database https://bootify.io/next-steps/load-initial-data-in-spring-boot.html
+https://dev.to/noelopez/spring-rest-working-with-enums-ma
