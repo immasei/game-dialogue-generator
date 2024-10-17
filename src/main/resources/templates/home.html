@@ -167,6 +167,9 @@
     }
 
     function sendPrompt() {
+        // window.open('/output');
+        // window.open('/output/15');
+
         // axios.get('/userid')
         //     .then(function (response) {
         //         alert('good response ' + response.data.data);
@@ -193,7 +196,15 @@
                 };
                 axios.post('api/openai', requestDTO)
                     .then(function (response) {
-                        console.log(response.data);
+                        window.open('/output/'+response.data.id, '_self');
+                        // alert("Here: " + response.data.id);
+                        // axios.post('/output/message', outputMessage)
+                        //     .then(function () {
+                        //         window.open('/output/message', '_self');
+                        //     })
+                        //     .catch(function (error) {
+                        //         console.log(error.response.data);
+                        //     });
                     })
                     .catch(function (error) {
                         console.log(error.response.data);
@@ -202,35 +213,6 @@
             .catch(function (error) {
                 console.log(error.response.data);
             });
-
-
-        // const gameContextValue = $("#game-context").val();
-        // alert(gameContextValue);
-
-        //     TODO: Send information to backend
-
-
-        // axios.get('/username')
-        //     .then(function (response) {
-        //         // alert("good reponse" + response.data.data);
-        //
-        //         // const requestDTO = {
-        //         //     userId: response.data.data,
-        //         //     genre:
-        //         //
-        //         // }
-        //         // const element = document.createElement('h1');
-        //         // element.value = response;
-        //         // document.body.appendChild(element);
-        //
-        //     })
-        //     .catch(function (error) {
-        //         alert("error" + error.response.data);
-        //     });
-        // // axios.post('api/openai', {
-        // //
-        // // })
-
     }
 
     let characterCount = 1;
