@@ -37,6 +37,7 @@
 
     <div class="content">
         <h1>Generate Dialogue</h1>
+<!--        <h1 th:text="${user}"></h1>-->
 
         <form class="prompt-form">
             <div class="form-group">
@@ -166,7 +167,70 @@
     }
 
     function sendPrompt() {
+        // axios.get('/userid')
+        //     .then(function (response) {
+        //         alert('good response ' + response.data.data);
+        //     })
+        //     .catch(function (error) {
+        //         alert('bad response '+ error.response.data);
+        //     });
+
+        axios.get('/userid')
+            .then(function (response) {
+                const requestDTO = {
+                    userId: response.data.data,
+                    genre: $("#genre-dropdown").val(),
+                    language: $("#language-dropdown").val(),
+                    setting: $("#game-context").val(),
+                    location: null,
+                    timePeriod: null,
+                    plot: null,
+                    depth: $("#max-dialogue-depth").val(),
+                    width: $("#num-endings").val(),
+                    characterNames: [null, null],
+                    characterPersonalities: [$("#textcharacter1").val(), $("#textcharacter2").val()],
+                    characterSpeechFeatures: [null, null]
+                };
+                axios.post('api/openai', requestDTO)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error.response.data);
+                    });
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+
+
+        // const gameContextValue = $("#game-context").val();
+        // alert(gameContextValue);
+
         //     TODO: Send information to backend
+
+
+        // axios.get('/username')
+        //     .then(function (response) {
+        //         // alert("good reponse" + response.data.data);
+        //
+        //         // const requestDTO = {
+        //         //     userId: response.data.data,
+        //         //     genre:
+        //         //
+        //         // }
+        //         // const element = document.createElement('h1');
+        //         // element.value = response;
+        //         // document.body.appendChild(element);
+        //
+        //     })
+        //     .catch(function (error) {
+        //         alert("error" + error.response.data);
+        //     });
+        // // axios.post('api/openai', {
+        // //
+        // // })
+
     }
 
     let characterCount = 1;
