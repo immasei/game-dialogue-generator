@@ -48,8 +48,8 @@ public class OpenAIRequestDTO {
     private String plot;
 
     // Dialogue branching details
-    private int depth = 1;  // Depth of the dialogue, default is 1, up to 3
-    private int width = 1;  // Width of the dialogue - number of options, default is 1, up to 3
+    private Integer depth = 1;  // Depth of the dialogue, default is 1, up to 3
+    private Integer width = 1;  // Width of the dialogue - number of options, default is 1, up to 3
 
     // Character details (must be exactly 2 characters for the dialogue: Player and NPC)
     private List<String> characterNames;          // E.g., ["Trailblazer (Player)", "Venti (NPC)"]

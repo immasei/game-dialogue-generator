@@ -3,6 +3,9 @@ package com.example.game_dialogue_generator.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 /**
@@ -19,8 +22,12 @@ import java.util.List;
 @Setter
 public class OutputMessageDTO {
 
-    private Long id;  // PK
-    private Integer userId;  // Foreign key referencing User
+    @NotNull(message = "ID is required")
+    private Long id; // PK
+
+    @NotNull(message = "User ID is required")
+    private Integer userId; // Foreign key referencing User
+
 
     // dialogue structure
     // 1. Dialogue line spoken by the NPC character
