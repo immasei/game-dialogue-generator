@@ -198,14 +198,6 @@
                 axios.post('api/openai', requestDTO)
                     .then(function (response) {
                         window.open('/output/'+response.data.id, '_self');
-                        // alert("Here: " + response.data.id);
-                        // axios.post('/output/message', outputMessage)
-                        //     .then(function () {
-                        //         window.open('/output/message', '_self');
-                        //     })
-                        //     .catch(function (error) {
-                        //         console.log(error.response.data);
-                        //     });
                     })
                     .catch(function (error) {
                         console.log(error.response.data);
