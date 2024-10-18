@@ -37,6 +37,7 @@
 
     <div class="content">
         <h1>Generate Dialogue</h1>
+<!--        <h1 th:text="${user}"></h1>-->
 
         <form class="prompt-form">
             <div class="form-group">
@@ -56,14 +57,18 @@
                           placeholder="lively, despair, tense, suspenseful, ..."></textarea>
             </div>
             <div class="form-group">
-                <label for="add-character">Describe your Characters</label>
-                <button type="button" class="add-btn" id="add-character" onclick="addCharacter()">
-                    <i class="fa-solid fa-square-plus"></i>
-                    <span>Add</span>
-                </button>
+                <label for="character-container">Describe your Characters</label>
+<!--                <label for="add-character">Describe your Characters</label>-->
+<!--                <button type="button" class="add-btn" id="add-character" onclick="addCharacter()">-->
+<!--                    <i class="fa-solid fa-square-plus"></i>-->
+<!--                    <span>Add</span>-->
+<!--                </button>-->
                 <div id="character-container">
                     <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Character 1</label>
                     <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
+                              placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
+                    <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1);">Character 2</label>
+                    <textarea class="form-control" id="textcharacter2" rows="3" maxlength="750"
                               placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
                 </div>
             </div>
@@ -74,18 +79,15 @@
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
                     </select>
                 </div>
 
                 <label for="num-endings" class="col-auto col-form-label">Number of Endings:</label>
                 <div class="col-1">
                     <select class="form-select" id="num-endings">
+                        <option>1</option>
                         <option>2</option>
                         <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
                     </select>
                 </div>
 
@@ -166,7 +168,44 @@
     }
 
     function sendPrompt() {
-        //     TODO: Send information to backend
+        // window.open('/output');
+        // window.open('/output/15');
+
+        // axios.get('/userid')
+        //     .then(function (response) {
+        //         alert('good response ' + response.data.data);
+        //     })
+        //     .catch(function (error) {
+        //         alert('bad response '+ error.response.data);
+        //     });
+
+        axios.get('/userid')
+            .then(function (response) {
+                const requestDTO = {
+                    userId: response.data.data,
+                    genre: $("#genre-dropdown").val(),
+                    language: $("#language-dropdown").val(),
+                    setting: $("#game-context").val(),
+                    location: null,
+                    timePeriod: null,
+                    plot: null,
+                    depth: $("#max-dialogue-depth").val(),
+                    width: $("#num-endings").val(),
+                    characterNames: [null, null],
+                    characterPersonalities: [$("#textcharacter1").val(), $("#textcharacter2").val()],
+                    characterSpeechFeatures: [null, null]
+                };
+                axios.post('api/openai', requestDTO)
+                    .then(function (response) {
+                        window.open('/output/'+response.data.id, '_self');
+                    })
+                    .catch(function (error) {
+                        console.log(error.response.data);
+                    });
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
     }
 
     let characterCount = 1;
