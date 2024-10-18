@@ -2,20 +2,6 @@
     display: block;
 }
 
-.content1 {
-    width: 100vw;
-    height: 100VH;
-    display: none;
-    background-color: #f7f7f7;
-    position: relative;
-}
-.content1 .information{
-    position: absolute;
-    left: 60px;
-    bottom: 40px;
-    color: #c8c8c8;
-    font-size: 24px;
-}
 
 .tit {
     display: flex;
