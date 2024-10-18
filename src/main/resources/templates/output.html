@@ -37,7 +37,11 @@
                     <h4 class="mb-0 my-title">Title of Dialogue</h4>
                     <a class="export-wrapper">
                         <img src="/images/share.png" alt="Export" class="logo">
-                        <div><button>PDF</button><button>JSON</button><button>TXT</button></div>
+                        <div class="titdiv">
+                            <button id="download-pdf">PDF</button>
+                            <button id="download-json">JSON</button>
+                            <button id="download-txt">TXT</button>
+                        </div>
                     </a>
 
                 </div>
@@ -82,13 +86,15 @@
             const accordionButton = document.createElement('button');
             const accordionEdit = document.createElement('img');
             accordionEdit.src = '/images/pen.png';
-            accordionEdit.addEventListener("click",function(){
+            accordionEdit.addEventListener("click",function(e){
+                e.stopPropagation()
+                for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
+                    document.getElementsByTagName('input')[i].setAttribute("readonly",true);
+                }
                 const divToChange = this.parentElement.nextElementSibling;
                 const inputToChange = divToChange.querySelector("div > input");
                 if (inputToChange.hasAttribute("readonly")){
                     inputToChange.removeAttribute("readonly");
-                }else{
-                    inputToChange.setAttribute("readonly",true);
                 }
             })
             const accordionRefresh = document.createElement('img');

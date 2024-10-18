@@ -22,10 +22,11 @@ button:focus{
     width:150px;
 }
 
-.content {
+.content1 {
     flex: 1 1 0;
     padding: 2rem;
     margin-left: 270px;
+    display: none;
 }
 
 .dialogue-list {
@@ -105,40 +106,32 @@ body {
     margin-left: 30px;
 }
 
-.content{
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
-.content .inner-title{
+.content1 .inner-title{
     display:flex;
     gap:10px;
 }
 
-.content>div:first-child{
+.content1>div:first-child{
     height:5%;
 }
 
-.content>div:nth-child(2){
-    height:75%;
-}
 
-.content>div:last-child{
+.content1>div:last-child{
     align-items:center;
     height:5%;
 }
 
-.content .export-wrapper{
+.content1 .export-wrapper{
     position: relative;
     display: flex;
 }
 
-.content .export-wrapper img{
+.content1 .export-wrapper img{
     width:30px;
 }
 
-.content .export-wrapper div{
+.content1 .export-wrapper div{
     display: none;
     opacity:0;
     position: absolute;
@@ -147,11 +140,11 @@ body {
     transition:opacity 1s ease;
 }
 
-.content .export-wrapper div button{
+.content1 .export-wrapper div button{
     padding:5px;
 }
 
-.content .export-wrapper:hover div{
+.content1 .export-wrapper:hover div{
     display:flex;
     opacity:1;
 }
@@ -159,4 +152,8 @@ body {
 .my-title{
     font-size: 24px;
     font-weight: 600;
+}
+
+.accordion-button:not(.collapsed){
+    box-shadow: none;
 }
