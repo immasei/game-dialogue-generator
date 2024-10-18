@@ -10,21 +10,16 @@ import org.springframework.stereotype.Component;
 
 /**
  * Initialise the Genre table with GenreEnum
- * TODO: if we update the GenreEnum, it will not update the entries in the Genre table
  */
 @Component
 public class GenreLoader implements ApplicationRunner {
-    // https://bootify.io/next-steps/load-initial-data-in-spring-boot.html
-    // https://dev.to/noelopez/spring-rest-working-with-enums-ma
 
     @Autowired
     private GenreRepository genreRepository;
 
     @Override
     public void run(ApplicationArguments args) {
-        if (genreRepository.count() != 0) {
-            return;
-        }
+        genreRepository.deleteAll();
 
         for (int i = 0; i < GenreEnum.values().length; i++) {
             this.createGenre(GenreEnum.values()[i]);

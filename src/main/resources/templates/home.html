@@ -41,8 +41,8 @@
         <form class="prompt-form">
             <div class="form-group">
                 <label for="game-context">Describe the Game Context:</label>
-                <textarea class="form-control" id="game-context" rows="5"
-                          placeholder="Describe the game setting, world history, main conflict or goals, key events... (200 words)"></textarea>
+                <textarea class="form-control" id="game-context" rows="5" maxlength="1000"
+                          placeholder="Describe the game setting, world history, main conflict or goals, key events... (1000 characters) "></textarea>
             </div>
             <div class="form-group mb-3 row">
                 <label for="genre-dropdown" class="col-auto col-form-label">Pick a Genre:</label>
@@ -52,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label for="tone-description">Describe the Tone:</label>
-                <textarea class="form-control" id="tone-description" rows="2"
+                <textarea class="form-control" id="tone-description" rows="2" maxlength="500"
                           placeholder="lively, despair, tense, suspenseful, ..."></textarea>
             </div>
             <div class="form-group">
@@ -63,7 +63,7 @@
                 </button>
                 <div id="character-container">
                     <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Character 1</label>
-                    <textarea class="form-control" id="textcharacter1" rows="3"
+                    <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
                               placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
                 </div>
             </div>
@@ -184,6 +184,7 @@
         newTextarea.setAttribute("class", "form-control");
         newTextarea.setAttribute("id", "textcharacter"+characterCount);
         newTextarea.setAttribute("rows", "3");
+        newTextarea.setAttribute("maxlength", "250");
         newTextarea.setAttribute("placeholder",
             "Describe the character's role, personality, relationship with other characters ...");
 

@@ -18,6 +18,10 @@ public class OpenAIRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // FK to user id
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
+
     // Core game information
     private String genre;
     private String language;
@@ -28,10 +32,10 @@ public class OpenAIRequest {
 
     // Depth and width for dialogue branching
     @Column(nullable = false)
-    private int depth = 1; // depth of the dialogue, default is 1, up to 3
+    private Integer depth = 1; // depth of the dialogue, default is 1, up to 3
 
     @Column(nullable = false)
-    private int width = 1; // width of the dialogue - number of options, default is 1, up to 3
+    private Integer width = 1; // width of the dialogue - number of options, default is 1, up to 3
 
     // Each index in characterNames, characterPersonalities, and characterSpeechFeatures corresponds to the same character.
     // i.e if characterNames.get(0) is Alex then characterPersonalities.get(0) and characterSpeechFeatures.get(0)
