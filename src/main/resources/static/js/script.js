@@ -26,7 +26,10 @@ function logout() {
 
 function archive() {
     window.open('/archive', "_self");
+    document.querySelector('.content').style.display = 'block';
+    document.querySelector('.content1').style.display = 'none';
 }
+
 
 function generator() {
     window.open('/home', "_self");
@@ -51,11 +54,10 @@ function returnToContent() {
 // PDF download
 document.getElementById('download-pdf').addEventListener('click', function() {
     const { jsPDF } = window.jspdf;
-
     const doc = new jsPDF();
 
     // Gets the content to export, assuming the entire page content is in .treeContent
-    let content = document.querySelector('.treeContent').innerText;
+    let content = document.querySelector('.dialogue-list').innerText;
 
     doc.text(content, 10, 10);
 
@@ -64,7 +66,7 @@ document.getElementById('download-pdf').addEventListener('click', function() {
 
 // JSON download
 document.getElementById('download-json').addEventListener('click', function() {
-    let content = document.querySelector('.treeContent').innerText;
+    let content = document.querySelector('.dialogue-list').innerText;
     let jsonContent = JSON.stringify({ content: content });
 
     const a = document.createElement('a');
@@ -75,7 +77,7 @@ document.getElementById('download-json').addEventListener('click', function() {
 
 // TXT download
 document.getElementById('download-txt').addEventListener('click', function() {
-    let content = document.querySelector('.treeContent').innerText;
+    let content = document.querySelector('.dialogue-list').innerText;
 
     // creat the txt
     const a = document.createElement('a');
@@ -85,6 +87,6 @@ document.getElementById('download-txt').addEventListener('click', function() {
 });
 
 // Event listeners
-document.querySelector(".tit svg").addEventListener("click", toggleTitDiv);
+// document.querySelector(".tit svg").addEventListener("click", toggleTitDiv);
 document.querySelector(".link").addEventListener("click", showContent1);
 document.querySelector(".return").addEventListener("click", returnToContent);
