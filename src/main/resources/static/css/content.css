@@ -8,24 +8,24 @@
 .content h1 {
     color: var(--foregroundColor) !important;
     font-size: 26px;
-    margin-bottom: 1rem;
-    margin-top: 0.1rem;
+    margin-bottom: 0.9rem;
+    margin-top: 0.05rem;
     margin-left: 0.1rem;
     font-family: "Inter", sans-serif;
     font-weight: 700;
 }
 
 .content .prompt-form {
-    padding: 20px 30px;
-}
-
-.content .prompt-form label {
-    margin-bottom: 0.8rem;
-    color: var(--foregroundColor);
+    padding: 10px 25px;
 }
 
 .content .prompt-form .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.9rem !important;
+}
+
+.content .prompt-form .form-group label {
+    margin-bottom: 0.7rem;
+    color: var(--foregroundColor);
 }
 
 .content .prompt-form textarea, .content .prompt-form select {
@@ -39,45 +39,6 @@ td {
     color: var(--foregroundColor);
 }
 
-.add-btn {
-    outline: none;
-    text-align: center;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color:  var(--foregroundColor);;
-    background: none;
-    border: none;
-    margin-left: 5px;
-}
-
-.del-btn {
-    border-radius: 5px;
-    background: none;
-    outline: none;
-    text-align: center;
-    padding: 5px;
-    color: var(--foregroundColor);
-    border: none;
-    margin-left: 5px;
-}
-
-.del-btn:hover {
-    background-color: #FFD18E;
-}
-
-.add-btn i, .del-btn i {
-    font-size: 15px;
-}
-
-.del-btn i {
-    margin-right: 5px;
-}
-
-.add-btn span, .del-btn span {
-    margin-left: 5px;
-    font-size: 13px;
-}
-
 .submit-btn{
     outline: none;
     text-align: center;
@@ -86,14 +47,11 @@ td {
     color: black;
     background-color: var(--c3);
     border: none;
+    margin-top: 0;
 }
 
-.add-btn:hover, .submit-btn:hover {
+.submit-btn:hover {
     background-color: #E0E5B6;
-}
-
-.add-btn:hover, .del-btn:hover {
-    color: #000;
 }
 
 

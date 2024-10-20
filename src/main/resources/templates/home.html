@@ -37,7 +37,6 @@
 
     <div class="content">
         <h1>Generate Dialogue</h1>
-<!--        <h1 th:text="${user}"></h1>-->
 
         <form class="prompt-form">
             <div class="form-group">
@@ -46,7 +45,7 @@
                           placeholder="Describe the game setting, world history, main conflict or goals, key events... (1000 characters) "></textarea>
             </div>
             <div class="form-group mb-3 row">
-                <label for="genre-dropdown" class="col-auto col-form-label">Pick a Genre:</label>
+                <label for="genre-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Genre:</label>
                 <div class="col-3">
                     <select class="form-select" id="genre-dropdown"></select>
                 </div>
@@ -58,22 +57,17 @@
             </div>
             <div class="form-group">
                 <label for="character-container">Describe your Characters</label>
-<!--                <label for="add-character">Describe your Characters</label>-->
-<!--                <button type="button" class="add-btn" id="add-character" onclick="addCharacter()">-->
-<!--                    <i class="fa-solid fa-square-plus"></i>-->
-<!--                    <span>Add</span>-->
-<!--                </button>-->
                 <div id="character-container">
                     <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Character 1</label>
                     <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
                               placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
-                    <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1);">Character 2</label>
+                    <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1); margin-top: 0.7rem;">Character 2</label>
                     <textarea class="form-control" id="textcharacter2" rows="3" maxlength="750"
                               placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
                 </div>
             </div>
             <div class="form-group row d-flex justify-content-between">
-                <label for="max-dialogue-depth" class="col-auto col-form-label">Maximum Dialogue Depth:</label>
+                <label for="max-dialogue-depth" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Maximum Dialogue Depth:</label>
                 <div class="col-1">
                     <select class="form-select" id="max-dialogue-depth">
                         <option>1</option>
@@ -82,7 +76,7 @@
                     </select>
                 </div>
 
-                <label for="num-endings" class="col-auto col-form-label">Number of Endings:</label>
+                <label for="num-endings" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Number of Endings:</label>
                 <div class="col-1">
                     <select class="form-select" id="num-endings">
                         <option>1</option>
@@ -91,7 +85,7 @@
                     </select>
                 </div>
 
-                <label for="language-dropdown" class="col-auto col-form-label">Pick a Language:</label>
+                <label for="language-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Language:</label>
                 <div class="col-3">
                     <select class="form-select" id="language-dropdown"></select>
                 </div>
