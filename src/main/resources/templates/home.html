@@ -5,96 +5,113 @@
 <link href="/css/content.css" rel="stylesheet">
 <link href="/css/loader.css" rel="stylesheet">
 <body>
-<input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
-<input class="theme" id="dark-theme" type="radio" style="display: none"/>
+    <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
+    <input class="theme" id="dark-theme" type="radio" style="display: none"/>
 
-<main>
-    <div class="sidebar">
-        <h3>Menu</h3>
+    <main>
+        <div class="sidebar">
+            <h3>Menu</h3>
 
-        <nav class="menu">
-            <div class="menu-item" onclick="generator()">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <span>Generator</span>
+            <nav class="menu">
+                <div class="menu-item" onclick="generator()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Generator</span>
+                </div>
+
+                <div class="menu-item" onclick="archive()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Saved Dialogues</span>
+                </div>
+
+                <div class="menu-item" onclick="logout()">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Logout</span>
+                </div>
+            </nav>
+
+            <div class="form-check form-switch d-flex align-items-center">
+                <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
             </div>
-
-            <div class="menu-item" onclick="archive()">
-                <i class="fa-solid fa-floppy-disk"></i>
-                <span>Saved Dialogues</span>
-            </div>
-
-            <div class="menu-item" onclick="logout()">
-                <i class="fa-solid fa-user"></i>
-                <span>Logout</span>
-            </div>
-        </nav>
-
-        <div class="form-check form-switch d-flex align-items-center">
-            <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
-            <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
         </div>
-    </div>
 
-    <div class="content">
-        <h1>Generate Dialogue</h1>
+        <div class="content">
+            <h1>Generate Dialogue</h1>
 
-        <form class="prompt-form">
-            <div class="form-group">
-                <label for="game-context">Describe the Game Context:</label>
-                <textarea class="form-control" id="game-context" rows="5" maxlength="1000"
-                          placeholder="Describe the game setting, world history, main conflict or goals, key events... (1000 characters) "></textarea>
-            </div>
-            <div class="form-group mb-3 row">
-                <label for="genre-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Genre:</label>
-                <div class="col-3">
-                    <select class="form-select" id="genre-dropdown"></select>
+            <form id="user-prompt" class="prompt-form was-validated" novalidate>
+                <div class="form-group">
+                    <label for="game-context">Describe the Game Context:</label>
+                    <textarea class="form-control" id="game-context" rows="5" maxlength="1000"
+                              placeholder="Describe the game setting, world history, main conflict or goals, key events... (1000 characters) " required></textarea>
+                    <div class="invalid-feedback">
+                        Please fill in context of the Game.
+                    </div>
+                    <div class="valid-feedback">
+                        Game Context Confirmed :D
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="tone-description">Describe the Tone:</label>
-                <textarea class="form-control" id="tone-description" rows="2" maxlength="500"
-                          placeholder="lively, despair, tense, suspenseful, ..."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="character-container">Describe your Characters</label>
-                <div id="character-container">
-                    <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Character 1</label>
-                    <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
-                              placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
-                    <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1); margin-top: 0.7rem;">Character 2</label>
+                <div class="form-group row d-flex justify-content-between">
+                    <label for="genre-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Genre:</label>
+                    <div class="col-4">
+                        <select class="form-select" id="genre-dropdown"></select>
+                    </div>
+
+                    <label for="language-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Language:</label>
+                    <div class="col-4">
+                        <select class="form-select" id="language-dropdown"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="character-container">Describe your Characters</label>
+                    <div id="character-container1">
+                        <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Player (You)</label>
+                        <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
+                                  placeholder="Describe the character's role, personality, relationship with other characters ..." required></textarea>
+                        <div class="invalid-feedback">
+                            Who is the main character?
+                        </div>
+                        <div class="valid-feedback">
+                            Player Confirmed :D
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1);">NPC</label>
                     <textarea class="form-control" id="textcharacter2" rows="3" maxlength="750"
-                              placeholder="Describe the character's role, personality, relationship with other characters ..."></textarea>
-                </div>
-            </div>
-            <div class="form-group row d-flex justify-content-between">
-                <label for="max-dialogue-depth" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Maximum Dialogue Depth:</label>
-                <div class="col-1">
-                    <select class="form-select" id="max-dialogue-depth">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
+                              placeholder="Describe the character's role, personality, relationship with other characters ..." required></textarea>
+                    <div class="invalid-feedback">
+                        Give me an NPC.
+                    </div>
+                    <div class="valid-feedback">
+                        NPC Confirmed :D
+                    </div>
                 </div>
 
-                <label for="num-endings" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Number of Endings:</label>
-                <div class="col-1">
-                    <select class="form-select" id="num-endings">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
+                <div class="form-group row d-flex justify-content-between">
+                    <label for="max-dialogue-depth" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Maximum Dialogue Depth:</label>
+                    <div class="col-3">
+                        <select class="form-select" id="max-dialogue-depth">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </div>
+
+                    <label for="num-endings" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Number of Endings:</label>
+                    <div class="col-3">
+                        <select class="form-select" id="num-endings">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </div>
+
                 </div>
 
-                <label for="language-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Language:</label>
-                <div class="col-3">
-                    <select class="form-select" id="language-dropdown"></select>
+                <div class="d-flex justify-content-end">
+                    <button id="prompt-btn" type="submit" class="submit-btn">Generate</button>
                 </div>
-            </div>
-
-            <div class="d-flex justify-content-end">
-                <button id="prompt-btn" type="button" class="submit-btn" onclick="sendPrompt()">Generate</button>
-            </div>
-        </form>
+            </form>
 
             <div class="loader-area">
                 <div id="loader" class="loader-icon"></div>
@@ -106,27 +123,41 @@
 
 <script src="/js/script.js"></script>
 <script>
-    function get_loader_icon() {
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.was-validated')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    if (form.checkValidity()) {
+                        sendPrompt();
+                    }
+
+                }, false)
+            })
+    })()
+    function start_loader_icon() {
         var random_str = Math.random().toString(36).substring(3, 9);
         const url = 'https://api.dicebear.com/9.x/thumbs/svg?radius=10&seed=' + random_str;
 
         fetch(url)
             .then(response => { return response.text();})
-            .then(data => $("#loader").html(data))
-            .catch(error => console.error(error));
+            .then(data => {
+                $("#loader").html(data);
+                $(".loader-area").css({ opacity: 1, "z-index": 5 });
 
-        // in the future replace time out with manual cancellation after receiving gpt story
-        // demo: cancel loader
-        setTimeout(function () {
-            $("#loader").html("");
-            $(".loader-area").css({ opacity: 0, "z-index": -1 });
-        }, 8000);
+            })
+            .catch(error => console.error(error));
     }
 
-    $("#prompt-btn").on("click", function() {
-        get_loader_icon();
-        $(".loader-area").css({ opacity: 1, "z-index": 5 });
-    });
+    function end_loader_icon() {
+        $("#loader").html("");
+        $(".loader-area").css({ opacity: 0, "z-index": -1 });
+    }
+
     function getGenres() {
         axios.get('/genres')
             .then(function (response) {
@@ -162,16 +193,7 @@
     }
 
     function sendPrompt() {
-        // window.open('/output');
-        // window.open('/output/15');
-
-        // axios.get('/userid')
-        //     .then(function (response) {
-        //         alert('good response ' + response.data.data);
-        //     })
-        //     .catch(function (error) {
-        //         alert('bad response '+ error.response.data);
-        //     });
+        start_loader_icon();
 
         axios.get('/userid')
             .then(function (response) {
@@ -179,10 +201,10 @@
                     userId: response.data.data,
                     genre: $("#genre-dropdown").val(),
                     language: $("#language-dropdown").val(),
-                    setting: $("#game-context").val(),
+                    setting: null,
                     location: null,
                     timePeriod: null,
-                    plot: null,
+                    plot: $("#game-context").val(),
                     depth: $("#max-dialogue-depth").val(),
                     width: $("#num-endings").val(),
                     characterNames: [null, null],
@@ -191,7 +213,11 @@
                 };
                 axios.post('api/openai', requestDTO)
                     .then(function (response) {
-                        window.open('/output/'+response.data.id, '_self');
+                        setTimeout(function () {
+                            end_loader_icon();
+                        }, 5000);
+                        console.log(response.data);
+                        // window.open('/output/'+response.data.id, '_self');
                     })
                     .catch(function (error) {
                         console.log(error.response.data);
