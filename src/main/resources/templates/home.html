@@ -218,7 +218,7 @@
                             end_loader_icon();
                         }, 5000);
                         console.log(response.data);
-                        // window.open('/output/'+response.data.id, '_self');
+                        window.open('/dialogue/'+response.data, '_self');
                     })
                     .catch(function (error) {
                         console.log(error.response.data);

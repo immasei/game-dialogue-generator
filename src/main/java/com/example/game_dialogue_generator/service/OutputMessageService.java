@@ -16,6 +16,14 @@ public class OutputMessageService {
     @Autowired
     private OutputMessageRepository repository;
 
+    public Optional<OutputMessageDTO> findOutputMessageByIdAndUserId(long id, int userId) {
+        return repository.findOutputMessageByIdAndUserId(id, userId).map(this::convertToDTO);
+    }
+
+    public List<OutputMessageDTO> findOutputMessageByUserId(int userid) {
+        return repository.findOutputMessageByUserId(userid).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
     // create
     public OutputMessageDTO createOutputMessage(OutputMessageDTO outputMessageDTO) {
         OutputMessage outputMessage = convertToModel(outputMessageDTO);

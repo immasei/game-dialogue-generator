@@ -43,7 +43,7 @@ public class OpenAIRequestService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // Create a new OpenAI request, call OpenAI, and map response to OutputMessageDTO
-    public OutputMessageDTO createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
+    public Long createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
         // Convert DTO to model
         OpenAIRequest openAIRequest = convertToModel(openAIRequestDTO);
 
@@ -59,7 +59,8 @@ public class OpenAIRequestService {
 
         // Save and return the output message as DTO
         OutputMessage savedOutputMessage = outputMessageRepository.save(outputMessage);
-        return convertToDTO(savedOutputMessage);
+//        return convertToDTO(savedOutputMessage);
+        return savedOutputMessage.getId();
     }
 
     // API call to OpenAI

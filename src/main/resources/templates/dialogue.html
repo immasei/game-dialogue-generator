@@ -1,126 +1,235 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }"></head>
 <link href="/css/sidebar.css" rel="stylesheet">
+<link href="/css/content.css" rel="stylesheet">
+<link href="/css/archive.css" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/output.css}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <body>
-    <main>
-        <div class="sidebar">
-            <h3>Menu</h3>
+<input class="theme" id="light-theme" type="radio" checked="checked" style="display: none" />
+<input class="theme" id="dark-theme" type="radio" style="display: none" />
+<style>
 
-            <nav class="menu">
-                <div class="menu-item" onclick="generator()">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Generator</span>
-                </div>
+</style>
+<main>
+    <div class="sidebar">
+        <h3>Menu</h3>
 
-                <div class="menu-item" onclick="archive()">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    <span>Saved Dialogues</span>
-                </div>
-
-                <div class="menu-item" onclick="logout()">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Logout</span>
-                </div>
-            </nav>
-
-            <div class="form-check form-switch d-flex align-items-center">
-                <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
-                <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
+        <nav class="menu">
+            <div class="menu-item" onclick="generator()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Generator</span>
             </div>
+
+            <div class="menu-item" onclick="archive()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Saved Dialogues</span>
+            </div>
+
+            <div class="menu-item" onclick="logout()">
+                <i class="fa-solid fa-user"></i>
+                <span>Logout</span>
+            </div>
+        </nav>
+
+        <div class="form-check form-switch d-flex align-items-center">
+            <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
         </div>
+    </div>
+    <div class="content">
+        <h1 th:text="'Dialogue ' + ${dialogue.id}">Dialogue ...</h1>
 
-        <div class="col-md-10 content">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="inner-title">
-                    <h4 class="mb-0 my-title">Title of Dialogue</h4>
-                    <a class="export-wrapper">
-                        <img src="/images/share.png" alt="Export" class="logo">
-                        <div class="titdiv">
-                            <button id="download-pdf">PDF</button>
-                            <button id="download-json">JSON</button>
-                            <button id="download-txt">TXT</button>
-                        </div>
-                    </a>
+        <svg class="return point" style="cursor: pointer;" width="20" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 1024 1024" >
+            <path fill="currentColor"
+                  d="M118.656 438.656a32 32 0 0 1 0-45.248L416 96l4.48-3.776A32 32 0 0 1 461.248 96l3.712 4.48a32.064 32.064 0 0 1-3.712 40.832L218.56 384H928a32 32 0 1 1 0 64H141.248a32 32 0 0 1-22.592-9.344zM64 608a32 32 0 0 1 32-32h786.752a32 32 0 0 1 22.656 54.592L608 928l-4.48 3.776a32.064 32.064 0 0 1-40.832-49.024L805.632 640H96a32 32 0 0 1-32-32">
+            </path>
+        </svg>
+        <!--        <div class="d-flex justify-content-between align-items-center mb-4">-->
+        <!--                <a class="export-wrapper">-->
+        <!--                    <img src="/images/share.png" alt="Export" class="logo">-->
+        <!--                    <div class="titdiv">-->
+        <!--                        <button id="download-pdf">PDF</button>-->
+        <!--                        <button id="download-json">JSON</button>-->
+        <!--                        <button id="download-txt">TXT</button>-->
+        <!--                    </div>-->
+        <!--                </a>-->
+        <!--        </div>-->
 
-                </div>
+        <!--        </div>-->
 
 
-            </div>
+        <div id="accordion-container" class="dialogue-list"></div>
 
-            <div class="dialogue-list">
-                <div id="accordion-container">
-
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between mt-4">
-                <p>Word limits: Current: 3200 Max: 4000</p>
-            </div>
+        <div class="d-flex justify-content-between mt-4">
+            <p>Word limits: Current: 3200 Max: 4000</p>
         </div>
-    </main>
+    </div>
+</main>
+</body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-</body>
 <script src="/js/script.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var dialogue = /*[[${dialogue}]]*/ 'default';
+    console.log(dialogue);
+
+    /*]]>*/
+</script>
+
 <script>
-
-    // Pass Thymeleaf object to JavaScript
-    var story = /*[[${story}]]*/ {};
-
-    // Log the story object to the console
-    console.log(story);
-
+    function auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight) + "px";
+    }
     const depth = 3;
     const branch = 3;
+    var counter = 1;
 
     const accordionContainer = document.getElementById('accordion-container');
 
     function generateAccordion(depth, branch, currentDepth = 1) {
-            if (currentDepth > depth) return null;
 
-            const accordion = document.createElement('div');
-            accordion.classList.add('accordion');
+        if (currentDepth > depth) return null;
 
-            for (let i = 0; i < branch; i++) {
-                const accordionItem = document.createElement('div');
-                accordionItem.classList.add('accordion-item');
+        const accordion = document.createElement('div');
+        accordion.classList.add('accordion');
 
-                const accordionButton = document.createElement('button');
-                const accordionEdit = document.createElement('img');
-                accordionEdit.src = '/images/pen.png';
-                accordionEdit.addEventListener("click",function(e){
-                    e.stopPropagation()
-                    for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
-                        document.getElementsByTagName('input')[i].setAttribute("readonly",true);
-                    }
-                    const divToChange = this.parentElement.nextElementSibling;
-                    const inputToChange = divToChange.querySelector("div > input");
-                    if (inputToChange.hasAttribute("readonly")){
-                        inputToChange.removeAttribute("readonly");
-                    }
-                })
-                const accordionRefresh = document.createElement('img');
-                accordionRefresh.src = '/images/refresh.png';
-                accordionButton.classList.add('accordion-button');
-                accordionButton.innerText = `Dialogue ${currentDepth}.${i + 1}`;
-                accordionButton.appendChild(accordionEdit);
-                accordionButton.appendChild(accordionRefresh);
+        for (let i = 0; i < branch; i++) {
 
-                const accordionContent = document.createElement('div');
-                accordionContent.classList.add('accordion-content');
+            if (currentDepth === 1 && i+1 >1) continue;
+            const accordionItem = document.createElement('div');
+            accordionItem.classList.add('accordion-item');
 
-                const nestedAccordion = generateAccordion(depth, branch, currentDepth + 1);
-                if (nestedAccordion) {
+            const accordionButton = document.createElement('button');
+            const accordionEdit = document.createElement('img');
+            accordionEdit.src = '/images/pen.png';
+            accordionEdit.addEventListener("click",function(e){
+                e.stopPropagation()
+                for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
+                    document.getElementsByTagName('textarea')[i].setAttribute("readonly",true);
+                }
+                const divToChange = this.parentElement.nextElementSibling;
+                const inputToChange = divToChange.querySelector("div > textarea");
+                if (inputToChange.hasAttribute("readonly")){
+                    inputToChange.removeAttribute("readonly");
+                }
+            })
+            const accordionRefresh = document.createElement('img');
+            accordionRefresh.src = '/images/refresh.png';
+            accordionRefresh.addEventListener("click",function(e){
+
+            })
+            accordionButton.classList.add('accordion-button');
+            accordionButton.innerText = `Dialogue ${currentDepth}.${i + 1}`;
+            if (currentDepth == 1) accordionButton.innerText = `Dialogue ${currentDepth}`;
+
+
+            accordionButton.appendChild(accordionEdit);
+            accordionButton.appendChild(accordionRefresh);
+
+            const accordionContent = document.createElement('div');
+            accordionContent.classList.add('accordion-content');
+            accordionContent.style.display = 'none';
+
+            const nestedAccordion = generateAccordion(depth, branch, currentDepth + 1);
+            var key = `depth${currentDepth}`;
+
+
+            if (nestedAccordion) {
+                //inwrap
+                const paragraphWrapper = document.createElement('div');
+                paragraphWrapper.classList.add('input-wrapper');
+                const paragraph = document.createElement('textarea');
+                paragraph.setAttribute('oninput', 'auto_grow(this)');
+                const iconWrapper = document.createElement('div');
+                iconWrapper.classList.add('icon-wrapper');
+                //max
+                const paragraphMax = document.createElement('img');
+                paragraphMax.src = '/images/maximize.png';
+                paragraphMax.addEventListener('click', function() {
+                    const divToChange = this.parentElement.parentElement;
+                    divToChange.style.maxHeight="auto";
+                    alert('Style Adjusted ' + divToChange.style.maxHeight);
+                });
+                const paragraphCopy = document.createElement('img');
+                //copy
+                paragraphCopy.src = '/images/copy.png';
+                paragraphCopy.addEventListener('click', function() {
+                    const inputToCopy = this.parentElement.previousElementSibling;
+                    inputToCopy.select();
+                    document.execCommand('copy');
+                    alert('Copied: ' + inputToCopy.value);
+                });
+                iconWrapper.appendChild(paragraphMax);
+                iconWrapper.appendChild(paragraphCopy);
+                if (currentDepth === 2) {
+                    key += `_${i+1}`;
+                    counter++;
+                }
+                paragraph.value = dialogue[key][0];
+                paragraph.id = `${key}-0`;
+                paragraph.setAttribute("readonly",true);
+                paragraphWrapper.appendChild(paragraph);
+                paragraphWrapper.appendChild(iconWrapper);
+
+                // npc name form
+                const npc_group = document.createElement('div');
+                npc_group.className = 'input-group mb-3';
+
+                const npc_label = document.createElement('span');
+                npc_label.className = 'input-group-text';
+                npc_label.textContent = '@NPC';
+
+                const npc_form = document.createElement('div');
+                npc_form.className = 'form-floating';
+
+                const npc_input = document.createElement('input');
+                npc_input.id = `${key}-1`;
+                npc_input.className = 'form-control';
+                npc_input.value = dialogue[key][1];
+
+                npc_form.appendChild(npc_input);
+                npc_group.appendChild(npc_label);
+                npc_group.appendChild(npc_form);
+
+                accordionContent.appendChild(npc_group);
+                accordionContent.appendChild(paragraphWrapper);
+
+                // player name form
+                const player_group = document.createElement('div');
+                player_group.className = 'input-group mb-3 w-100';
+
+                const player_label = document.createElement('span');
+                player_label.className = 'input-group-text';
+                player_label.textContent = '@Player';
+
+                const player_form = document.createElement('div');
+                player_form.className = 'form-floating';
+
+                player_group.appendChild(player_label);
+                player_group.appendChild(player_form);
+
+                accordionContent.appendChild(player_group);
+
+
+                for (let j = 2; j < dialogue[key].length; j++) {
+                    //inwrap
                     const paragraphWrapper = document.createElement('div');
                     paragraphWrapper.classList.add('input-wrapper');
-                    const paragraph = document.createElement('input');
+                    const paragraph = document.createElement('textarea');
+                    paragraph.setAttribute('oninput', 'auto_grow(this)');
                     const iconWrapper = document.createElement('div');
                     iconWrapper.classList.add('icon-wrapper');
+                    //max
                     const paragraphMax = document.createElement('img');
                     paragraphMax.src = '/images/maximize.png';
                     paragraphMax.addEventListener('click', function() {
@@ -129,6 +238,7 @@
                         alert('Style Adjusted ' + divToChange.style.maxHeight);
                     });
                     const paragraphCopy = document.createElement('img');
+                    //copy
                     paragraphCopy.src = '/images/copy.png';
                     paragraphCopy.addEventListener('click', function() {
                         const inputToCopy = this.parentElement.previousElementSibling;
@@ -138,52 +248,144 @@
                     });
                     iconWrapper.appendChild(paragraphMax);
                     iconWrapper.appendChild(paragraphCopy);
-                    paragraph.value = `Layer ${currentDepth} , Option ${i + 1}`;
-                    paragraph.setAttribute("readonly",true);
-                    paragraphWrapper.appendChild(paragraph);
-                    paragraphWrapper.appendChild(iconWrapper);
-                    accordionContent.appendChild(paragraphWrapper);
-                    accordionContent.appendChild(nestedAccordion);
-                } else {
-                    const paragraphWrapper = document.createElement('div');
-                    paragraphWrapper.classList.add('input-wrapper');
-                    const paragraph = document.createElement('input');
-                    const iconWrapper = document.createElement('div');
-                    iconWrapper.classList.add('icon-wrapper');
-                    const paragraphMax = document.createElement('img');
-                    paragraphMax.src = '/images/maximize.png';
-                    const paragraphCopy = document.createElement('img');
-                    paragraphCopy.src = '/images/copy.png';
-                    paragraphCopy.addEventListener('click', function() {
-                        const inputToCopy = this.parentElement.previousElementSibling;
-                        inputToCopy.select();
-                        document.execCommand('copy');
-                        alert('Copied: ' + inputToCopy.value);
-                    });
-                    iconWrapper.appendChild(paragraphMax);
-                    iconWrapper.appendChild(paragraphCopy);
-                    paragraph.value = `Layer ${currentDepth} , Option ${i + 1}`;
+
+                    paragraph.value = dialogue[key][j];
+                    paragraph.id = `${key}-${j}`;
                     paragraph.setAttribute("readonly",true);
                     paragraphWrapper.appendChild(paragraph);
                     paragraphWrapper.appendChild(iconWrapper);
                     accordionContent.appendChild(paragraphWrapper);
                 }
 
-                accordionButton.addEventListener('click', () => {
-                    const isDisplayed = accordionContent.style.display === "block";
-                    accordionContent.style.display = isDisplayed ? "none" : "block";
-                });
 
-                accordionItem.appendChild(accordionButton);
-                accordionItem.appendChild(accordionContent);
-                accordion.appendChild(accordionItem);
+
+
+
+
+                accordionContent.appendChild(nestedAccordion);
+            } else {
+                const paragraphWrapper = document.createElement('div');
+                paragraphWrapper.classList.add('input-wrapper');
+                const paragraph = document.createElement('textarea');
+                paragraph.setAttribute('oninput', 'auto_grow(this)');
+                const iconWrapper = document.createElement('div');
+                iconWrapper.classList.add('icon-wrapper');
+                const paragraphMax = document.createElement('img');
+                paragraphMax.src = '/images/maximize.png';
+                const paragraphCopy = document.createElement('img');
+                paragraphCopy.src = '/images/copy.png';
+                paragraphCopy.addEventListener('click', function() {
+                    const inputToCopy = this.parentElement.previousElementSibling;
+                    inputToCopy.select();
+                    document.execCommand('copy');
+                    alert('Copied: ' + inputToCopy.value);
+                });
+                iconWrapper.appendChild(paragraphMax);
+                iconWrapper.appendChild(paragraphCopy);
+                key += `_${counter}_${i+1}`;
+                console.log(key);
+                paragraph.value = dialogue[key][0];
+                paragraph.id = `${key}-0`;
+                paragraph.setAttribute("readonly",true);
+                paragraphWrapper.appendChild(paragraph);
+                paragraphWrapper.appendChild(iconWrapper);
+
+                // npc name form
+                const npc_group = document.createElement('div');
+                npc_group.className = 'input-group mb-3';
+
+                const npc_label = document.createElement('span');
+                npc_label.className = 'input-group-text';
+                npc_label.textContent = '@NPC';
+
+                const npc_form = document.createElement('div');
+                npc_form.className = 'form-floating';
+
+                const npc_input = document.createElement('input');
+                npc_input.id = `${key}-1`;
+                npc_input.className = 'form-control';
+                npc_input.value = dialogue[key][1];
+
+                npc_form.appendChild(npc_input);
+                npc_group.appendChild(npc_label);
+                npc_group.appendChild(npc_form);
+
+                accordionContent.appendChild(npc_group);
+                accordionContent.appendChild(paragraphWrapper);
+
+                // player name form
+                const player_group = document.createElement('div');
+                player_group.className = 'input-group mb-3 w-100';
+
+                const player_label = document.createElement('span');
+                player_label.className = 'input-group-text';
+                player_label.textContent = '@Player';
+
+                const player_form = document.createElement('div');
+                player_form.className = 'form-floating';
+
+                player_group.appendChild(player_label);
+                player_group.appendChild(player_form);
+
+
+                accordionContent.appendChild(player_group);
+
+
+                for (let j = 2; j < dialogue[key].length; j++) {
+                    //inwrap
+                    const paragraphWrapper = document.createElement('div');
+                    paragraphWrapper.classList.add('input-wrapper');
+                    const paragraph = document.createElement('textarea');
+                    paragraph.setAttribute('oninput', 'auto_grow(this)');
+                    const iconWrapper = document.createElement('div');
+                    iconWrapper.classList.add('icon-wrapper');
+                    //max
+                    const paragraphMax = document.createElement('img');
+                    paragraphMax.src = '/images/maximize.png';
+                    paragraphMax.addEventListener('click', function() {
+                        const divToChange = this.parentElement.parentElement;
+                        divToChange.style.maxHeight="auto";
+                        alert('Style Adjusted ' + divToChange.style.maxHeight);
+                    });
+                    const paragraphCopy = document.createElement('img');
+                    //copy
+                    paragraphCopy.src = '/images/copy.png';
+                    paragraphCopy.addEventListener('click', function() {
+                        const inputToCopy = this.parentElement.previousElementSibling;
+                        inputToCopy.select();
+                        document.execCommand('copy');
+                        alert('Copied: ' + inputToCopy.value);
+                    });
+                    iconWrapper.appendChild(paragraphMax);
+                    iconWrapper.appendChild(paragraphCopy);
+
+                    paragraph.value = dialogue[key][j];
+                    paragraph.id = `${key}-${j}`;
+                    paragraph.setAttribute("readonly",true);
+                    paragraphWrapper.appendChild(paragraph);
+                    paragraphWrapper.appendChild(iconWrapper);
+                    accordionContent.appendChild(paragraphWrapper);
+                }
+
             }
 
-            return accordion;
+            accordionButton.addEventListener('click', () => {
+                const isDisplayed = accordionContent.style.display === "flex";
+                accordionContent.style.display = isDisplayed ? "none" : "flex";
+            });
+
+            accordionItem.appendChild(accordionButton);
+            accordionItem.appendChild(accordionContent);
+            accordion.appendChild(accordionItem);
         }
+
+        return accordion;
+    }
 
     const accordionStructure = generateAccordion(depth, branch);
     accordionContainer.appendChild(accordionStructure);
 
+
 </script>
+
 </html>

@@ -41,13 +41,13 @@ public class OpenAIRequestController {
 
     // Create new request and return the generated OutputMessage
     @PostMapping
-    public ResponseEntity<OutputMessageDTO> createOpenAIRequest(@RequestBody OpenAIRequestDTO openAIRequestDTO) {
+    public ResponseEntity<Long> createOpenAIRequest(@RequestBody OpenAIRequestDTO openAIRequestDTO) {
         if (openAIRequestDTO.getDepth() < 1 || openAIRequestDTO.getDepth() > 3 ||
                 openAIRequestDTO.getWidth() < 1 || openAIRequestDTO.getWidth() > 3) {
             return ResponseEntity.badRequest().body(null);
         }
-        OutputMessageDTO createdOutputMessage = openAIRequestService.createOpenAIRequest(openAIRequestDTO);
-        return ResponseEntity.ok(createdOutputMessage);
+        Long OutputMessageId = openAIRequestService.createOpenAIRequest(openAIRequestDTO);
+        return ResponseEntity.ok(OutputMessageId);
     }
 
     // Get request by ID
@@ -70,7 +70,7 @@ public class OpenAIRequestController {
 
     // Test OpenAI API call with a mock request
     @GetMapping("/test")
-    public ResponseEntity<OutputMessageDTO> testOpenAI() {
+    public ResponseEntity<Long> testOpenAI() {
         OpenAIRequestDTO mockRequestDTO = new OpenAIRequestDTO();
         mockRequestDTO.setGenre("scifi, fantasy");
         mockRequestDTO.setSetting("Planet of Penacony - the land of dreams (from the Honkai: Star Rail universe)");
@@ -88,7 +88,7 @@ public class OpenAIRequestController {
         mockRequestDTO.setUserId(1);  // Assuming a test user ID
 
         // Call OpenAI API and retrieve the output message
-        OutputMessageDTO response = openAIRequestService.createOpenAIRequest(mockRequestDTO);
+        Long response = openAIRequestService.createOpenAIRequest(mockRequestDTO);
 
         return ResponseEntity.ok(response);
     }

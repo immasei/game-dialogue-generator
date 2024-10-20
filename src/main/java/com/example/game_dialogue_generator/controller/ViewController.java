@@ -2,41 +2,44 @@ package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.dto.OutputMessageDTO;
 import com.example.game_dialogue_generator.model.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.game_dialogue_generator.service.OutputMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 public class ViewController {
+    @Autowired
+    OutputMessageService outputMessageService;
+
+    // login - signup page
     @GetMapping("/")
     public String index() {
         return "auth";
     }
 
+    // user prompt - story generator page
     @GetMapping("/home")
-//     prompt
     public String home() {
         return "home";
     }
 
-    @GetMapping("/output")
-    public String output() {return "output";}
+    // output page - display 1 story output (by story id)
+    @GetMapping("/dialogue/{id}")
+    public String story(@PathVariable("id") Long id, Model model) {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userid = principle.getUserid();
 
-    // Pass OutputMessage to output by OutputMessage id
-    @GetMapping("/output/{id}")
-    public String outputId(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("id", id);
-        return "output";
-    }
-
-    // Pass OutputMessage to output directly (not working)
-    @PostMapping("/output/message")
-    public String outputMessage(@RequestBody OutputMessageDTO outputMessage, Model model) {
-        model.addAttribute("outputMessage", outputMessage);
-        return "output";
+        Optional<OutputMessageDTO> outputMessage = outputMessageService.findOutputMessageByIdAndUserId(id, userid);
+        if (outputMessage.isEmpty())
+            model.addAttribute("dialogue", null);
+        else
+            model.addAttribute("dialogue", outputMessage.get());
+        return "dialogue";
     }
 
     @GetMapping("/archive")

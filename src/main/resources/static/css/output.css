@@ -1,17 +1,9 @@
-body {
-    background-color: #f8f9fa;
-}
-
 button:focus{
     outline:none;
 }
 
 .icon{
     min-height: 20vh;
-}
-
-.sidebar{
-    background-color:#aadbdd !important;
 }
 
 .inner-title{
@@ -22,37 +14,18 @@ button:focus{
     width:150px;
 }
 
-.content1 {
-    flex: 1 1 0;
-    padding: 2rem;
-    margin-left: 270px;
-    display: none;
-}
-
 .dialogue-list {
-    max-height: 75vh;
+    /*max-height: 85vh;*/
     overflow-y: auto;
-    width:90%;
-}
-
-.dialogue-item {
-    padding: 10px;
-    border-bottom: 1px solid #e9ecef;
-}
-
-body {
-    font-family: Arial, sans-serif;
-}
-
-.dialogue-list .accordion {
-    width: 100%;
-    margin: 10px 0;
+    width:100%;
+    padding: 10px 5px;
 }
 
 .dialogue-list .accordion-item {
-    background-color: #f7f7f7;
+    background-color: rgba(255, 255, 255, 0.51);
     margin-bottom: 10px;
-    border:none;
+    /*border:none;*/
+    /*border-color: #111111;*/
 }
 
 .dialogue-list .accordion-button {
@@ -61,7 +34,7 @@ body {
     cursor: pointer;
     padding: 10px;
     text-align: left;
-    border: none;
+    border-color: #111111;
     outline: none;
     width: 100%;
     font-size: 16px;
@@ -69,30 +42,54 @@ body {
     gap:5px;
 }
 
+.input-group {
+    margin-left:-20px;
+    margin-bottom: 0px !important;
+    height: 30px !important;
+
+}
+
+.input-group.mb-3 .form-control {
+    height: 30px !important;
+    padding: 5px !important;
+}
+
+.input-group.mb-3 .input-group-text {
+    height: 30px !important;
+}
+
 .dialogue-list .input-wrapper{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
     background:white;
-    margin-left:-30px;
-    max-height:50px;
+    margin-left:-20px;
     border-radius: 5px;
+    height: auto;
+    position: relative;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 13px;
 }
 
-.dialogue-list .input-wrapper input{
-    padding:15px;
+.dialogue-list .input-wrapper textarea{
     border:none;
-    width:80%;
+    width:95%;
     border-radius: 5px;
+    height: auto;
+    resize: none;
+    overflow: hidden;
+    min-height: 30px;
 }
 
-.dialogue-list .input-wrapper input:focus{
+.dialogue-list .input-wrapper textarea:focus{
     outline:none;
 }
 
 .dialogue-list .accordion-button img,.dialogue-list .input-wrapper img
 {
-    max-width:25px;
+    max-width:20px;
+    align-self: flex-start;
+
 }
 
 .dialogue-list .icon-wrapper{
@@ -101,11 +98,12 @@ body {
 }
 
 .dialogue-list .accordion-content {
-    display: none;
     background-color: #f7f7f7;
     margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-
 
 .content1 .inner-title{
     display:flex;
