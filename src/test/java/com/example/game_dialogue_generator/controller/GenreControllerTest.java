@@ -48,7 +48,7 @@ public class GenreControllerTest {
     }
 
     @Test
-    void testGetGenres_empty() throws Exception {
+    void testGetGenres_Empty() throws Exception {
         List<Genre> genres = new ArrayList<>();
         when(genreService.getAllGenres()).thenReturn(genres);
 
@@ -63,7 +63,7 @@ public class GenreControllerTest {
     }
 
     @Test
-    void testGetGenre_null() throws Exception {
+    void testGetGenre_Null() throws Exception {
         when(genreService.getAllGenres()).thenReturn(null);
 
         mockMvc.perform(get("/genres"))
