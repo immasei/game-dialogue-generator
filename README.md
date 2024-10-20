@@ -178,6 +178,8 @@ random seed https://stackoverflow.com/questions/20728783/shortest-code-to-get-ra
 
 loader effect https://css3loaders.huckbit.com/loader/3
 
+form validator bootstrap+geeks https://www.geeksforgeeks.org/bootstrap-5-validation-tooltips/
+
 #### Backend
 mysql & java spring boot
 https://spring.io/guides/gs/accessing-data-mysql
