@@ -180,7 +180,15 @@ loader effect https://css3loaders.huckbit.com/loader/3
 
 form validator bootstrap+geeks https://www.geeksforgeeks.org/bootstrap-5-validation-tooltips/
 
+pass var from spring be to js fe https://stackoverflow.com/questions/25687816/setting-up-a-javascript-variable-from-spring-model-by-using-thymeleaf
+
+textarea auto grow https://stackoverflow.com/questions/17772260/textarea-auto-height
+
+thymeleaf access var via html https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
+
 #### Backend
+jpa qry https://www.bezkoder.com/jpa-filter-by-multiple-columns/ https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.named-queries.annotation-based-configuration
+
 mysql & java spring boot
 https://spring.io/guides/gs/accessing-data-mysql
 
