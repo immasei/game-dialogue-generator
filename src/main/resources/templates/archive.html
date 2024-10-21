@@ -43,9 +43,9 @@
 
     <div class="content">
         <h1>Saved Dialogues</h1>
-        <div class="prompt-form">
-            <table class="table table-bordered table-striped">
-                <thead class="table-info">
+        <div class="archive-table">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Genre</th>
@@ -63,10 +63,9 @@
                     <td th:text="${dialogue.language}" />
                     <td th:text="${dialogue.depth}" />
                     <td th:text="${dialogue.width}" />
-                    <td th:text="${dialogue.plot}" style="overflow: hidden; white-space: nowrap; max-width: 300px;"/>
-
-                    <td>iu</td>
-                    <td>iu</td>
+                    <td th:text="${dialogue.plot}" style="overflow: hidden; white-space: nowrap; max-width: 270px;"/>
+                    <td style="text-align: center;"><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/prompt/{id}(id=${dialogue.id})}">here</a></td>
+                    <td style="text-align: center;"><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/dialogue/{id}(id=${dialogue.id})}">here</a></td>
                 </tr>
                 </tbody>
             </table>

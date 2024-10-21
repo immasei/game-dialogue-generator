@@ -51,6 +51,17 @@ public class OpenAIRequestService {
         return openAIRequestRepository.findOpenAIRequestByIdAndUserId(id, userId).map(this::convertToDTO);
     }
 
+    public OpenAIRequestDTO updateOpenAIRequest(Long id, OpenAIRequestDTO updatedOpenAIRequestDTO) {
+        Optional<OpenAIRequest> existingOpenAIRequest = openAIRequestRepository.findById(id);
+        if (existingOpenAIRequest.isPresent()) {
+            OpenAIRequest updatedOpenAIRequest = convertToModel(updatedOpenAIRequestDTO);
+            updatedOpenAIRequest.setId(id);
+            OpenAIRequest savedOpenAIRequest= openAIRequestRepository.save(updatedOpenAIRequest);
+            return convertToDTO(savedOpenAIRequest);
+        }
+        return null; // placeholder, might add an exception in the future if I remember
+    }
+
     // Create a new OpenAI request, call OpenAI, and map response to OutputMessageDTO
     public Long createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
         // Convert DTO to model

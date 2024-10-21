@@ -18,7 +18,7 @@ button:focus{
     /*max-height: 85vh;*/
     overflow-y: auto;
     width:100%;
-    padding: 10px 5px;
+    padding: 10px 15px;
 }
 
 .dialogue-list .accordion-item {

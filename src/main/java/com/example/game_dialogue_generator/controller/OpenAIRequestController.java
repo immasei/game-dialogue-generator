@@ -2,14 +2,17 @@ package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.dto.OpenAIRequestDTO;
 import com.example.game_dialogue_generator.dto.OutputMessageDTO;
+import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.service.OpenAIRequestService;
 import com.example.game_dialogue_generator.service.OutputMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Controller for managing OpenAI requests.
@@ -59,6 +62,21 @@ public class OpenAIRequestController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateRequest(@PathVariable Long id, @RequestBody OpenAIRequestDTO openAIRequestDTO) {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userid = principle.getUserid();
+
+        Optional<OpenAIRequestDTO> outputMessage = openAIRequestService.findOpenAIRequestByIdAndUserId(id, userid);
+        if (outputMessage.isEmpty() || userid != openAIRequestDTO.getUserId()) ResponseEntity.notFound().build();
+
+        OpenAIRequestDTO updatedOpenAIRequest = openAIRequestService.updateOpenAIRequest(id, openAIRequestDTO);
+        if (updatedOpenAIRequest != null) {
+            return ResponseEntity.ok("OpenAIRequest: " + id + " has been updated successfully.");
+        }
+        return ResponseEntity.notFound().build();
     }
 
     // Delete by ID

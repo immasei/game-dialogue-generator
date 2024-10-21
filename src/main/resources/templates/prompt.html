@@ -116,7 +116,7 @@
             </div>
 
             <div class="d-flex justify-content-end" style="gap: 7px;">
-                <button id="save-btn" class="submit-btn">Save</button>
+                <button id="save-btn" type="button" class="submit-btn" onclick="savePrompt();">Save</button>
                 <button id="prompt-btn" type="submit" class="submit-btn">Re-generate</button>
             </div>
         </form>
@@ -214,38 +214,62 @@
     function sendPrompt() {
         start_loader_icon();
 
-        axios.get('/userid')
+        const requestDTO = {
+            userId: prompt['userId'],
+            genre: $('#genre-dropdown option:selected').text(),
+            language: $('#language-dropdown option:selected').text(),
+            setting: null,
+            location: null,
+            timePeriod: null,
+            plot: $("#game-context").val(),
+            depth: $("#max-dialogue-depth").val(),
+            width: $("#num-endings").val(),
+            characterNames: [null, null],
+            characterPersonalities: [$("#textcharacter1").val(), $("#textcharacter2").val()],
+            characterSpeechFeatures: [null, null]
+        };
+        axios.post('../api/openai', requestDTO)
             .then(function (response) {
-                const requestDTO = {
-                    userId: response.data.data,
-                    genre: $('#genre-dropdown option:selected').text(),
-                    language: $('#language-dropdown option:selected').text(),
-                    setting: null,
-                    location: null,
-                    timePeriod: null,
-                    plot: $("#game-context").val(),
-                    depth: $("#max-dialogue-depth").val(),
-                    width: $("#num-endings").val(),
-                    characterNames: [null, null],
-                    characterPersonalities: [$("#textcharacter1").val(), $("#textcharacter2").val()],
-                    characterSpeechFeatures: [null, null]
-                };
-                axios.post('../api/openai', requestDTO)
-                    .then(function (response) {
-                        setTimeout(function () {
-                            end_loader_icon();
-                        }, 5000);
-                        console.log(response.data);
-                        window.open('/dialogue/'+response.data, '_self');
-                    })
-                    .catch(function (error) {
-                        console.log(error.response.data);
-                    });
+                setTimeout(function () {
+                    end_loader_icon();
+                    console.log(response.data);
+                    window.open('/dialogue/'+response.data, '_self');
+                }, 5000);
             })
             .catch(function (error) {
                 console.log(error.response.data);
             });
     }
+
+    function savePrompt() {
+        const requestDTO = {
+            userId: prompt['userId'],
+            genre: $('#genre-dropdown option:selected').text(),
+            language: $('#language-dropdown option:selected').text(),
+            setting: null,
+            location: null,
+            timePeriod: null,
+            plot: $("#game-context").val(),
+            depth: $("#max-dialogue-depth").val(),
+            width: $("#num-endings").val(),
+            characterNames: [null, null],
+            characterPersonalities: [$("#textcharacter1").val(), $("#textcharacter2").val()],
+            characterSpeechFeatures: [null, null]
+        };
+
+        var url = '../api/openai/' + prompt['id'];
+
+        axios.put(url, requestDTO)
+            .then(function (response) {
+                alert(response.data);
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+    }
+
+
+
 
     let characterCount = 1;
     function addCharacter() {

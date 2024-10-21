@@ -10,13 +10,17 @@
     font-size: 26px;
     margin-bottom: 1rem;
     margin-top: 0.05rem;
-    margin-left: 0.1rem;
+    padding-left: 15px;
     font-family: "Inter", sans-serif;
     font-weight: 700;
 }
 
 .content .prompt-form {
-    padding: 10px 25px;
+    padding: 10px 15px;
+}
+
+.content .archive-table {
+    padding: 10px 15px;
 }
 
 .content .prompt-form .form-group {
@@ -49,6 +53,7 @@
 
 td {
     color: var(--foregroundColor);
+    height: 40px;
 }
 
 .submit-btn{
