@@ -1,3 +1,10 @@
+span.description {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 150px;
+}
+
 .tit {
     display: flex;
     align-items: center;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing OpenAI API calls.
@@ -41,6 +42,10 @@ public class OpenAIRequestService {
     private String apiKey;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public List<OpenAIRequestDTO> findOpenAIRequestByUserId(int userid) {
+        return openAIRequestRepository.findOpenAIRequestByUserId(userid).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
 
     // Create a new OpenAI request, call OpenAI, and map response to OutputMessageDTO
     public Long createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
