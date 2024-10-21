@@ -212,7 +212,7 @@
                     characterPersonalities: [$("#textcharacter1").val(), $("#textcharacter2").val()],
                     characterSpeechFeatures: [null, null]
                 };
-                axios.post('api/openai', requestDTO)
+                axios.post('/api/openai', requestDTO)
                     .then(function (response) {
                         setTimeout(function () {
                             end_loader_icon();
