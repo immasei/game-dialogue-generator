@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+//return html view
 @Controller
 public class ViewController {
     @Autowired
@@ -36,16 +37,27 @@ public class ViewController {
 
     // output page - display 1 story output (by story id)
     @GetMapping("/dialogue/{id}")
-    public String story(@PathVariable("id") Long id, Model model) {
+    public String dialogue(@PathVariable("id") Long id, Model model) {
         User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userid = principle.getUserid();
 
         Optional<OutputMessageDTO> outputMessage = outputMessageService.findOutputMessageByIdAndUserId(id, userid);
-        if (outputMessage.isEmpty())
-            model.addAttribute("dialogue", null);
-        else
-            model.addAttribute("dialogue", outputMessage.get());
+        if (outputMessage.isEmpty()) return archive(model);
+
+        model.addAttribute("dialogue", outputMessage.get());
         return "dialogue";
+    }
+
+    @GetMapping("/prompt/{id}")
+    public String prompt(@PathVariable("id") Long id, Model model) {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userid = principle.getUserid();
+
+        Optional<OpenAIRequestDTO> openAIRequestDTO = openAIRequestService.findOpenAIRequestByIdAndUserId(id, userid);
+        if (openAIRequestDTO.isEmpty()) return archive(model);
+
+        model.addAttribute("prompt", openAIRequestDTO.get());
+        return "prompt";
     }
 
     @GetMapping("/archive")

@@ -47,6 +47,10 @@ public class OpenAIRequestService {
         return openAIRequestRepository.findOpenAIRequestByUserId(userid).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    public Optional<OpenAIRequestDTO> findOpenAIRequestByIdAndUserId(long id, int userId) {
+        return openAIRequestRepository.findOpenAIRequestByIdAndUserId(id, userId).map(this::convertToDTO);
+    }
+
     // Create a new OpenAI request, call OpenAI, and map response to OutputMessageDTO
     public Long createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
         // Convert DTO to model
