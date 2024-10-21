@@ -186,6 +186,12 @@ textarea auto grow https://stackoverflow.com/questions/17772260/textarea-auto-he
 
 thymeleaf access var via html https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
 
+controller request forward https://stackoverflow.com/questions/31796952/forward-request-to-another-controller-in-spring-mvc
+
+thymeleaf selected option from model https://stackoverflow.com/questions/50777036/how-to-select-an-option-in-a-dropdown-based-on-a-value-on-the-model-using-thymel
+
+thymeleaf href https://stackoverflow.com/questions/33753975/thymeleaf-using-path-variables-to-thhref
+
 #### Backend
 jpa qry https://www.bezkoder.com/jpa-filter-by-multiple-columns/ https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.named-queries.annotation-based-configuration
 
