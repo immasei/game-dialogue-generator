@@ -200,8 +200,8 @@
             .then(function (response) {
                 const requestDTO = {
                     userId: response.data.data,
-                    genre: $("#genre-dropdown").val(),
-                    language: $("#language-dropdown").val(),
+                    genre: $('#genre-dropdown option:selected').text(),
+                    language: $('#language-dropdown option:selected').text(),
                     setting: null,
                     location: null,
                     timePeriod: null,
@@ -216,9 +216,10 @@
                     .then(function (response) {
                         setTimeout(function () {
                             end_loader_icon();
+                            console.log(response.data);
+                            window.open('/dialogue/'+response.data, '_self');
                         }, 5000);
-                        console.log(response.data);
-                        window.open('/dialogue/'+response.data, '_self');
+
                     })
                     .catch(function (error) {
                         console.log(error.response.data);
