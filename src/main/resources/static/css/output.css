@@ -1,14 +1,14 @@
-button:focus{
-    outline:none;
-}
+/*button:focus{*/
+/*    outline:none;*/
+/*}*/
 
 /*.icon{*/
 /*    min-height: 20vh;*/
 /*}*/
 
-.inner-title{
-    align-items:center;
-}
+/*.inner-title{*/
+/*    align-items:center;*/
+/*}*/
 
 /*.logo{*/
 /*    width:150px;*/
@@ -131,29 +131,39 @@ button:focus{
     height:5%;
 }
 
-.content1 .export-wrapper{
+.export-wrapper{
     position: relative;
     display: flex;
 }
 
-.content1 .export-wrapper img{
+.export-wrapper img{
     width:30px;
 }
 
-.content1 .export-wrapper div{
+.export-wrapper div{
     display: none;
     opacity:0;
     position: absolute;
-    left: 30px;
-    bottom: 25px;
+    left: 100px;
+    bottom: 4px;
     transition:opacity 1s ease;
+    background: none;
 }
 
-.content1 .export-wrapper div button{
-    padding:5px;
+.export-wrapper div button{
+    padding: 2.5px 34px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    text-align: center;
 }
 
-.content1 .export-wrapper:hover div{
+.export-wrapper div button:hover {
+    border-color: #D4D6D8;
+    background-color: #E2E3E5;
+    color: #42464A;
+}
+
+.export-wrapper:hover div{
     display:flex;
     opacity:1;
 }

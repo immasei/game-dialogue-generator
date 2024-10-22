@@ -111,8 +111,14 @@ td {
 
 .orange {
     color: #614420;
-    background-color: #FCECD8;
-    border-color: #FFE6C7;
+    background-color: #ffe2b4;
+    border-color: #FFD18E;
+}
+
+.lime {
+    color: #2e5025;
+    background-color: #E0E5B6;
+    border-color: #c6cb8d;
 }
 
 .icon-btn {
