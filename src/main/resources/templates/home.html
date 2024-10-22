@@ -179,7 +179,7 @@
                 const genreDropdown = document.getElementById('genre-dropdown');
                 genres.forEach(function (genre) {
                     const option = document.createElement('option');
-                    option.value = genre.genreid;
+                    option.value = genre.name;
                     option.textContent = genre.name;
                     genreDropdown.appendChild(option);
                 });
@@ -196,7 +196,7 @@
                 const languageDropdown = document.getElementById('language-dropdown');
                 languages.forEach(function (language) {
                     const option = document.createElement('option');
-                    option.value = language.languageid;
+                    option.value = language.name;
                     option.textContent = language.name;
                     languageDropdown.appendChild(option);
                 });

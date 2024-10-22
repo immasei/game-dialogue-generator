@@ -152,6 +152,36 @@ The `OutputMessageController` is responsible for managing output messages genera
 
 The `POST`, `PUT`, and `DELETE` endpoints allow for managing messages in the database, while the `GET` endpoint allows for retrieving a single output message by its ID.
 
+### PastebinController
+
+The `PastebinController` is responsible for sending the Output Message that contains the generated dialogue to Pastebin using the Pastebin API. The Pastebin account is limited to 20 Paste creations per 24 hrs.
+
+#### Endpoints:
+
+- **GET `/api/pastebin**: Sends the Output Message to the Pastebin API to create a Paste. Receives the Pastebin URL to the created Paste.
+    - Example Request: 
+        
+        - Headers: application/json
+        - Body: 
+        ```json
+        {
+          "depth1": ["dialogue line 1", "dialogue line 2"],
+          "depth2_1": ["dialogue line 2.1", "dialogue line 2.2"],
+          "depth2_2": ["dialogue line 2.1", "dialogue line 2.2"],
+          "depth2_3": ["dialogue line 2.1", "dialogue line 2.2"],
+          "depth3_1_1": ["dialogue line 3.1.1", "dialogue line 3.1.2"],
+          "depth3_1_2": ["dialogue line 3.1.1", "dialogue line 3.1.2"],
+          "depth3_1_3": ["dialogue line 3.1.1", "dialogue line 3.1.2"],
+          "depth3_2_1": ["dialogue line 3.2.1", "dialogue line 3.2.2"],
+          "depth3_2_2": ["dialogue line 3.2.1", "dialogue line 3.2.2"],
+          "depth3_2_3": ["dialogue line 3.2.1", "dialogue line 3.2.2"],
+          "depth3_3_1": ["dialogue line 3.3.1", "dialogue line 3.3.2"],
+          "depth3_3_2": ["dialogue line 3.3.1", "dialogue line 3.3.2"],
+          "depth3_3_3": ["dialogue line 3.3.1", "dialogue line 3.3.2"]
+        }
+        ```
+    - Example Response: https://pastebin.com/wpxVc0YM
+
 ### References
 
 #### Frontend
