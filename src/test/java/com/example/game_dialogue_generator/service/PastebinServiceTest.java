@@ -2,10 +2,13 @@ package com.example.game_dialogue_generator.service;
 
 import com.example.game_dialogue_generator.model.OutputMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +18,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,4 +86,20 @@ public class PastebinServiceTest {
        assertEquals(expected, result);
    }
 
+   @Test
+   void testCallPastebinAi_JsonException() throws JsonProcessingException {
+       ObjectWriter objectWriter = mock(ObjectWriter.class);
+       when(objectWriter.withDefaultPrettyPrinter()).thenReturn(objectWriter);
+       when(objectWriter.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+       try (MockedConstruction<ObjectMapper> mockedObjectMapper = Mockito.mockConstruction(ObjectMapper.class,
+               (mock, context) -> {
+
+           when(mock.writer()).thenReturn(objectWriter);
+       })) {
+           String result = pastebinService.callPastebinAi(new OutputMessage());
+
+           assertTrue(result.contains("Bad API request"));
+       }
+   }
 }
