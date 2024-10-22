@@ -30,7 +30,7 @@ public class PastebinControllerTest {
     void testGetPastebin_Success() throws Exception {
         String url = "https://pastebin.com/mSEn3d5z";
         OutputMessage outputMessage = new OutputMessage();
-        when(pastebinService.callPastebinAi(any(OutputMessage.class)))
+        when(pastebinService.callPastebinApi(any(OutputMessage.class)))
                 .thenReturn(url);
 
         mockMvc.perform(get("/api/pastebin")
@@ -39,14 +39,14 @@ public class PastebinControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(url));
         verify(pastebinService, times(1))
-                .callPastebinAi(any(OutputMessage.class));
+                .callPastebinApi(any(OutputMessage.class));
     }
 
     @Test
     void testGetPastebin_BadRequest() throws Exception {
         String url = "Bad API request something happened";
         OutputMessage outputMessage = new OutputMessage();
-        when(pastebinService.callPastebinAi(any(OutputMessage.class)))
+        when(pastebinService.callPastebinApi(any(OutputMessage.class)))
                 .thenReturn(url);
 
         mockMvc.perform(get("/api/pastebin")
@@ -55,6 +55,6 @@ public class PastebinControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(url));
         verify(pastebinService, times(1))
-                .callPastebinAi(any(OutputMessage.class));
+                .callPastebinApi(any(OutputMessage.class));
     }
 }

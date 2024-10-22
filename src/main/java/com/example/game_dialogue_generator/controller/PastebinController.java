@@ -22,7 +22,7 @@ public class PastebinController {
 
     @GetMapping
     public ResponseEntity<String> getPastebin(@RequestBody OutputMessage outputMessage) {
-        String response = pastebinService.callPastebinAi(outputMessage);
+        String response = pastebinService.callPastebinApi(outputMessage);
 
         if (response.contains("Bad API request")) {
             return ResponseEntity.badRequest().body(response);
