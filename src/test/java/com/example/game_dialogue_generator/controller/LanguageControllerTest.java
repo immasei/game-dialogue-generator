@@ -1,5 +1,6 @@
 package com.example.game_dialogue_generator.controller;
 
+import com.example.game_dialogue_generator.dto.LanguageDTO;
 import com.example.game_dialogue_generator.enums.LanguageEnum;
 import com.example.game_dialogue_generator.model.Genre;
 import com.example.game_dialogue_generator.model.Language;
@@ -32,18 +33,16 @@ public class LanguageControllerTest {
 
     @Test
     void testGetLanguages_Success() throws Exception {
-        List<Language> languages = new ArrayList<>();
-        Language language = new Language();
-        language.setLanguageid(1);
-        language.setName(LanguageEnum.ENGLISH);
+        List<LanguageDTO> languages = new ArrayList<>();
+        LanguageDTO language = new LanguageDTO(LanguageEnum.ENGLISH);
         languages.add(language);
         when(languageService.getAllLanguages()).thenReturn(languages);
 
         mockMvc.perform(get("/languages"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.data[0].name").value(language.getName().toString()))
-                .andExpect(jsonPath("$.data[0].languageid").value(1));
+                .andExpect(jsonPath("$.data[0].name").value(language.getName().toString()));
+//                .andExpect(jsonPath("$.data[0].languageid").value(1));
 
         verify(languageService, times(1))
                 .getAllLanguages();
@@ -51,7 +50,7 @@ public class LanguageControllerTest {
 
     @Test
     void testGetLanguages_Empty() throws Exception {
-        List<Language> languages = new ArrayList<>();
+        List<LanguageDTO> languages = new ArrayList<>();
         when(languageService.getAllLanguages()).thenReturn(languages);
 
         mockMvc.perform(get("/languages"))

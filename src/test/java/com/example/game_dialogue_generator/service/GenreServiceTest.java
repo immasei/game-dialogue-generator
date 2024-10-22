@@ -1,5 +1,6 @@
 package com.example.game_dialogue_generator.service;
 
+import com.example.game_dialogue_generator.dto.GenreDTO;
 import com.example.game_dialogue_generator.enums.GenreEnum;
 import com.example.game_dialogue_generator.model.Genre;
 import com.example.game_dialogue_generator.repository.GenreRepository;
@@ -13,8 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,12 +34,17 @@ public class GenreServiceTest {
         genre1.setName(GenreEnum.ACTION);
         genres.add(genre1);
 
+        List<GenreDTO> genresDTO = new ArrayList<>();
+        GenreDTO genreDTO = new GenreDTO(GenreEnum.ACTION);
+        genresDTO.add(genreDTO);
+
         when(genreRepository.findAll()).thenReturn(genres);
 
-        List<Genre> result = genreService.getAllGenres();
+        List<GenreDTO> result = genreService.getAllGenres();
 
         assertNotNull(result);
-        assertArrayEquals(genres.toArray(), result.toArray());
+        assertEquals(genresDTO.size(), result.size());
+        assertEquals(genresDTO.get(0).getName(), result.get(0).getName());
         verify(genreRepository, times(1)).findAll();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.game_dialogue_generator.controller;
 
+import com.example.game_dialogue_generator.dto.GenreDTO;
 import com.example.game_dialogue_generator.enums.GenreEnum;
 import com.example.game_dialogue_generator.model.Genre;
 import com.example.game_dialogue_generator.service.GenreService;
@@ -30,18 +31,16 @@ public class GenreControllerTest {
 
     @Test
     void testGetGenres_Success() throws Exception {
-        List<Genre> genres = new ArrayList<>();
-        Genre genre = new Genre();
-        genre.setName(GenreEnum.ACTION);
-        genre.setGenreid(1);
+        List<GenreDTO> genres = new ArrayList<>();
+        GenreDTO genre = new GenreDTO(GenreEnum.ACTION);
         genres.add(genre);
         when(genreService.getAllGenres()).thenReturn(genres);
 
         mockMvc.perform(get("/genres"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.data[0].name").value(genre.getName().toString()))
-                .andExpect(jsonPath("$.data[0].genreid").value(1));
+                .andExpect(jsonPath("$.data[0].name").value(genre.getName().toString()));
+//                .andExpect(jsonPath("$.data[0].genreid").value(1));
 
         verify(genreService, times(1))
                 .getAllGenres();
@@ -49,7 +48,7 @@ public class GenreControllerTest {
 
     @Test
     void testGetGenres_Empty() throws Exception {
-        List<Genre> genres = new ArrayList<>();
+        List<GenreDTO> genres = new ArrayList<>();
         when(genreService.getAllGenres()).thenReturn(genres);
 
         mockMvc.perform(get("/genres"))
