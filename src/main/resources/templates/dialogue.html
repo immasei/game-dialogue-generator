@@ -49,7 +49,11 @@
         <div id="accordion-container" class="dialogue-list"></div>
 
         <div class="d-flex justify-content-between padder" style="margin-top: 1rem;">
-            <p style="align-self: flex-end; margin-bottom: 10px; color: var(--foregroundColor);">Word limits: Current: 3200 Max: 4000</p>
+            <p class="word-report">
+                <span class="total-count grey">Word limits</span> Current:
+                <span id='word-count' class="total-count success">0</span> Max:
+                <span class="total-count purple">N/A</span>
+            </p>
             <div class="d-flex" style="gap: 7px;">
                 <div class="export-wrapper">
                     <button id="export-btn" class="submit-btn lime">Export       <i class="fa-solid fa-arrow-right-from-bracket icon-btn lime"></i></button>
@@ -84,6 +88,21 @@
 </script>
 
 <script>
+    function countTotal() {
+        var tot = 0;
+
+        const content = document.querySelectorAll('textarea');
+        content.forEach(function(x) {
+            var str;
+            const raw = $(x).val();
+            if (countStr(raw)===0) str=[]
+            else str = raw.trim().split(/\s+/);
+            tot+=str.length;
+        });
+
+        $('#word-count').text(tot);
+    }
+
     function auto_grow(element) {
         element.style.height = "5px";
         element.style.height = (element.scrollHeight) + "px";
@@ -131,6 +150,7 @@
                 // 1a textarea
                 const paragraph = document.createElement('textarea');
                 paragraph.setAttribute('oninput', 'auto_grow(this)'); // autogrow textarea
+                paragraph.oninput = function() { countTotal(); }
 
                 // 1b icon wrapper (speech btn + copy btn)
                 const iconWrapper = document.createElement('div');
@@ -221,6 +241,7 @@
                     // 3a1 textarea
                     const paragraph = document.createElement('textarea');
                     paragraph.setAttribute('oninput', 'auto_grow(this)'); // autogrow textarea
+                    paragraph.oninput = function() { countTotal(); }
 
                     // 3a2 icon wrapper (speech btn + copy btn)
                     const iconWrapper = document.createElement('div');
@@ -266,6 +287,7 @@
                 // 1a textarea
                 const paragraph = document.createElement('textarea');
                 paragraph.setAttribute('oninput', 'auto_grow(this)');
+                paragraph.oninput = function() { countTotal(); }
 
                 // 1b icon wrapper (speech btn + copy btn)
                 const iconWrapper = document.createElement('div');
@@ -353,6 +375,7 @@
                     // 3a1 textarea
                     const paragraph = document.createElement('textarea');
                     paragraph.setAttribute('oninput', 'auto_grow(this)');
+                    paragraph.oninput = function() { countTotal(); }
 
                     // 3a2 icon wrapper (speech btn + copy btn)
                     const iconWrapper = document.createElement('div');
@@ -408,10 +431,7 @@
 
     const accordionStructure = generateAccordion(depth, branch);
     accordionContainer.appendChild(accordionStructure);
-
-    function down() {
-
-    }
+    countTotal();
 
     function exportAsTXT() {
         var a = document.createElement("a");

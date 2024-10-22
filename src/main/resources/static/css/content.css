@@ -22,7 +22,7 @@
 }
 
 .content .padder .form-group {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1.5rem !important;
     position: relative;
 }
 
@@ -81,6 +81,11 @@ td {
     top: -5px;
     right: -3px;
 }
+.grey {
+    border-color: #D4D6D8;
+    background-color: #E2E3E5;
+    color: #42464A;
+}
 
 .success {
     background-color: #D5E6DE;
@@ -137,7 +142,7 @@ td {
     background: none;
 }
 
-.dialogue-list::-webkit-scrollbar {
+.dialogue-list::-webkit-scrollbar, textarea::-webkit-scrollbar {
     width: 0;
     background: transparent;
 }
@@ -146,5 +151,30 @@ td {
     color: #316CF4;
 }
 
+.word-count{
+    font-size: 0.8em;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.total-count {
+    font-size: 0.8em;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+}
+.word-report {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    color: var(--foregroundColor);
+}
+
+.counter, .counter-limit {
+}
 
 

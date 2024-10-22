@@ -7,6 +7,7 @@
 <body>
 <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
 <input class="theme" id="dark-theme" type="radio" style="display: none"/>
+<span id="word-lim-per-textarea" style="display: none">200</span>
 
 <main>
     <div class="sidebar">
@@ -41,16 +42,17 @@
         <form id="user-prompt" class="padder needs-validation" novalidate>
             <div class="form-group">
                 <label for="game-context">Describe the Game Context:</label>
-                <textarea class="form-control" id="game-context" rows="5" maxlength="1000"
+                <textarea class="form-control" id="game-context" rows="5"
                           placeholder="Describe the game setting, world history, main conflict or goals, key events... (1000 characters) "
-                          th:text="${prompt.plot}"
+                          th:text="${prompt.plot}" oninput="wordCount(this)"
                           required></textarea>
-                <div class="invalid-feedback">
-                    Please fill in context of the Game.
-                </div>
-                <div class="valid-feedback">
-                    Game Context Confirmed :D
-                </div>
+<!--                <div class="invalid-feedback">-->
+<!--                    Please fill in context of the Game.-->
+<!--                </div>-->
+<!--                <div class="valid-feedback">-->
+<!--                    Game Context Confirmed :D-->
+<!--                </div>-->
+                <span class="word-count primary">0 / 200</span>
             </div>
             <div class="form-group row d-flex justify-content-between">
                 <label for="genre-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Genre:</label>
@@ -67,30 +69,32 @@
                 <label for="character-container">Describe your Characters</label>
                 <div id="character-container">
                     <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Player (You)</label>
-                    <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
+                    <textarea class="form-control" id="textcharacter1" rows="3"
                               placeholder="Describe the character's role, personality, relationship with other characters ..."
-                              th:text="${prompt.characterPersonalities[0]}"
+                              th:text="${prompt.characterPersonalities[0]}" oninput="wordCount(this)"
                               required></textarea>
-                    <div class="invalid-feedback">
-                        Who is the main character?
-                    </div>
-                    <div class="valid-feedback">
-                        Player Confirmed :D
-                    </div>
+<!--                    <div class="invalid-feedback">-->
+<!--                        Who is the main character?-->
+<!--                    </div>-->
+<!--                    <div class="valid-feedback">-->
+<!--                        Player Confirmed :D-->
+<!--                    </div>-->
+                    <span class="word-count primary">0 / 200</span>
                 </div>
             </div>
             <div class="form-group">
                 <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1);">NPC</label>
-                <textarea class="form-control" id="textcharacter2" rows="3" maxlength="750"
+                <textarea class="form-control" id="textcharacter2" rows="3"
                           placeholder="Describe the character's role, personality, relationship with other characters ..."
-                          th:text="${prompt.characterPersonalities[1]}"
+                          th:text="${prompt.characterPersonalities[1]}" oninput="wordCount(this)"
                           required></textarea>
-                <div class="invalid-feedback">
-                    Give me an NPC.
-                </div>
-                <div class="valid-feedback">
-                    NPC Confirmed :D
-                </div>
+<!--                <div class="invalid-feedback">-->
+<!--                    Give me an NPC.-->
+<!--                </div>-->
+<!--                <div class="valid-feedback">-->
+<!--                    NPC Confirmed :D-->
+<!--                </div>-->
+                <span class="word-count primary">0 / 200</span>
             </div>
 
             <div class="form-group row d-flex justify-content-between">
@@ -116,7 +120,11 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <p style="align-self: flex-end; margin-bottom: 10px; color: var(--foregroundColor);">Word limits: Current: 3200 Max: 4000</p>
+                <p class="word-report">
+                    <span class="total-count grey">Word limits</span> Current:
+                    <span class="counter total-count success">0</span> Max:
+                    <span class="counter-limit total-count danger">600</span>
+                </p>
                 <div style="gap: 7px;">
                     <a class="submit-btn orange" th:href="@{/dialogue/{id}(id=${prompt.id})}">
                         Goto <i class="fa-solid fa-book icon-btn orange"></i>
@@ -145,6 +153,10 @@
     /*]]>*/
 </script>
 <script>
+    const content = document.querySelectorAll('textarea');
+    content.forEach(function(x) {
+        wordCount(x);
+    });
     (function () {
         'use strict'
         var forms = document.querySelectorAll('.needs-validation')

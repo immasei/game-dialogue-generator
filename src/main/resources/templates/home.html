@@ -7,6 +7,7 @@
 <body>
     <input class="theme" id="light-theme" type="radio" checked="checked" style="display: none"/>
     <input class="theme" id="dark-theme" type="radio" style="display: none"/>
+    <span id="word-lim-per-textarea" style="display: none">200</span>
 
     <main>
         <div class="sidebar">
@@ -41,14 +42,16 @@
             <form id="user-prompt" class="padder needs-validation" novalidate>
                 <div class="form-group">
                     <label for="game-context">Describe the Game Context:</label>
-                    <textarea class="form-control" id="game-context" rows="5" maxlength="1000"
-                              placeholder="Describe the game setting, world history, main conflict or goals, key events... (1000 characters) " required></textarea>
-                    <div class="invalid-feedback">
-                        Please fill in context of the Game.
-                    </div>
-                    <div class="valid-feedback">
-                        Game Context Confirmed :D
-                    </div>
+                    <textarea class="form-control" id="game-context" rows="5"
+                              placeholder="Describe the game setting, world history, main conflict or goals, key events, game tones... (200 words)"
+                              oninput="wordCount(this)" required></textarea>
+                    <span class="word-count primary" style="bottom: 10px; right: 10px;">0 / 200</span>
+<!--                    <div class="invalid-feedback">Please fill in context of the Game.</div>-->
+<!--                    <div class="valid-feedback">Game Context Confirmed :D</div>-->
+<!--                    <div class="d-flex justify-content-end">-->
+<!--                        <span class="word-count primary">0 / 200</span>-->
+<!--                    </div>-->
+
                 </div>
                 <div class="form-group row d-flex justify-content-between">
                     <label for="genre-dropdown" class="col-auto col-form-label" style="margin-bottom: 0rem !important;">Pick a Genre:</label>
@@ -65,26 +68,30 @@
                     <label for="character-container">Describe your Characters:</label>
                     <div id="character-container">
                         <label id="labelcharacter1" for="textcharacter1" style="color: var(--foregroundColor-1);">Player (You)</label>
-                        <textarea class="form-control" id="textcharacter1" rows="3" maxlength="750"
-                                  placeholder="Describe the character's role, personality, relationship with other characters ..." required></textarea>
-                        <div class="invalid-feedback">
-                            Who is the main character?
-                        </div>
-                        <div class="valid-feedback">
-                            Player Confirmed :D
-                        </div>
+                        <textarea class="form-control" id="textcharacter1" rows="3"
+                                  placeholder="Describe the character's role, personality, relationship with other characters ..."
+                                  oninput="wordCount(this)" required></textarea>
+<!--                        <div class="invalid-feedback">-->
+<!--                            Who is the main character?-->
+<!--                        </div>-->
+<!--                        <div class="valid-feedback">-->
+<!--                            Player Confirmed :D-->
+<!--                        </div>-->
                     </div>
+                    <span class="word-count primary">0 / 200</span>
                 </div>
                 <div class="form-group">
                     <label id="labelcharacter2" for="textcharacter2" style="color: var(--foregroundColor-1);">NPC</label>
-                    <textarea class="form-control" id="textcharacter2" rows="3" maxlength="750"
-                              placeholder="Describe the character's role, personality, relationship with other characters ..." required></textarea>
-                    <div class="invalid-feedback">
-                        Give me an NPC.
-                    </div>
-                    <div class="valid-feedback">
-                        NPC Confirmed :D
-                    </div>
+                    <textarea class="form-control" id="textcharacter2" rows="3"
+                              placeholder="Describe the character's role, personality, relationship with other characters ..."
+                              oninput="wordCount(this)" required></textarea>
+<!--                    <div class="invalid-feedback">-->
+<!--                        Give me an NPC.-->
+<!--                    </div>-->
+<!--                    <div class="valid-feedback">-->
+<!--                        NPC Confirmed :D-->
+<!--                    </div>-->
+                    <span class="word-count primary">0 / 200</span>
                 </div>
 
                 <div class="form-group row d-flex justify-content-between">
@@ -109,7 +116,11 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <p style="align-self: flex-end; margin-bottom: 10px; color: var(--foregroundColor);">Word limits: Current: 3200 Max: 4000</p>
+                    <p class="word-report">
+                        <span class="total-count grey">Word limits</span> Current:
+                        <span class="counter total-count success">0</span> Max:
+                        <span class="counter-limit total-count danger">600</span>
+                    </p>
                     <button id="prompt-btn" type="submit" class="submit-btn info">Generate       <i class="fa-solid fa-wand-magic-sparkles icon-btn info"></i></button>
                 </div>
             </form>
@@ -124,6 +135,7 @@
 
 <script src="/js/script.js"></script>
 <script>
+
     (function () {
         'use strict'
         var forms = document.querySelectorAll('.needs-validation')
@@ -231,103 +243,103 @@
             });
     }
 
-    let characterCount = 1;
-    function addCharacter() {
-        //     Dynamically adds another character text box
-        characterCount += 1;
-        let newLabel = document.createElement("label");
-        newLabel.setAttribute("for", "textcharacter"+characterCount);
-        newLabel.setAttribute("id", "labelcharacter"+characterCount);
-        newLabel.textContent = "Character " + characterCount;
-        newLabel.style.marginTop = "1rem";
-        newLabel.style.color = "var(--foregroundColor-1)";
-
-        let newTextarea = document.createElement("textarea");
-        newTextarea.setAttribute("class", "form-control");
-        newTextarea.setAttribute("id", "textcharacter"+characterCount);
-        newTextarea.setAttribute("rows", "3");
-        newTextarea.setAttribute("maxlength", "250");
-        newTextarea.setAttribute("placeholder",
-            "Describe the character's role, personality, relationship with other characters ...");
-
-        let deleteButton = document.createElement("button");
-        deleteButton.setAttribute("type", "button");
-        deleteButton.setAttribute("class", "del-btn");
-        deleteButton.setAttribute("id", "delete-button"+characterCount);
-        deleteButton.onclick = function() {
-            deleteCharacter(deleteButton.id);
-        };
-
-        let icon = document.createElement("i");
-        icon.setAttribute("class", "fa-solid fa-delete-left");
-        let op = document.createElement("span");
-        op.textContent = "Del";
-        deleteButton.appendChild(icon);
-        deleteButton.appendChild(op);
-
-        let container = document.getElementById("character-container");
-        container.appendChild(newLabel);
-        container.appendChild(deleteButton);
-        container.appendChild(newTextarea);
-
-        // Limit the number of characters
-        if (characterCount >= 4) {
-            let button = document.getElementById("add-character");
-            button.disabled = true;
-
-            // let warning = document.createElement("label");
-            // warning.textContent = "You can't have more than " + characterCount + " characters.";
-            // warning.setAttribute("id", "warning");
-            // warning.style.marginTop = "1rem";
-            // warning.style.color = "#E48586";
-            // container.appendChild(warning);
-        }
-    }
-
-    function deleteCharacter(buttonId) {
-        //     Deletes a character text box
-        let id = buttonId.slice(-1);
-        let container = document.getElementById("character-container");
-        container.removeChild(document.getElementById("labelcharacter"+id));
-        container.removeChild(document.getElementById("textcharacter"+id));
-        container.removeChild(document.getElementById("delete-button"+id));
-
-        // container.removeChild(document.getElementById("warning"));
-
-        // if (id === '2') {
-        //     container.removeChild(document.getElementById("warning"));
-        //     // .textContent("You must have at least 1 character.")
-        // }
-
-        characterCount -= 1;
-
-        let button = document.getElementById("add-character");
-        button.disabled = false;
-
-        updateCharacters();
-    }
-
-    function updateCharacters() {
-        //     Update the Character numberings
-        let labels = document.querySelectorAll('[id^="labelcharacter"]');
-        let textareas = document.querySelectorAll('[id^="textcharacter"]');
-        let deleteButtons = document.querySelectorAll('[id^="delete-button"]');
-
-        for (let i = 0; i < labels.length; i++) {
-            labels[i].setAttribute("for", "textcharacter"+(i+1));
-            labels[i].setAttribute("id", "labelcharacter"+(i+1));
-            labels[i].textContent = "Character " + (i+1);
-
-            textareas[i].setAttribute("id", "textcharacter"+(i+1));
-        }
-
-        for (let i = 0; i < deleteButtons.length; i++) {
-            deleteButtons[i].setAttribute("id", "delete-button"+(i+2));
-            deleteButtons[i].onclick = function () {
-                deleteCharacter(deleteButtons[i].id);
-            };
-        }
-    }
+    // let characterCount = 1;
+    // function addCharacter() {
+    //     //     Dynamically adds another character text box
+    //     characterCount += 1;
+    //     let newLabel = document.createElement("label");
+    //     newLabel.setAttribute("for", "textcharacter"+characterCount);
+    //     newLabel.setAttribute("id", "labelcharacter"+characterCount);
+    //     newLabel.textContent = "Character " + characterCount;
+    //     newLabel.style.marginTop = "1rem";
+    //     newLabel.style.color = "var(--foregroundColor-1)";
+    //
+    //     let newTextarea = document.createElement("textarea");
+    //     newTextarea.setAttribute("class", "form-control");
+    //     newTextarea.setAttribute("id", "textcharacter"+characterCount);
+    //     newTextarea.setAttribute("rows", "3");
+    //     newTextarea.setAttribute("maxlength", "250");
+    //     newTextarea.setAttribute("placeholder",
+    //         "Describe the character's role, personality, relationship with other characters ...");
+    //
+    //     let deleteButton = document.createElement("button");
+    //     deleteButton.setAttribute("type", "button");
+    //     deleteButton.setAttribute("class", "del-btn");
+    //     deleteButton.setAttribute("id", "delete-button"+characterCount);
+    //     deleteButton.onclick = function() {
+    //         deleteCharacter(deleteButton.id);
+    //     };
+    //
+    //     let icon = document.createElement("i");
+    //     icon.setAttribute("class", "fa-solid fa-delete-left");
+    //     let op = document.createElement("span");
+    //     op.textContent = "Del";
+    //     deleteButton.appendChild(icon);
+    //     deleteButton.appendChild(op);
+    //
+    //     let container = document.getElementById("character-container");
+    //     container.appendChild(newLabel);
+    //     container.appendChild(deleteButton);
+    //     container.appendChild(newTextarea);
+    //
+    //     // Limit the number of characters
+    //     if (characterCount >= 4) {
+    //         let button = document.getElementById("add-character");
+    //         button.disabled = true;
+    //
+    //         // let warning = document.createElement("label");
+    //         // warning.textContent = "You can't have more than " + characterCount + " characters.";
+    //         // warning.setAttribute("id", "warning");
+    //         // warning.style.marginTop = "1rem";
+    //         // warning.style.color = "#E48586";
+    //         // container.appendChild(warning);
+    //     }
+    // }
+    //
+    // function deleteCharacter(buttonId) {
+    //     //     Deletes a character text box
+    //     let id = buttonId.slice(-1);
+    //     let container = document.getElementById("character-container");
+    //     container.removeChild(document.getElementById("labelcharacter"+id));
+    //     container.removeChild(document.getElementById("textcharacter"+id));
+    //     container.removeChild(document.getElementById("delete-button"+id));
+    //
+    //     // container.removeChild(document.getElementById("warning"));
+    //
+    //     // if (id === '2') {
+    //     //     container.removeChild(document.getElementById("warning"));
+    //     //     // .textContent("You must have at least 1 character.")
+    //     // }
+    //
+    //     characterCount -= 1;
+    //
+    //     let button = document.getElementById("add-character");
+    //     button.disabled = false;
+    //
+    //     updateCharacters();
+    // }
+    //
+    // function updateCharacters() {
+    //     //     Update the Character numberings
+    //     let labels = document.querySelectorAll('[id^="labelcharacter"]');
+    //     let textareas = document.querySelectorAll('[id^="textcharacter"]');
+    //     let deleteButtons = document.querySelectorAll('[id^="delete-button"]');
+    //
+    //     for (let i = 0; i < labels.length; i++) {
+    //         labels[i].setAttribute("for", "textcharacter"+(i+1));
+    //         labels[i].setAttribute("id", "labelcharacter"+(i+1));
+    //         labels[i].textContent = "Character " + (i+1);
+    //
+    //         textareas[i].setAttribute("id", "textcharacter"+(i+1));
+    //     }
+    //
+    //     for (let i = 0; i < deleteButtons.length; i++) {
+    //         deleteButtons[i].setAttribute("id", "delete-button"+(i+2));
+    //         deleteButtons[i].onclick = function () {
+    //             deleteCharacter(deleteButtons[i].id);
+    //         };
+    //     }
+    // }
 
     window.onload = function() {
         getGenres();
