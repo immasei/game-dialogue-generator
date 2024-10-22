@@ -80,7 +80,7 @@ public class OutputMessageService {
     }
 
     // Convert DTO to OutputMessage model
-    private OutputMessage convertToModel(OutputMessageDTO dto) {
+    public OutputMessage convertToModel(OutputMessageDTO dto) {
         OutputMessage outputMessage = new OutputMessage();
         outputMessage.setId(dto.getId());
         outputMessage.setDepth1(dto.getDepth1());
