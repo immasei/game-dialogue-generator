@@ -1,5 +1,6 @@
 package com.example.game_dialogue_generator.controller;
 
+import com.example.game_dialogue_generator.dto.LanguageDTO;
 import com.example.game_dialogue_generator.handler.ResponseHandler;
 import com.example.game_dialogue_generator.model.Language;
 import com.example.game_dialogue_generator.service.LanguageService;
@@ -20,7 +21,7 @@ public class LanguageController {
     @GetMapping("/languages")
     public ResponseEntity<?> getAllLanguages() {
         // Returns all available languages
-        List<Language> languages = languageService.getAllLanguages();
+        List<LanguageDTO> languages = languageService.getAllLanguages();
         return ResponseHandler.handle(HttpStatus.OK, "List of all languages", languages);
     }
 }
