@@ -4,13 +4,26 @@ $("#theme-switch").on("click", function() {
         $("#dark-theme").prop("checked", true);
         $("body").css("background", "#2F2E2E");
         $("footer").attr("class", "dark");
+        // store until close browser
+        sessionStorage.setItem("elec5619-theme", "dark");
     } else {
         $("#dark-theme").prop("checked", false);
         $("#light-theme").prop("checked", true);
         $("body").css("background", "#F7F7F7");
         $("footer").attr("class", "");
+        // store until close browser
+        sessionStorage.setItem("elec5619-theme", "light");
     }
 });
+
+var is_light_theme= sessionStorage.getItem("elec5619-theme");
+if (is_light_theme == null || is_light_theme == "light") is_light_theme = true;
+else is_light_theme = false;
+if (!is_light_theme && !$("#theme-switch").prop('checked')) {
+    $("#theme-switch").click();
+} else if (is_light_theme && $("#theme-switch").prop('checked')) {
+    $("#theme-switch").click();
+}
 
 function logout() {
     axios.post('/logout')
