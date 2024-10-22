@@ -5,6 +5,10 @@
     position: relative;
 }
 
+img {
+    color: var(--foregroundColor);
+}
+
 .content h1 {
     color: var(--foregroundColor) !important;
     font-size: 26px;
@@ -61,14 +65,55 @@ td {
     text-align: center;
     padding: 12px 15px;
     border-radius: 10px;
-    color: black;
-    background-color: var(--c3);
-    border: none;
+    border: 1px solid;
     margin-top: 0;
 }
 
 .submit-btn:hover {
-    background-color: #E0E5B6;
+    border-color: #D4D6D8;
+    background-color: #E2E3E5;
+    color: #42464A;
 }
+
+.custom-badge {
+    position: relative;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 12px;
+    top: -5px;
+    right: -3px;
+}
+
+.success {
+    background-color: #D5E6DE;
+    color: #255035;
+    border-color: #C0DACD;
+}
+.primary {
+    background-color: #D3E1FC;
+    color: #1C4193;
+    border-color: #BCD3FA;
+}
+.danger {
+    background-color: #F3D8DA;
+    color: #79282C;
+    border-color: #EDC4C8;
+}
+.info {
+    color: #22505E;
+    background-color: #D6F3FB;
+    border-color: #C2EDF9;
+}
+
+.icon-btn {
+    font: 13px;
+    background: none;
+}
+
+.icon-btn:hover {
+    background: none;
+}
+
 
 

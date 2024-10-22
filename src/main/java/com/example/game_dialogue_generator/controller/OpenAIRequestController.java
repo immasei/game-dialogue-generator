@@ -74,7 +74,7 @@ public class OpenAIRequestController {
 
         OpenAIRequestDTO updatedOpenAIRequest = openAIRequestService.updateOpenAIRequest(id, openAIRequestDTO);
         if (updatedOpenAIRequest != null) {
-            return ResponseEntity.ok("OpenAIRequest: " + id + " has been updated successfully.");
+            return ResponseEntity.ok("Prompt (OpenAIRequest): " + id + " has been updated successfully.");
         }
         return ResponseEntity.notFound().build();
     }

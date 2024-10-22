@@ -53,10 +53,16 @@ public class OutputMessageController {
 
     // Update OutputMessage by ID
     @PutMapping("/{id}")
-    public ResponseEntity<OutputMessageDTO> updateOutputMessage(@PathVariable Long id, @RequestBody OutputMessageDTO outputMessageDTO) {
+    public ResponseEntity<String> updateOutputMessage(@PathVariable Long id, @RequestBody OutputMessageDTO outputMessageDTO) {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userid = principle.getUserid();
+
+        Optional<OutputMessageDTO> outputMessage = service.findOutputMessageByIdAndUserId(id, userid);
+        if (outputMessage.isEmpty() || userid != outputMessageDTO.getUserId()) ResponseEntity.notFound().build();
+
         OutputMessageDTO updatedOutputMessage = service.updateOutputMessage(id, outputMessageDTO);
         if (updatedOutputMessage != null) {
-            return ResponseEntity.ok(updatedOutputMessage);
+            return ResponseEntity.ok("Dialogue (OutputMessage): " + id + " has been updated successfully.");
         }
         return ResponseEntity.notFound().build();
     }
@@ -65,7 +71,7 @@ public class OutputMessageController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOutputMessage(@PathVariable Long id) {
         service.deleteOutputMessage(id);
-        return ResponseEntity.ok("OutputMessage: " + id + " has been deleted successfully.");
+        return ResponseEntity.ok("Dialogue (OutputMessage): " + id + " has been deleted successfully.");
     }
 
     // api to test output of service

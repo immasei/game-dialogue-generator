@@ -41,7 +41,11 @@
         </div>
     </div>
     <div class="content">
-        <h1 th:text="'Dialogue ' + ${dialogue.id}">...</h1>
+        <h1>
+            <span th:text="'Dialogue ' + ${dialogue.id}"></span>
+            <span id="status" class="custom-badge danger">Read-only</span>
+        </h1>
+
 
 <!--        <svg class="return point" style="cursor: pointer;" width="20" xmlns="http://www.w3.org/2000/svg"-->
 <!--             viewBox="0 0 1024 1024" >-->
@@ -67,6 +71,11 @@
 
         <div class="d-flex justify-content-between mt-4">
             <p>Word limits: Current: 3200 Max: 4000</p>
+        </div>
+
+        <div class="d-flex justify-content-end" style="gap: 7px;">
+            <button id="edit-btn" class="submit-btn danger" onclick="toggleEdit();">Edit       <i class="fa-solid fa-lock icon-btn danger"></i></button>
+            <button id="save-btn" class="submit-btn info" onclick="saveDialogue();">Save       <i class="fa-solid fa-floppy-disk icon-btn info"></i></button>
         </div>
     </div>
 </main>
@@ -110,31 +119,10 @@
             accordionItem.classList.add('accordion-item');
 
             const accordionButton = document.createElement('button');
-            const accordionEdit = document.createElement('img');
-            accordionEdit.src = '/images/pen.png';
-            accordionEdit.addEventListener("click",function(e){
-                e.stopPropagation()
-                for (let i = 0; i < document.getElementsByTagName('input').length; i++) {
-                    document.getElementsByTagName('textarea')[i].setAttribute("readonly",true);
-                }
-                const divToChange = this.parentElement.nextElementSibling;
-                const inputToChange = divToChange.querySelector("div > textarea");
-                if (inputToChange.hasAttribute("readonly")){
-                    inputToChange.removeAttribute("readonly");
-                }
-            })
-            const accordionRefresh = document.createElement('img');
-            accordionRefresh.src = '/images/refresh.png';
-            accordionRefresh.addEventListener("click",function(e){
-
-            })
             accordionButton.classList.add('accordion-button');
             accordionButton.innerText = `Dialogue ${currentDepth}.${i + 1}`;
             if (currentDepth == 1) accordionButton.innerText = `Dialogue ${currentDepth}`;
 
-
-            accordionButton.appendChild(accordionEdit);
-            accordionButton.appendChild(accordionRefresh);
 
             const accordionContent = document.createElement('div');
             accordionContent.classList.add('accordion-content');
@@ -177,7 +165,7 @@
                 }
                 paragraph.value = dialogue[key][0];
                 paragraph.id = `${key}-0`;
-                paragraph.setAttribute("readonly",true);
+                // paragraph.setAttribute("readonly",true);
                 paragraphWrapper.appendChild(paragraph);
                 paragraphWrapper.appendChild(iconWrapper);
 
@@ -251,17 +239,11 @@
 
                     paragraph.value = dialogue[key][j];
                     paragraph.id = `${key}-${j}`;
-                    paragraph.setAttribute("readonly",true);
+
                     paragraphWrapper.appendChild(paragraph);
                     paragraphWrapper.appendChild(iconWrapper);
                     accordionContent.appendChild(paragraphWrapper);
                 }
-
-
-
-
-
-
                 accordionContent.appendChild(nestedAccordion);
             } else {
                 const paragraphWrapper = document.createElement('div');
@@ -286,7 +268,7 @@
                 console.log(key);
                 paragraph.value = dialogue[key][0];
                 paragraph.id = `${key}-0`;
-                paragraph.setAttribute("readonly",true);
+                // paragraph.setAttribute("readonly",true);
                 paragraphWrapper.appendChild(paragraph);
                 paragraphWrapper.appendChild(iconWrapper);
 
@@ -361,7 +343,7 @@
 
                     paragraph.value = dialogue[key][j];
                     paragraph.id = `${key}-${j}`;
-                    paragraph.setAttribute("readonly",true);
+
                     paragraphWrapper.appendChild(paragraph);
                     paragraphWrapper.appendChild(iconWrapper);
                     accordionContent.appendChild(paragraphWrapper);
@@ -384,6 +366,54 @@
 
     const accordionStructure = generateAccordion(depth, branch);
     accordionContainer.appendChild(accordionStructure);
+
+    function toggleEdit() {
+        var status = $('#status').text();
+        if (status === 'Read-only') {
+            $('textarea').prop('disabled', false);
+            $('input').prop('disabled', false);
+            $('#status').text('Edit-mode');
+            $('#status').removeClass('danger').addClass('success');
+
+            $('#edit-btn').removeClass('danger').addClass('success');
+            $('#edit-btn > i').removeClass().addClass('fa-solid fa-unlock success');
+        } else {
+            $('textarea').prop('disabled', true);
+            $('input').prop('disabled', true);
+
+            $('#status').text('Read-only');
+            $('#status').removeClass('success').addClass('danger');
+            $('#edit-btn').removeClass('success').addClass('danger');
+            $('#edit-btn > i').removeClass().addClass('fa-solid fa-lock danger');
+        }
+        $('#theme-switch').prop('disabled', false);
+    }
+
+    $('textarea').prop('disabled', true);
+    $('input').prop('disabled', true);
+    $('#theme-switch').prop('disabled', false);
+
+    function saveDialogue() {
+        for (const [key, value] of Object.entries(dialogue)) {
+            // console.log(`Key: ${key}, Value: ${value}`);
+            if (key === 'id' || key === 'userId') continue;
+
+            for (let k = 0; k < value.length; k++) {
+                dialogue[key][k] = $('#'+key+'-'+k).val();
+                // console.log($('#'+key+'-'+k).val());
+            }
+        }
+        console.log(dialogue);
+        var url = '../api/outputmessages/' + dialogue['id'];
+        axios.put(url, dialogue)
+            .then(function (response) {
+                alert(response.data);
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+
+    }
 
 
 </script>
