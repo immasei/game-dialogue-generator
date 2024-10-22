@@ -1,5 +1,6 @@
 package com.example.game_dialogue_generator.controller;
 
+import com.example.game_dialogue_generator.dto.GenreDTO;
 import com.example.game_dialogue_generator.handler.ResponseHandler;
 import com.example.game_dialogue_generator.model.Genre;
 import com.example.game_dialogue_generator.service.GenreService;
@@ -21,7 +22,7 @@ public class GenreController {
     @GetMapping("/genres")
     public ResponseEntity<?> getAllGenres() {
         // Returns all available genres
-        List<Genre> genres = genreService.getAllGenres();
+        List<GenreDTO> genres = genreService.getAllGenres();
         return ResponseHandler.handle(HttpStatus.OK, "List of all genres", genres);
     }
 }

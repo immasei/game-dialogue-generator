@@ -21,7 +21,7 @@ public class PastebinService {
     @Value("${pastebin.api.key}")
     private String pastebinApiKey;
 
-    public String callPastebinAi(OutputMessage outputMessage) {
+    public String callPastebinApi(OutputMessage outputMessage) {
         // Change outputMessage to a string of JSON format
         String jsonText = null;
         try {
