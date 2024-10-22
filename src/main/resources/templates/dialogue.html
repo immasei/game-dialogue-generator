@@ -118,12 +118,13 @@
             const accordionItem = document.createElement('div');
             accordionItem.classList.add('accordion-item');
 
+            // accordion button : dropdown dialogue
             const accordionButton = document.createElement('button');
             accordionButton.classList.add('accordion-button');
             accordionButton.innerText = `Dialogue ${currentDepth}.${i + 1}`;
             if (currentDepth == 1) accordionButton.innerText = `Dialogue ${currentDepth}`;
 
-
+            // accordion content inside accordion button
             const accordionContent = document.createElement('div');
             accordionContent.classList.add('accordion-content');
             accordionContent.style.display = 'none';
@@ -131,45 +132,57 @@
             const nestedAccordion = generateAccordion(depth, branch, currentDepth + 1);
             var key = `depth${currentDepth}`;
 
-
             if (nestedAccordion) {
-                //inwrap
+                // 1 [npc response] input wrapper (textarea + icon wrapper)
                 const paragraphWrapper = document.createElement('div');
                 paragraphWrapper.classList.add('input-wrapper');
+
+                // 1a textarea
                 const paragraph = document.createElement('textarea');
-                paragraph.setAttribute('oninput', 'auto_grow(this)');
+                paragraph.setAttribute('oninput', 'auto_grow(this)'); // autogrow textarea
+
+                // 1b icon wrapper (speech btn + copy btn)
                 const iconWrapper = document.createElement('div');
                 iconWrapper.classList.add('icon-wrapper');
-                //max
-                const paragraphMax = document.createElement('img');
-                paragraphMax.src = '/images/maximize.png';
-                paragraphMax.addEventListener('click', function() {
-                    const divToChange = this.parentElement.parentElement;
-                    divToChange.style.maxHeight="auto";
-                    alert('Style Adjusted ' + divToChange.style.maxHeight);
-                });
-                const paragraphCopy = document.createElement('img');
-                //copy
-                paragraphCopy.src = '/images/copy.png';
-                paragraphCopy.addEventListener('click', function() {
-                    const inputToCopy = this.parentElement.previousElementSibling;
-                    inputToCopy.select();
-                    document.execCommand('copy');
-                    alert('Copied: ' + inputToCopy.value);
-                });
-                iconWrapper.appendChild(paragraphMax);
-                iconWrapper.appendChild(paragraphCopy);
+
+                // 1b1 speech btn
+                // i have connected this with a func that print out id of corresponding textarea
+                const speechButton = document.createElement('button');
+                speechButton.className = 'transparent-btn';
+
+                const speechIcon = document.createElement('i');
+                speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                speechButton.appendChild(speechIcon);
+
+                // 1b2 copy btn
+                const copyButton = document.createElement('button');
+                copyButton.className = 'transparent-btn';
+
+                const copyIcon = document.createElement('i');
+                copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                copyButton.appendChild(copyIcon);
+
                 if (currentDepth === 2) {
                     key += `_${i+1}`;
                     counter++;
                 }
-                paragraph.value = dialogue[key][0];
+
+                paragraph.value = dialogue[key][0]; // [0] = npc's response
                 paragraph.id = `${key}-0`;
-                // paragraph.setAttribute("readonly",true);
+
+                speechButton.onclick = function () {
+                    textToSpeech(paragraph.id);
+                }
+                copyButton.onclick = function () {
+                    copy(paragraph.id);
+                }
+
+                iconWrapper.appendChild(speechButton);
+                iconWrapper.appendChild(copyButton);
                 paragraphWrapper.appendChild(paragraph);
                 paragraphWrapper.appendChild(iconWrapper);
 
-                // npc name form
+                // 2 [npc name] input group
                 const npc_group = document.createElement('div');
                 npc_group.className = 'input-group mb-3';
 
@@ -183,7 +196,7 @@
                 const npc_input = document.createElement('input');
                 npc_input.id = `${key}-1`;
                 npc_input.className = 'form-control';
-                npc_input.value = dialogue[key][1];
+                npc_input.value = dialogue[key][1]; // [1] = npc's name
 
                 npc_form.appendChild(npc_input);
                 npc_group.appendChild(npc_label);
@@ -192,7 +205,7 @@
                 accordionContent.appendChild(npc_group);
                 accordionContent.appendChild(paragraphWrapper);
 
-                // player name form
+                // 2 [player name] input group
                 const player_group = document.createElement('div');
                 player_group.className = 'input-group mb-3 w-100';
 
@@ -208,71 +221,99 @@
 
                 accordionContent.appendChild(player_group);
 
-
-                for (let j = 2; j < dialogue[key].length; j++) {
-                    //inwrap
+                // 3 [player response] (up to 3)
+                for (let j = 2; j < dialogue[key].length; j++) { // [>2] =  player's response
+                    // 3a [player response] input wrapper (textarea + icon wrapper)
                     const paragraphWrapper = document.createElement('div');
                     paragraphWrapper.classList.add('input-wrapper');
+
+                    // 3a1 textarea
                     const paragraph = document.createElement('textarea');
-                    paragraph.setAttribute('oninput', 'auto_grow(this)');
+                    paragraph.setAttribute('oninput', 'auto_grow(this)'); // autogrow textarea
+
+                    // 3a2 icon wrapper (speech btn + copy btn)
                     const iconWrapper = document.createElement('div');
                     iconWrapper.classList.add('icon-wrapper');
-                    //max
-                    const paragraphMax = document.createElement('img');
-                    paragraphMax.src = '/images/maximize.png';
-                    paragraphMax.addEventListener('click', function() {
-                        const divToChange = this.parentElement.parentElement;
-                        divToChange.style.maxHeight="auto";
-                        alert('Style Adjusted ' + divToChange.style.maxHeight);
-                    });
-                    const paragraphCopy = document.createElement('img');
-                    //copy
-                    paragraphCopy.src = '/images/copy.png';
-                    paragraphCopy.addEventListener('click', function() {
-                        const inputToCopy = this.parentElement.previousElementSibling;
-                        inputToCopy.select();
-                        document.execCommand('copy');
-                        alert('Copied: ' + inputToCopy.value);
-                    });
-                    iconWrapper.appendChild(paragraphMax);
-                    iconWrapper.appendChild(paragraphCopy);
+
+                    // 3a2a speech btn
+                    // i have connected this with a func that print out id of corresponding textarea
+                    const speechButton = document.createElement('button');
+                    speechButton.className = 'transparent-btn';
+                    const speechIcon = document.createElement('i');
+                    speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                    speechButton.appendChild(speechIcon);
+
+                    // 3a2b copy btn
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'transparent-btn';
+
+                    const copyIcon = document.createElement('i');
+                    copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                    copyButton.appendChild(copyIcon);
 
                     paragraph.value = dialogue[key][j];
                     paragraph.id = `${key}-${j}`;
 
+                    speechButton.onclick = function() {
+                        textToSpeech(paragraph.id);
+                    }
+                    copyButton.onclick = function () {
+                        copy(paragraph.id);
+                    }
+                    iconWrapper.appendChild(speechButton);
+                    iconWrapper.appendChild(copyButton);
                     paragraphWrapper.appendChild(paragraph);
                     paragraphWrapper.appendChild(iconWrapper);
                     accordionContent.appendChild(paragraphWrapper);
                 }
                 accordionContent.appendChild(nestedAccordion);
             } else {
+                // 1 [npc response] input wrapper (textarea + icon wrapper)
                 const paragraphWrapper = document.createElement('div');
                 paragraphWrapper.classList.add('input-wrapper');
+
+                // 1a textarea
                 const paragraph = document.createElement('textarea');
                 paragraph.setAttribute('oninput', 'auto_grow(this)');
+
+                // 1b icon wrapper (speech btn + copy btn)
                 const iconWrapper = document.createElement('div');
                 iconWrapper.classList.add('icon-wrapper');
-                const paragraphMax = document.createElement('img');
-                paragraphMax.src = '/images/maximize.png';
-                const paragraphCopy = document.createElement('img');
-                paragraphCopy.src = '/images/copy.png';
-                paragraphCopy.addEventListener('click', function() {
-                    const inputToCopy = this.parentElement.previousElementSibling;
-                    inputToCopy.select();
-                    document.execCommand('copy');
-                    alert('Copied: ' + inputToCopy.value);
-                });
-                iconWrapper.appendChild(paragraphMax);
-                iconWrapper.appendChild(paragraphCopy);
+
+                // 1b1 speech btn
+                // i have connected this with a func that print out id of corresponding textarea
+                const speechButton = document.createElement('button');
+                speechButton.className = 'transparent-btn';
+                const speechIcon = document.createElement('i');
+                speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                speechButton.appendChild(speechIcon);
+
+                // 1b2 copy btn
+                const copyButton = document.createElement('button');
+                copyButton.className = 'transparent-btn';
+
+                const copyIcon = document.createElement('i');
+                copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                copyButton.appendChild(copyIcon);
+
                 key += `_${counter}_${i+1}`;
                 console.log(key);
-                paragraph.value = dialogue[key][0];
+                paragraph.value = dialogue[key][0]; // [0] = npc's response
                 paragraph.id = `${key}-0`;
-                // paragraph.setAttribute("readonly",true);
+
+                speechButton.onclick = function(){
+                    textToSpeech(paragraph.id);
+                };
+                copyButton.onclick = function () {
+                    copy(paragraph.id);
+                }
+
+                iconWrapper.appendChild(speechButton);
+                iconWrapper.appendChild(copyButton);
                 paragraphWrapper.appendChild(paragraph);
                 paragraphWrapper.appendChild(iconWrapper);
 
-                // npc name form
+                // 2 [npc name] input group
                 const npc_group = document.createElement('div');
                 npc_group.className = 'input-group mb-3';
 
@@ -286,7 +327,7 @@
                 const npc_input = document.createElement('input');
                 npc_input.id = `${key}-1`;
                 npc_input.className = 'form-control';
-                npc_input.value = dialogue[key][1];
+                npc_input.value = dialogue[key][1]; // [1] = npc's name
 
                 npc_form.appendChild(npc_input);
                 npc_group.appendChild(npc_label);
@@ -295,7 +336,7 @@
                 accordionContent.appendChild(npc_group);
                 accordionContent.appendChild(paragraphWrapper);
 
-                // player name form
+                // 2 [player name] input group
                 const player_group = document.createElement('div');
                 player_group.className = 'input-group mb-3 w-100';
 
@@ -312,38 +353,48 @@
 
                 accordionContent.appendChild(player_group);
 
-
-                for (let j = 2; j < dialogue[key].length; j++) {
-                    //inwrap
+                // 3 [player response] (up to 3)
+                for (let j = 2; j < dialogue[key].length; j++) { // [>2] =  player's response
+                    // 3a [player response] input wrapper (textarea + icon wrapper)
                     const paragraphWrapper = document.createElement('div');
                     paragraphWrapper.classList.add('input-wrapper');
+
+                    // 3a1 textarea
                     const paragraph = document.createElement('textarea');
                     paragraph.setAttribute('oninput', 'auto_grow(this)');
+
+                    // 3a2 icon wrapper (speech btn + copy btn)
                     const iconWrapper = document.createElement('div');
                     iconWrapper.classList.add('icon-wrapper');
-                    //max
-                    const paragraphMax = document.createElement('img');
-                    paragraphMax.src = '/images/maximize.png';
-                    paragraphMax.addEventListener('click', function() {
-                        const divToChange = this.parentElement.parentElement;
-                        divToChange.style.maxHeight="auto";
-                        alert('Style Adjusted ' + divToChange.style.maxHeight);
-                    });
-                    const paragraphCopy = document.createElement('img');
-                    //copy
-                    paragraphCopy.src = '/images/copy.png';
-                    paragraphCopy.addEventListener('click', function() {
-                        const inputToCopy = this.parentElement.previousElementSibling;
-                        inputToCopy.select();
-                        document.execCommand('copy');
-                        alert('Copied: ' + inputToCopy.value);
-                    });
-                    iconWrapper.appendChild(paragraphMax);
-                    iconWrapper.appendChild(paragraphCopy);
+
+                    // 3a2a speech btn
+                    // i have connected this with a func that print out id of corresponding textarea
+                    const speechButton = document.createElement('button');
+                    speechButton.className = 'transparent-btn';
+                    const speechIcon = document.createElement('i');
+                    speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                    speechButton.appendChild(speechIcon);
+
+                    // 3a2b copy btn
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'transparent-btn';
+
+                    const copyIcon = document.createElement('i');
+                    copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                    copyButton.appendChild(copyIcon);
 
                     paragraph.value = dialogue[key][j];
                     paragraph.id = `${key}-${j}`;
 
+                    speechButton.onclick = function(){
+                        textToSpeech(paragraph.id);
+                    };
+                    copyButton.onclick = function () {
+                        copy(paragraph.id);
+                    }
+
+                    iconWrapper.appendChild(speechButton);
+                    iconWrapper.appendChild(copyButton);
                     paragraphWrapper.appendChild(paragraph);
                     paragraphWrapper.appendChild(iconWrapper);
                     accordionContent.appendChild(paragraphWrapper);
@@ -389,9 +440,26 @@
         $('#theme-switch').prop('disabled', false);
     }
 
+    // at start
     $('textarea').prop('disabled', true);
     $('input').prop('disabled', true);
     $('#theme-switch').prop('disabled', false);
+
+    function textToSpeech(textareaId) {
+        alert('integrate voiceapi for this text area (id): '+ textareaId);
+    }
+
+    function copy(textareaId) {
+        var textarea = document.getElementById(textareaId);
+
+        textarea.select();
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(textarea.value);
+
+        // Alert the copied text
+        alert("Copied the text: " + textarea.value);
+    }
 
     function saveDialogue() {
         for (const [key, value] of Object.entries(dialogue)) {

@@ -2,17 +2,17 @@ button:focus{
     outline:none;
 }
 
-.icon{
-    min-height: 20vh;
-}
+/*.icon{*/
+/*    min-height: 20vh;*/
+/*}*/
 
 .inner-title{
     align-items:center;
 }
 
-.logo{
-    width:150px;
-}
+/*.logo{*/
+/*    width:150px;*/
+/*}*/
 
 .dialogue-list {
     /*max-height: 85vh;*/
@@ -103,7 +103,9 @@ button:focus{
 
 .dialogue-list .icon-wrapper{
     display: flex;
-    gap: 5px;
+    background: none;
+    border: none;
+    gap: 7px;
 }
 
 .dialogue-list .accordion-content {
@@ -163,4 +165,8 @@ button:focus{
 
 .accordion-button:not(.collapsed){
     box-shadow: none;
+}
+.transparent-btn {
+    border: none;
+    background: none;
 }

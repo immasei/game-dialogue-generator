@@ -5,10 +5,6 @@
     position: relative;
 }
 
-img {
-    color: var(--foregroundColor);
-}
-
 .content h1 {
     color: var(--foregroundColor) !important;
     font-size: 26px;
@@ -113,6 +109,17 @@ td {
 
 .icon-btn:hover {
     background: none;
+}
+
+.icon-btn-2 {
+    font: 13px;
+    color: var(--foregroundColor);
+    border: none;
+    background: none;
+}
+
+.icon-btn-2:hover {
+    color: #316CF4;
 }
 
 
