@@ -190,7 +190,9 @@ controller request forward https://stackoverflow.com/questions/31796952/forward-
 
 thymeleaf selected option from model https://stackoverflow.com/questions/50777036/how-to-select-an-option-in-a-dropdown-based-on-a-value-on-the-model-using-thymel
 
-thymeleaf href https://stackoverflow.com/questions/33753975/thymeleaf-using-path-variables-to-thhref
+thymeleaf href https://stackoverflow.com/questions/33753975/thymeleaf-using-path-variables-to-thhref https://stackoverflow.com/questions/56060155/thymeleaf-button-call-url-with-parameters-in-new-tab/56061657
+
+fe https://www.w3schools.com/
 
 #### Backend
 jpa qry https://www.bezkoder.com/jpa-filter-by-multiple-columns/ https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.named-queries.annotation-based-configuration

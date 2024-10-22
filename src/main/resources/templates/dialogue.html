@@ -47,6 +47,7 @@
         </h1>
 
 
+
 <!--        <svg class="return point" style="cursor: pointer;" width="20" xmlns="http://www.w3.org/2000/svg"-->
 <!--             viewBox="0 0 1024 1024" >-->
 <!--            <path fill="currentColor"-->
@@ -69,13 +70,15 @@
 
         <div id="accordion-container" class="dialogue-list"></div>
 
-        <div class="d-flex justify-content-between mt-4">
-            <p>Word limits: Current: 3200 Max: 4000</p>
-        </div>
-
-        <div class="d-flex justify-content-end" style="gap: 7px;">
-            <button id="edit-btn" class="submit-btn danger" onclick="toggleEdit();">Edit       <i class="fa-solid fa-lock icon-btn danger"></i></button>
-            <button id="save-btn" class="submit-btn info" onclick="saveDialogue();">Save       <i class="fa-solid fa-floppy-disk icon-btn info"></i></button>
+        <div class="d-flex justify-content-between padder" style="margin-top: 1rem;">
+            <p style="align-self: flex-end; margin-bottom: 10px; color: var(--foregroundColor);">Word limits: Current: 3200 Max: 4000</p>
+            <div style="gap: 7px;">
+                <a class="submit-btn orange" th:href="@{/prompt/{id}(id=${dialogue.id})}">
+                    Goto <i class="fa-solid fa-terminal icon-btn orange"></i>
+                </a>
+                <button id="edit-btn" class="submit-btn danger" onclick="toggleEdit();">Edit       <i class="fa-solid fa-lock icon-btn danger"></i></button>
+                <button id="save-btn" class="submit-btn info" onclick="saveDialogue();">Save       <i class="fa-solid fa-floppy-disk icon-btn info"></i></button>
+            </div>
         </div>
     </div>
 </main>
@@ -124,10 +127,12 @@
             accordionButton.innerText = `Dialogue ${currentDepth}.${i + 1}`;
             if (currentDepth == 1) accordionButton.innerText = `Dialogue ${currentDepth}`;
 
+
             // accordion content inside accordion button
             const accordionContent = document.createElement('div');
             accordionContent.classList.add('accordion-content');
             accordionContent.style.display = 'none';
+            if (currentDepth == 1) accordionContent.style.display = 'flex';
 
             const nestedAccordion = generateAccordion(depth, branch, currentDepth + 1);
             var key = `depth${currentDepth}`;
