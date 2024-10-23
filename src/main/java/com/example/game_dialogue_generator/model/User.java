@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column(nullable = false, length = 64)
-//    @JsonIgnore
+    @JsonIgnore
     private String password;
 
     @Override

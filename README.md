@@ -198,9 +198,9 @@ bootstrap 5 https://getbootstrap.com/docs/5.0/getting-started/introduction/
 
 sidebar footer https://stackoverflow.com/questions/76061838/make-footer-not-a-direct-child-of-body-stick-to-bottom-in-flexbox-based-layout
 
-font awesome https://stackoverflow.com/questions/71146319/how-to-use-font-awesome-icons-in-html https://fontawesome.com/search?q=save&o=r&m=free&s=solid&f=classic%2Csharp
+font awesome icon https://stackoverflow.com/questions/71146319/how-to-use-font-awesome-icons-in-html https://fontawesome.com/search?q=save&o=r&m=free&s=solid&f=classic%2Csharp
 
-icon api https://www.dicebear.com/
+loader icon api https://www.dicebear.com/
 
 fetch https://www.w3schools.com/jsref/api_fetch.asp?gidzl=EFrj2Nz0n0auvsaDUrR02p_hR0jW1y4B8xXeN6i3nGuglZq4EWV3L7ZjEWOnNSS1UELeLsHnYPmpUaF83W https://stackoverflow.com/questions/25515936/perform-curl-request-in-javascript
 
@@ -208,7 +208,33 @@ random seed https://stackoverflow.com/questions/20728783/shortest-code-to-get-ra
 
 loader effect https://css3loaders.huckbit.com/loader/3
 
+form validator bootstrap+geeks https://www.geeksforgeeks.org/bootstrap-5-validation-tooltips/
+
+pass var from spring be to js fe https://stackoverflow.com/questions/25687816/setting-up-a-javascript-variable-from-spring-model-by-using-thymeleaf
+
+textarea auto grow https://stackoverflow.com/questions/17772260/textarea-auto-height
+
+thymeleaf access var via html https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
+
+controller request forward https://stackoverflow.com/questions/31796952/forward-request-to-another-controller-in-spring-mvc
+
+thymeleaf selected option from model https://stackoverflow.com/questions/50777036/how-to-select-an-option-in-a-dropdown-based-on-a-value-on-the-model-using-thymel
+
+thymeleaf href https://stackoverflow.com/questions/33753975/thymeleaf-using-path-variables-to-thhref https://stackoverflow.com/questions/56060155/thymeleaf-button-call-url-with-parameters-in-new-tab/56061657
+
+fe html jquery js https://www.w3schools.com/
+
+save as json/txt https://stackoverflow.com/questions/34156282/how-do-i-save-json-to-local-text-file
+
+save as pdf https://github.com/eKoopmans/html2pdf.js https://stackoverflow.com/questions/61669405/forcing-a-function-to-wait-until-another-function-is-complete
+
+word count/lim per textarea https://stackoverflow.com/questions/25148479/how-can-i-limit-words-not-characters-in-textarea-html https://stackoverflow.com/questions/2823733/textarea-onchange-detection https://frontendinterviewquestions.medium.com/how-to-get-count-words-in-string-using-javascript-93baf76beb9b
+
+bootstrap icon https://icons.getbootstrap.com/
+
 #### Backend
+jpa qry https://www.bezkoder.com/jpa-filter-by-multiple-columns/ https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.named-queries.annotation-based-configuration
+
 mysql & java spring boot
 https://spring.io/guides/gs/accessing-data-mysql
 

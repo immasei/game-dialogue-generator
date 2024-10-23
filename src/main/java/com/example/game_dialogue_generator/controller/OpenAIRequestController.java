@@ -2,14 +2,17 @@ package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.dto.OpenAIRequestDTO;
 import com.example.game_dialogue_generator.dto.OutputMessageDTO;
+import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.service.OpenAIRequestService;
 import com.example.game_dialogue_generator.service.OutputMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Controller for managing OpenAI requests.
@@ -41,13 +44,13 @@ public class OpenAIRequestController {
 
     // Create new request and return the generated OutputMessage
     @PostMapping
-    public ResponseEntity<OutputMessageDTO> createOpenAIRequest(@RequestBody OpenAIRequestDTO openAIRequestDTO) {
+    public ResponseEntity<Long> createOpenAIRequest(@RequestBody OpenAIRequestDTO openAIRequestDTO) {
         if (openAIRequestDTO.getDepth() < 1 || openAIRequestDTO.getDepth() > 3 ||
                 openAIRequestDTO.getWidth() < 1 || openAIRequestDTO.getWidth() > 3) {
             return ResponseEntity.badRequest().body(null);
         }
-        OutputMessageDTO createdOutputMessage = openAIRequestService.createOpenAIRequest(openAIRequestDTO);
-        return ResponseEntity.ok(createdOutputMessage);
+        Long OutputMessageId = openAIRequestService.createOpenAIRequest(openAIRequestDTO);
+        return ResponseEntity.ok(OutputMessageId);
     }
 
     // Get request by ID
@@ -61,6 +64,21 @@ public class OpenAIRequestController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateRequest(@PathVariable Long id, @RequestBody OpenAIRequestDTO openAIRequestDTO) {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userid = principle.getUserid();
+
+        Optional<OpenAIRequestDTO> outputMessage = openAIRequestService.findOpenAIRequestByIdAndUserId(id, userid);
+        if (outputMessage.isEmpty() || userid != openAIRequestDTO.getUserId()) ResponseEntity.notFound().build();
+
+        OpenAIRequestDTO updatedOpenAIRequest = openAIRequestService.updateOpenAIRequest(id, openAIRequestDTO);
+        if (updatedOpenAIRequest != null) {
+            return ResponseEntity.ok("Prompt (OpenAIRequest): " + id + " has been updated successfully.");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     // Delete by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRequestById(@PathVariable Long id) {
@@ -70,7 +88,7 @@ public class OpenAIRequestController {
 
     // Test OpenAI API call with a mock request
     @GetMapping("/test")
-    public ResponseEntity<OutputMessageDTO> testOpenAI() {
+    public ResponseEntity<Long> testOpenAI() {
         OpenAIRequestDTO mockRequestDTO = new OpenAIRequestDTO();
         mockRequestDTO.setGenre("scifi, fantasy");
         mockRequestDTO.setSetting("Planet of Penacony - the land of dreams (from the Honkai: Star Rail universe)");
@@ -88,7 +106,7 @@ public class OpenAIRequestController {
         mockRequestDTO.setUserId(1);  // Assuming a test user ID
 
         // Call OpenAI API and retrieve the output message
-        OutputMessageDTO response = openAIRequestService.createOpenAIRequest(mockRequestDTO);
+        Long response = openAIRequestService.createOpenAIRequest(mockRequestDTO);
 
         return ResponseEntity.ok(response);
     }

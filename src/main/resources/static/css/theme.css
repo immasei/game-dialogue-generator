@@ -28,6 +28,7 @@ main {
 #light-theme:checked ~ main {
     --border-color: #d1d3d4;
     --backgroundColor: #fff;
+    --canvasColor: #F7F7F7;
     --backgroundColor-1: rgba(255, 255, 255, 0.65);
     --foregroundColor: #111;
     --foregroundColor-1: #5C88C4;
@@ -36,11 +37,14 @@ main {
     --c2: #FBC687;
     --c2-1: #efdc9e;
     --c3: #A8DADC;
+    --c4: #1A8754;
+    --c5: #DC3545;
+    --c6: #FFD09B;
 }
 
 /* dark */
 #dark-theme:checked ~ main {
-    --border-color: #666a6d;
+    --border-color: #0e0e0e;
     --canvasColor: #2F2E2E;
     --backgroundColor: #141414;
     --backgroundColor-1: rgba(47, 46, 46, 0.65);
@@ -51,4 +55,7 @@ main {
     --c2: #DAF7A6;
     --c2-1: #f8ffbb;
     --c3: #A8DADC;
+    --c4: #78DFC0;
+    --c5: #E9868F;
+    --c6: #E0E5B6;
 }

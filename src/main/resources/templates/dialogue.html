@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{ base :: common_header(~{::title},~{::link}) }"></head>
+<link href="/css/sidebar.css" rel="stylesheet">
+<link href="/css/content.css" rel="stylesheet">
+<link href="/css/archive.css" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/output.css}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<body>
+<input class="theme" id="light-theme" type="radio" checked="checked" style="display: none" />
+<input class="theme" id="dark-theme" type="radio" style="display: none" />
+<style>
+
+</style>
+<main>
+    <div class="sidebar">
+        <h3>Menu</h3>
+
+        <nav class="menu">
+            <div class="menu-item" onclick="generator()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Generator</span>
+            </div>
+
+            <div class="menu-item" onclick="archive()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Saved Dialogues</span>
+            </div>
+
+            <div class="menu-item" onclick="logout()">
+                <i class="fa-solid fa-user"></i>
+                <span>Logout</span>
+            </div>
+        </nav>
+
+        <div class="form-check form-switch d-flex align-items-center">
+            <label for="theme-switch" class="form-check-label me-5">Theme Switch</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="theme-switch">
+        </div>
+    </div>
+    <div class="content">
+        <h1>
+            <span th:text="'Dialogue ' + ${dialogue.id}"></span>
+            <span id="status" class="custom-badge danger">Read-only</span>
+        </h1>
+
+        <div id="accordion-container" class="dialogue-list"></div>
+
+        <div class="d-flex justify-content-between padder" style="margin-top: 1rem;">
+            <p class="word-report">
+                <span class="total-count grey">Word limits</span> Current:
+                <span id='word-count' class="total-count success">0</span> Max:
+                <span class="total-count purple">N/A</span>
+            </p>
+            <div class="d-flex" style="gap: 7px;">
+                <div class="export-wrapper">
+                    <button id="export-btn" class="submit-btn lime" style="padding-right: 17.5px;">Export           </button>
+                    <div class="titdiv btn-group-vertical">
+                        <div class="btn-group">
+                            <button class="btn purple" onclick="exportAsPDF();"><i class="bi bi-filetype-pdf icon-btn purple"></i></button>
+                            <button class="btn purple" onclick="exportAsJSON();"><i class="bi bi-filetype-json icon-btn purple"></i></button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn purple" onclick="exportAsTXT();"><i class="bi bi-filetype-txt icon-btn purple"></i></button>
+                            <button class="btn purple" onclick="exportAsPasteBin();"><i class="bi bi-cloud-arrow-up icon-btn purple"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="submit-btn orange" th:href="@{/prompt/{id}(id=${dialogue.id})}">
+                    Goto <i class="fa-solid fa-terminal icon-btn orange"></i>
+                </a>
+                <button id="edit-btn" class="submit-btn danger" onclick="toggleEdit();">Edit       <i class="fa-solid fa-lock icon-btn danger"></i></button>
+                <button id="save-btn" class="submit-btn info" onclick="saveDialogue();">Save       <i class="fa-solid fa-floppy-disk info"></i></button>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/js/script.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var dialogue = /*[[${dialogue}]]*/ 'default';
+    console.log(dialogue);
+
+    /*]]>*/
+</script>
+
+<script>
+    function countTotal() {
+        var tot = 0;
+
+        const content = document.querySelectorAll('textarea');
+        content.forEach(function(x) {
+            var str;
+            const raw = $(x).val();
+            if (countStr(raw)===0) str=[]
+            else str = raw.trim().split(/\s+/);
+            tot+=str.length;
+        });
+
+        $('#word-count').text(tot);
+    }
+
+    function auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight) + "px";
+    }
+    const depth = 3;
+    const branch = 3;
+    var counter = 1;
+
+    const accordionContainer = document.getElementById('accordion-container');
+
+    function generateAccordion(depth, branch, currentDepth = 1) {
+
+        if (currentDepth > depth) return null;
+
+        const accordion = document.createElement('div');
+        accordion.classList.add('accordion');
+
+        for (let i = 0; i < branch; i++) {
+
+            if (currentDepth === 1 && i+1 >1) continue;
+            const accordionItem = document.createElement('div');
+            accordionItem.classList.add('accordion-item');
+
+            // accordion button : dropdown dialogue
+            const accordionButton = document.createElement('button');
+            accordionButton.classList.add('accordion-button');
+            accordionButton.innerText = `Dialogue ${currentDepth}.${i + 1}`;
+            if (currentDepth == 1) accordionButton.innerText = `Dialogue ${currentDepth}`;
+
+
+            // accordion content inside accordion button
+            const accordionContent = document.createElement('div');
+            accordionContent.classList.add('accordion-content');
+            accordionContent.style.display = 'none';
+            if (currentDepth == 1) accordionContent.style.display = 'flex';
+
+            const nestedAccordion = generateAccordion(depth, branch, currentDepth + 1);
+            var key = `depth${currentDepth}`;
+
+            if (nestedAccordion) {
+                // 1 [npc response] input wrapper (textarea + icon wrapper)
+                const paragraphWrapper = document.createElement('div');
+                paragraphWrapper.classList.add('input-wrapper');
+
+                // 1a textarea
+                const paragraph = document.createElement('textarea');
+                paragraph.setAttribute('oninput', 'auto_grow(this)'); // autogrow textarea
+                paragraph.oninput = function() { countTotal(); }
+
+                // 1b icon wrapper (speech btn + copy btn)
+                const iconWrapper = document.createElement('div');
+                iconWrapper.classList.add('icon-wrapper');
+
+                // 1b1 speech btn
+                // i have connected this with a func that print out id of corresponding textarea
+                const speechButton = document.createElement('button');
+                speechButton.className = 'transparent-btn';
+
+                const speechIcon = document.createElement('i');
+                speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                speechButton.appendChild(speechIcon);
+
+                // 1b2 copy btn
+                const copyButton = document.createElement('button');
+                copyButton.className = 'transparent-btn';
+
+                const copyIcon = document.createElement('i');
+                copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                copyButton.appendChild(copyIcon);
+
+                if (currentDepth === 2) {
+                    key += `_${i+1}`;
+                    counter++;
+                }
+
+                paragraph.value = dialogue[key][0]; // [0] = npc's response
+                paragraph.id = `${key}-0`;
+
+                speechButton.onclick = function () {
+                    textToSpeech(paragraph.id);
+                }
+                copyButton.onclick = function () {
+                    copy(paragraph.id);
+                }
+
+                iconWrapper.appendChild(speechButton);
+                iconWrapper.appendChild(copyButton);
+                paragraphWrapper.appendChild(paragraph);
+                paragraphWrapper.appendChild(iconWrapper);
+
+                // 2 [npc name] input group
+                const npc_group = document.createElement('div');
+                npc_group.className = 'input-group mb-3';
+
+                const npc_label = document.createElement('span');
+                npc_label.className = 'input-group-text';
+                npc_label.textContent = '@NPC';
+
+                const npc_form = document.createElement('div');
+                npc_form.className = 'form-floating';
+
+                const npc_input = document.createElement('input');
+                npc_input.id = `${key}-1`;
+                npc_input.className = 'form-control';
+                npc_input.value = dialogue[key][1]; // [1] = npc's name
+
+                npc_form.appendChild(npc_input);
+                npc_group.appendChild(npc_label);
+                npc_group.appendChild(npc_form);
+
+                accordionContent.appendChild(npc_group);
+                accordionContent.appendChild(paragraphWrapper);
+
+                // 2 [player name] input group
+                const player_group = document.createElement('div');
+                player_group.className = 'input-group mb-3 w-100';
+
+                const player_label = document.createElement('span');
+                player_label.className = 'input-group-text';
+                player_label.textContent = '@Player';
+
+                const player_form = document.createElement('div');
+                player_form.className = 'form-floating';
+
+                player_group.appendChild(player_label);
+                player_group.appendChild(player_form);
+
+                accordionContent.appendChild(player_group);
+
+                // 3 [player response] (up to 3)
+                for (let j = 2; j < dialogue[key].length; j++) { // [>2] =  player's response
+                    // 3a [player response] input wrapper (textarea + icon wrapper)
+                    const paragraphWrapper = document.createElement('div');
+                    paragraphWrapper.classList.add('input-wrapper');
+
+                    // 3a1 textarea
+                    const paragraph = document.createElement('textarea');
+                    paragraph.setAttribute('oninput', 'auto_grow(this)'); // autogrow textarea
+                    paragraph.oninput = function() { countTotal(); }
+
+                    // 3a2 icon wrapper (speech btn + copy btn)
+                    const iconWrapper = document.createElement('div');
+                    iconWrapper.classList.add('icon-wrapper');
+
+                    // 3a2a speech btn
+                    // i have connected this with a func that print out id of corresponding textarea
+                    const speechButton = document.createElement('button');
+                    speechButton.className = 'transparent-btn';
+                    const speechIcon = document.createElement('i');
+                    speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                    speechButton.appendChild(speechIcon);
+
+                    // 3a2b copy btn
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'transparent-btn';
+
+                    const copyIcon = document.createElement('i');
+                    copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                    copyButton.appendChild(copyIcon);
+
+                    paragraph.value = dialogue[key][j];
+                    paragraph.id = `${key}-${j}`;
+
+                    speechButton.onclick = function() {
+                        textToSpeech(paragraph.id);
+                    }
+                    copyButton.onclick = function () {
+                        copy(paragraph.id);
+                    }
+                    iconWrapper.appendChild(speechButton);
+                    iconWrapper.appendChild(copyButton);
+                    paragraphWrapper.appendChild(paragraph);
+                    paragraphWrapper.appendChild(iconWrapper);
+                    accordionContent.appendChild(paragraphWrapper);
+                }
+                accordionContent.appendChild(nestedAccordion);
+            } else {
+                // 1 [npc response] input wrapper (textarea + icon wrapper)
+                const paragraphWrapper = document.createElement('div');
+                paragraphWrapper.classList.add('input-wrapper');
+
+                // 1a textarea
+                const paragraph = document.createElement('textarea');
+                paragraph.setAttribute('oninput', 'auto_grow(this)');
+                paragraph.oninput = function() { countTotal(); }
+
+                // 1b icon wrapper (speech btn + copy btn)
+                const iconWrapper = document.createElement('div');
+                iconWrapper.classList.add('icon-wrapper');
+
+                // 1b1 speech btn
+                // i have connected this with a func that print out id of corresponding textarea
+                const speechButton = document.createElement('button');
+                speechButton.className = 'transparent-btn';
+                const speechIcon = document.createElement('i');
+                speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                speechButton.appendChild(speechIcon);
+
+                // 1b2 copy btn
+                const copyButton = document.createElement('button');
+                copyButton.className = 'transparent-btn';
+
+                const copyIcon = document.createElement('i');
+                copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                copyButton.appendChild(copyIcon);
+
+                key += `_${counter}_${i+1}`;
+                console.log(key);
+                paragraph.value = dialogue[key][0]; // [0] = npc's response
+                paragraph.id = `${key}-0`;
+
+                speechButton.onclick = function(){
+                    textToSpeech(paragraph.id);
+                };
+                copyButton.onclick = function () {
+                    copy(paragraph.id);
+                }
+
+                iconWrapper.appendChild(speechButton);
+                iconWrapper.appendChild(copyButton);
+                paragraphWrapper.appendChild(paragraph);
+                paragraphWrapper.appendChild(iconWrapper);
+
+                // 2 [npc name] input group
+                const npc_group = document.createElement('div');
+                npc_group.className = 'input-group mb-3';
+
+                const npc_label = document.createElement('span');
+                npc_label.className = 'input-group-text';
+                npc_label.textContent = '@NPC';
+
+                const npc_form = document.createElement('div');
+                npc_form.className = 'form-floating';
+
+                const npc_input = document.createElement('input');
+                npc_input.id = `${key}-1`;
+                npc_input.className = 'form-control';
+                npc_input.value = dialogue[key][1]; // [1] = npc's name
+
+                npc_form.appendChild(npc_input);
+                npc_group.appendChild(npc_label);
+                npc_group.appendChild(npc_form);
+
+                accordionContent.appendChild(npc_group);
+                accordionContent.appendChild(paragraphWrapper);
+
+                // 2 [player name] input group
+                const player_group = document.createElement('div');
+                player_group.className = 'input-group mb-3 w-100';
+
+                const player_label = document.createElement('span');
+                player_label.className = 'input-group-text';
+                player_label.textContent = '@Player';
+
+                const player_form = document.createElement('div');
+                player_form.className = 'form-floating';
+
+                player_group.appendChild(player_label);
+                player_group.appendChild(player_form);
+
+
+                accordionContent.appendChild(player_group);
+
+                // 3 [player response] (up to 3)
+                for (let j = 2; j < dialogue[key].length; j++) { // [>2] =  player's response
+                    // 3a [player response] input wrapper (textarea + icon wrapper)
+                    const paragraphWrapper = document.createElement('div');
+                    paragraphWrapper.classList.add('input-wrapper');
+
+                    // 3a1 textarea
+                    const paragraph = document.createElement('textarea');
+                    paragraph.setAttribute('oninput', 'auto_grow(this)');
+                    paragraph.oninput = function() { countTotal(); }
+
+                    // 3a2 icon wrapper (speech btn + copy btn)
+                    const iconWrapper = document.createElement('div');
+                    iconWrapper.classList.add('icon-wrapper');
+
+                    // 3a2a speech btn
+                    // i have connected this with a func that print out id of corresponding textarea
+                    const speechButton = document.createElement('button');
+                    speechButton.className = 'transparent-btn';
+                    const speechIcon = document.createElement('i');
+                    speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
+                    speechButton.appendChild(speechIcon);
+
+                    // 3a2b copy btn
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'transparent-btn';
+
+                    const copyIcon = document.createElement('i');
+                    copyIcon.className = "fa-regular fa-clone icon-btn-2";
+                    copyButton.appendChild(copyIcon);
+
+                    paragraph.value = dialogue[key][j];
+                    paragraph.id = `${key}-${j}`;
+
+                    speechButton.onclick = function(){
+                        textToSpeech(paragraph.id);
+                    };
+                    copyButton.onclick = function () {
+                        copy(paragraph.id);
+                    }
+
+                    iconWrapper.appendChild(speechButton);
+                    iconWrapper.appendChild(copyButton);
+                    paragraphWrapper.appendChild(paragraph);
+                    paragraphWrapper.appendChild(iconWrapper);
+                    accordionContent.appendChild(paragraphWrapper);
+                }
+
+            }
+
+            accordionButton.addEventListener('click', () => {
+                const isDisplayed = accordionContent.style.display === "flex";
+                accordionContent.style.display = isDisplayed ? "none" : "flex";
+            });
+
+            accordionItem.appendChild(accordionButton);
+            accordionItem.appendChild(accordionContent);
+            accordion.appendChild(accordionItem);
+        }
+
+        return accordion;
+    }
+
+    const accordionStructure = generateAccordion(depth, branch);
+    accordionContainer.appendChild(accordionStructure);
+    countTotal();
+
+    function exportAsPasteBin() {
+        axios.get('/api/pastebin/'+dialogue['id'])
+            .then(function (response) {
+
+                var pastebin_url = response.data;
+                if (confirm('Successfully exported to Pastebin. Would you like to visit the link?')) {
+                    window.open(pastebin_url, '_blank');
+                } else {
+                    alert('Please keep this link for later: ' + response.data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+    }
+
+    function exportAsTXT() {
+        var a = document.createElement("a");
+        var file = new Blob([JSON.stringify(dialogue, null, 2)], {type: 'text/plain'});
+        a.href = URL.createObjectURL(file);
+        a.download = 'Dialogue '+ dialogue['id']+'.txt';
+        a.click();
+        URL.revokeObjectURL(a.href);
+    }
+    function exportAsJSON() {
+        var a = document.createElement("a");
+        var file = new Blob([JSON.stringify(dialogue, null, 2)], {type: 'text/plain'});
+        a.href = URL.createObjectURL(file);
+        a.download = 'Dialogue '+ dialogue['id']+'.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+    }
+
+    function exportAsPDF() {
+        const content = document.querySelectorAll('.accordion-content');
+        content.forEach(function(x) {
+            x.style.display = 'flex';
+        });
+        const container = document.getElementById('accordion-container');
+        container.style.maxHeight = 'none';
+
+        curr = document.getElementById('accordion-container');
+        var opt = {
+            margin:       0.2,
+            filename:     'Dialogue '+ dialogue['id']+'.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 4.5 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(curr).save().then(
+            function () {
+                container.style.maxHeight = '77vh';
+            }
+        );
+    }
+
+
+
+    function toggleEdit() {
+        var status = $('#status').text();
+        if (status === 'Read-only') {
+            $('textarea').prop('disabled', false);
+            $('input').prop('disabled', false);
+            $('#status').text('Edit-mode');
+            $('#status').removeClass('danger').addClass('success');
+
+            $('#edit-btn').removeClass('danger').addClass('success');
+            $('#edit-btn > i').removeClass().addClass('fa-solid fa-unlock success');
+        } else {
+            $('textarea').prop('disabled', true);
+            $('input').prop('disabled', true);
+
+            $('#status').text('Read-only');
+            $('#status').removeClass('success').addClass('danger');
+            $('#edit-btn').removeClass('success').addClass('danger');
+            $('#edit-btn > i').removeClass().addClass('fa-solid fa-lock danger');
+        }
+        $('#theme-switch').prop('disabled', false);
+    }
+
+    // at start
+    $('textarea').prop('disabled', true);
+    $('input').prop('disabled', true);
+    $('#theme-switch').prop('disabled', false);
+
+    function textToSpeech(textareaId) {
+        alert('integrate voiceapi for this text area (id): '+ textareaId);
+    }
+
+    function copy(textareaId) {
+        var textarea = document.getElementById(textareaId);
+
+        textarea.select();
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(textarea.value);
+
+        // Alert the copied text
+        alert("Copied the text: " + textarea.value);
+    }
+
+    function saveDialogue() {
+        for (const [key, value] of Object.entries(dialogue)) {
+            // console.log(`Key: ${key}, Value: ${value}`);
+            if (key === 'id' || key === 'userId') continue;
+
+            for (let k = 0; k < value.length; k++) {
+                dialogue[key][k] = $('#'+key+'-'+k).val();
+                // console.log($('#'+key+'-'+k).val());
+            }
+        }
+        console.log(dialogue);
+        var url = '../api/outputmessages/' + dialogue['id'];
+        axios.put(url, dialogue)
+            .then(function (response) {
+                alert(response.data);
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+            });
+
+    }
+
+
+</script>
+
+</html>

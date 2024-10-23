@@ -5,77 +5,53 @@
     position: relative;
 }
 
+.padder {
+    padding: 10px 15px;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 .content h1 {
     color: var(--foregroundColor) !important;
     font-size: 26px;
     margin-bottom: 1rem;
-    margin-top: 0.1rem;
-    margin-left: 0.1rem;
+    margin-top: 0.05rem;
+    padding-left: 15px;
     font-family: "Inter", sans-serif;
     font-weight: 700;
 }
 
-.content .prompt-form {
-    padding: 20px 30px;
+.content .padder .form-group {
+    margin-bottom: 1.5rem !important;
+    position: relative;
 }
 
-.content .prompt-form label {
-    margin-bottom: 0.8rem;
+.content .padder .form-group label {
+    margin-bottom: 0.7rem;
     color: var(--foregroundColor);
 }
 
-.content .prompt-form .form-group {
-    margin-bottom: 1.5rem;
-}
-
-.content .prompt-form textarea, .content .prompt-form select {
+.content .padder textarea, .content .padder select {
     border: none;
-    border-radius: 12px;
+    border-radius: 0.375rem;
     background-color: var(--backgroundColor);
     color: var(--foregroundColor);
 }
 
+.valid-tooltip, .valid-feedback {
+    margin-top: 5px;
+    margin-bottom: 0;
+    color: var(--c4);
+}
+.invalid-tooltip, .invalid-feedback {
+    margin-top: 5px;
+    margin-bottom: 0;
+    color: var(--c5);
+}
+
 td {
     color: var(--foregroundColor);
-}
-
-.add-btn {
-    outline: none;
-    text-align: center;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color:  var(--foregroundColor);;
-    background: none;
-    border: none;
-    margin-left: 5px;
-}
-
-.del-btn {
-    border-radius: 5px;
-    background: none;
-    outline: none;
-    text-align: center;
-    padding: 5px;
-    color: var(--foregroundColor);
-    border: none;
-    margin-left: 5px;
-}
-
-.del-btn:hover {
-    background-color: #FFD18E;
-}
-
-.add-btn i, .del-btn i {
-    font-size: 15px;
-}
-
-.del-btn i {
-    margin-right: 5px;
-}
-
-.add-btn span, .del-btn span {
-    margin-left: 5px;
-    font-size: 13px;
+    height: 40px;
 }
 
 .submit-btn{
@@ -83,17 +59,122 @@ td {
     text-align: center;
     padding: 12px 15px;
     border-radius: 10px;
-    color: black;
-    background-color: var(--c3);
-    border: none;
+    border: 1px solid;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-block;
+    text-decoration: none;
 }
 
-.add-btn:hover, .submit-btn:hover {
+.submit-btn:hover {
+    border-color: #D4D6D8;
+    background-color: #E2E3E5;
+    color: #42464A;
+}
+
+.custom-badge {
+    position: relative;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 12px;
+    top: -5px;
+    right: -3px;
+}
+.grey {
+    border-color: #D4D6D8;
+    background-color: #E2E3E5;
+    color: #42464A;
+}
+
+.success {
+    background-color: #D5E6DE;
+    color: #255035;
+    border-color: #C0DACD;
+}
+.primary {
+    background-color: #D3E1FC;
+    color: #1C4193;
+    border-color: #BCD3FA;
+}
+.danger {
+    background-color: #F3D8DA;
+    color: #79282C;
+    border-color: #EDC4C8;
+}
+.info {
+    color: #22505E;
+    background-color: #D6F3FB;
+    border-color: #C2EDF9;
+}
+
+.purple {
+    color: #50248E;
+    background-color: #ECE7FD;
+    border-color: #E4DCFF;
+}
+
+.orange {
+    color: #614420;
+    background-color: #ffe2b4;
+    border-color: #FFD18E;
+}
+
+.lime {
+    color: #2e5025;
     background-color: #E0E5B6;
+    border-color: #c6cb8d;
 }
 
-.add-btn:hover, .del-btn:hover {
-    color: #000;
+.icon-btn {
+    font: 13px;
+    background: none;
+}
+
+.icon-btn:hover {
+    background: none;
+}
+
+.icon-btn-2 {
+    font: 13px;
+    color: var(--foregroundColor);
+    border: none;
+    background: none;
+}
+
+.dialogue-list::-webkit-scrollbar, textarea::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.icon-btn-2:hover {
+    color: #316CF4;
+}
+
+.word-count{
+    font-size: 0.8em;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.total-count {
+    font-size: 0.8em;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+}
+.word-report {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    color: var(--foregroundColor);
+}
+
+.counter, .counter-limit {
 }
 
 

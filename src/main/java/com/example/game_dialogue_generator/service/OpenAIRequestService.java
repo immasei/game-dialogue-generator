@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing OpenAI API calls.
@@ -42,8 +43,27 @@ public class OpenAIRequestService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    public List<OpenAIRequestDTO> findOpenAIRequestByUserId(int userid) {
+        return openAIRequestRepository.findOpenAIRequestByUserId(userid).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    public Optional<OpenAIRequestDTO> findOpenAIRequestByIdAndUserId(long id, int userId) {
+        return openAIRequestRepository.findOpenAIRequestByIdAndUserId(id, userId).map(this::convertToDTO);
+    }
+
+    public OpenAIRequestDTO updateOpenAIRequest(Long id, OpenAIRequestDTO updatedOpenAIRequestDTO) {
+        Optional<OpenAIRequest> existingOpenAIRequest = openAIRequestRepository.findById(id);
+        if (existingOpenAIRequest.isPresent()) {
+            OpenAIRequest updatedOpenAIRequest = convertToModel(updatedOpenAIRequestDTO);
+            updatedOpenAIRequest.setId(id);
+            OpenAIRequest savedOpenAIRequest= openAIRequestRepository.save(updatedOpenAIRequest);
+            return convertToDTO(savedOpenAIRequest);
+        }
+        return null; // placeholder, might add an exception in the future if I remember
+    }
+
     // Create a new OpenAI request, call OpenAI, and map response to OutputMessageDTO
-    public OutputMessageDTO createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
+    public Long createOpenAIRequest(OpenAIRequestDTO openAIRequestDTO) {
         // Convert DTO to model
         OpenAIRequest openAIRequest = convertToModel(openAIRequestDTO);
 
@@ -59,7 +79,8 @@ public class OpenAIRequestService {
 
         // Save and return the output message as DTO
         OutputMessage savedOutputMessage = outputMessageRepository.save(outputMessage);
-        return convertToDTO(savedOutputMessage);
+//        return convertToDTO(savedOutputMessage);
+        return savedOutputMessage.getId();
     }
 
     // API call to OpenAI

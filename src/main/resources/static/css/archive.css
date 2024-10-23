@@ -1,7 +1,9 @@
-.content {
-    display: block;
+span.description {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 150px;
 }
-
 
 .tit {
     display: flex;
@@ -19,12 +21,12 @@
     width: 50px;
     display: flex;
     justify-content: center;
-    border-right: 1px solid #eee;
+    border-right: 1px solid var(--canvasColor);
 }
 
 .titdiv {
     margin-top: -30px;
-    background-color: #fff;
+    background-color: var(--canvasColor);
     /* background-color: rebeccapurple; */
     display: flex;
     align-items: center;
@@ -45,14 +47,14 @@
 
 .treeContent .firstLevel .fstipt {
     width: 1000px;
-    background-color: #fff;
+    background-color: var(--canvasColor);
     height: 50px;
     border-radius: 8px;
 }
 
 .treeContent .firstLevel .fstipt .fstbox {
     width: 1000px;
-    background-color: #fff;
+    background-color: var(--canvasColor);
     height: 50px;
     border-radius: 8px;
     display: flex;
@@ -79,14 +81,14 @@
 
 .treeContent .secondLevel .secondipt {
     width: 950px;
-    background-color: #fff;
+    background-color: var(--canvasColor);
     height: 50px;
     border-radius: 8px;
 }
 
 .treeContent .secondLevel .secondipt .secondbox {
     width: 950px;
-    background-color: #fff;
+    background-color: var(--canvasColor);
     height: 50px;
     border-radius: 8px;
     display: flex;
@@ -114,14 +116,14 @@
 
 .treeContent .thirdLevel .thirdipt {
     width: 900px;
-    background-color: #fff;
+    background-color: var(--canvasColor);;
     height: 50px;
     border-radius: 8px;
 }
 
 .treeContent .thirdLevel .thirdipt .thirdbox {
     width: 900px;
-    background-color: #fff;
+    background-color: var(--canvasColor);;
     height: 50px;
     border-radius: 8px;
     display: flex;

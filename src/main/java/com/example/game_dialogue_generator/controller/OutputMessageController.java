@@ -1,9 +1,12 @@
 package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.dto.OutputMessageDTO;
+import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.service.OutputMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +35,7 @@ import java.util.Optional;
 public class OutputMessageController {
 
     @Autowired
-    private OutputMessageService service;
+    OutputMessageService service;
 
     // Create a new OutputMessage
     @PostMapping
@@ -50,10 +53,16 @@ public class OutputMessageController {
 
     // Update OutputMessage by ID
     @PutMapping("/{id}")
-    public ResponseEntity<OutputMessageDTO> updateOutputMessage(@PathVariable Long id, @RequestBody OutputMessageDTO outputMessageDTO) {
+    public ResponseEntity<String> updateOutputMessage(@PathVariable Long id, @RequestBody OutputMessageDTO outputMessageDTO) {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userid = principle.getUserid();
+
+        Optional<OutputMessageDTO> outputMessage = service.findOutputMessageByIdAndUserId(id, userid);
+        if (outputMessage.isEmpty() || userid != outputMessageDTO.getUserId()) ResponseEntity.notFound().build();
+
         OutputMessageDTO updatedOutputMessage = service.updateOutputMessage(id, outputMessageDTO);
         if (updatedOutputMessage != null) {
-            return ResponseEntity.ok(updatedOutputMessage);
+            return ResponseEntity.ok("Dialogue (OutputMessage): " + id + " has been updated successfully.");
         }
         return ResponseEntity.notFound().build();
     }
@@ -62,6 +71,22 @@ public class OutputMessageController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOutputMessage(@PathVariable Long id) {
         service.deleteOutputMessage(id);
-        return ResponseEntity.ok("OutputMessage: " + id + " has been deleted successfully.");
+        return ResponseEntity.ok("Dialogue (OutputMessage): " + id + " has been deleted successfully.");
     }
+
+    // api to test output of service
+    @GetMapping("/u{userid}/{id}")
+    public ResponseEntity<OutputMessageDTO> getOutputMessageByIdandUserID(@PathVariable Long id, @PathVariable int userid) {
+        Optional<OutputMessageDTO> outputMessageDTO = service.findOutputMessageByIdAndUserId(id, userid);
+        return outputMessageDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/u{userid}")
+    public ResponseEntity<List<OutputMessageDTO>> getOutputMessageByUserID(@PathVariable int userid) {
+        List<OutputMessageDTO> outputMessageDTOs = service.findOutputMessageByUserId(userid);
+
+        return ResponseEntity.ok(outputMessageDTOs);
+    }
+
+
 }
