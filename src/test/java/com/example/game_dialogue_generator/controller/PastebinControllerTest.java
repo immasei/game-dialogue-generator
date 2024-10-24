@@ -103,4 +103,22 @@ public class PastebinControllerTest {
         verify(outputMessageService, times(1))
                 .convertToModel(outputMessageDTO);
     }
+
+    @Test
+    void testExportAsPastebin_NoOutputMessage() throws Exception {
+        User user = new User();
+        user.setUserid(1);
+        when(authentication.getPrincipal()).thenReturn(user);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Optional<OutputMessageDTO> optionalOutputMessage = Optional.empty();
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+                .thenReturn(optionalOutputMessage);
+
+        mockMvc.perform(get("/api/pastebin/1"))
+                .andExpect(status().isNotFound());
+        verify(outputMessageService, times(1))
+                .findOutputMessageByIdAndUserId(1,1);
+    }
 }

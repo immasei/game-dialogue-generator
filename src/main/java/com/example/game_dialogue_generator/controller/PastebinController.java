@@ -33,7 +33,7 @@ public class PastebinController {
         int userid = principle.getUserid();
 
         Optional<OutputMessageDTO> outputMessageDTO = outputMessageService.findOutputMessageByIdAndUserId(id, userid);
-        if (outputMessageDTO.isEmpty()) ResponseEntity.notFound().build();
+        if (outputMessageDTO.isEmpty()) return ResponseEntity.notFound().build();
 
         OutputMessage outputMessage = outputMessageService.convertToModel(outputMessageDTO.get());
 
