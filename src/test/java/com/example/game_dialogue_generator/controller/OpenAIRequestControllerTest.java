@@ -50,13 +50,14 @@ public class OpenAIRequestControllerTest {
         OutputMessageDTO responseDTO = new OutputMessageDTO();
         responseDTO.setId(1L);
 
-        when(openAIRequestService.createOpenAIRequest(any(OpenAIRequestDTO.class))).thenReturn(responseDTO);
+        when(openAIRequestService.createOpenAIRequest(any(OpenAIRequestDTO.class))).thenReturn(responseDTO.getId());
 
         mockMvc.perform(post("/api/openai")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"depth\": 2, \"width\": 2}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L));
+                .andExpect(content().string(String.valueOf(1L)));
+//                .andExpect(content().string().value(1L));
 
         verify(openAIRequestService, times(1)).createOpenAIRequest(any(OpenAIRequestDTO.class));
     }

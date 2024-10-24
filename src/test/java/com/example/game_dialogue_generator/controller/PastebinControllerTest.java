@@ -1,6 +1,7 @@
 package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.model.OutputMessage;
+import com.example.game_dialogue_generator.service.OutputMessageService;
 import com.example.game_dialogue_generator.service.PastebinService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,9 @@ public class PastebinControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private OutputMessageService outputMessageService;
 
     @MockBean
     private PastebinService pastebinService;

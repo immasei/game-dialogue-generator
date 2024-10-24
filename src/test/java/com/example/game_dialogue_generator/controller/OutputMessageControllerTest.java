@@ -1,6 +1,7 @@
 package com.example.game_dialogue_generator.controller;
 
 import com.example.game_dialogue_generator.dto.OutputMessageDTO;
+import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.service.OutputMessageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -23,6 +27,12 @@ public class OutputMessageControllerTest {
 
     @Mock
     private OutputMessageService outputMessageService;
+
+    @Mock
+    private Authentication authentication;
+
+    @Mock
+    private SecurityContext securityContext;
 
     @InjectMocks
     private OutputMessageController outputMessageController;
@@ -88,13 +98,22 @@ public class OutputMessageControllerTest {
         OutputMessageDTO responseDTO = new OutputMessageDTO();
         responseDTO.setId(1L);
 
-        when(outputMessageService.updateOutputMessage(eq(1L), any(OutputMessageDTO.class))).thenReturn(responseDTO);
+        User user = new User();
+        user.setUserid(1);
+
+        when(authentication.getPrincipal()).thenReturn(user);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        when(outputMessageService.updateOutputMessage(any(), any()))
+                .thenReturn(responseDTO);
+
 
         mockMvc.perform(put("/api/outputmessages/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\": 1}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L));
+                .andExpect(content().string("Dialogue (OutputMessage): 1 has been updated successfully."));
 
         verify(outputMessageService, times(1)).updateOutputMessage(eq(1L), any(OutputMessageDTO.class));
     }
@@ -117,7 +136,7 @@ public class OutputMessageControllerTest {
 
         mockMvc.perform(delete("/api/outputmessages/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("OutputMessage: 1 has been deleted successfully."));
+                .andExpect(content().string("Dialogue (OutputMessage): 1 has been deleted successfully."));
 
         verify(outputMessageService, times(1)).deleteOutputMessage(1L);
     }
