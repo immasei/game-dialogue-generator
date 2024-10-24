@@ -51,10 +51,10 @@ public class PastebinController {
         }
     }
 
-    // Creates a paste
-    @GetMapping("/test")
-    public ResponseEntity<String> getPastebinTest(@RequestBody String outputMessage) {
-        String response = pastebinService.callPastebinAiTest(outputMessage);
-        return ResponseEntity.ok(response);
-    }
+//    // Creates a paste
+//    @GetMapping("/test")
+//    public ResponseEntity<String> getPastebinTest(@RequestBody String outputMessage) {
+//        String response = pastebinService.callPastebinAiTest(outputMessage);
+//        return ResponseEntity.ok(response);
+//    }
 }
