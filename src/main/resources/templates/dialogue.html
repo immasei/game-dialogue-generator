@@ -563,12 +563,103 @@
             audio.play();
         })
         .catch(error => console.error('Audio play failed: ', error));
-}
 
-function bindClickEvent(element) {
-    element.removeEventListener('click', playAudio);
-    element.addEventListener('click', playAudio);
-}
+    }
+
+    function bindClickEvent(element) {
+        element.removeEventListener('click', playAudio);
+        element.addEventListener('click', playAudio);
+    }
+
+    // PDF download
+    document.getElementById('download-pdf').addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+
+        let dialogueItems = document.querySelectorAll('.accordion-button');
+        let x = 10;
+        let y = 10;
+
+
+        dialogueItems.forEach(function(item) {
+
+            let dialogueTitle = item.textContent.trim();
+
+
+            doc.text(dialogueTitle, x, y);
+            y += 10;
+
+            let inputs = item.parentElement.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                let optionContent = input.value;
+
+
+                doc.text(optionContent, x + 10, y);
+                y += 10;
+            });
+
+            if (y > 280) {
+                doc.addPage();
+                y = 10;
+            }
+        });
+
+        doc.save('page-content.pdf');
+    });
+
+    // JSON download
+    document.getElementById('download-json').addEventListener('click', function() {
+        let dialogueItems = document.querySelectorAll('.accordion-button');
+        let jsonData = [];
+
+        dialogueItems.forEach(function(item) {
+            let dialogueTitle = item.textContent.trim();
+            let options = [];
+
+            let inputs = item.parentElement.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                options.push(input.value);
+            });
+
+            jsonData.push({
+                "title": dialogueTitle,
+                "options": options
+            });
+        });
+
+        // Create a Blob and download it
+        let blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: "application/json;charset=utf-8" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "page-content.json";
+        link.click();
+    });
+
+
+    // TXT download
+    document.getElementById('download-txt').addEventListener('click', function() {
+        let dialogueItems = document.querySelectorAll('.accordion-button');
+        let content = "";
+
+        dialogueItems.forEach(function(item) {
+            let dialogueTitle = item.textContent.trim();
+            content += dialogueTitle + "\n";
+
+            let inputs = item.parentElement.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                let optionContent = input.value;
+                content += "  - " + optionContent + "\n";
+            });
+        });
+
+        // Create a Blob and download it
+        let blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "page-content.txt";
+        link.click();
+    });
 
 
 </script>
