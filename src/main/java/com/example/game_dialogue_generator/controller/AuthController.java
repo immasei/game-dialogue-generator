@@ -55,12 +55,12 @@ public class AuthController {
 //        return ResponseHandler.handle(HttpStatus.OK, "username", principle.getUsername());
 //    }
 
-//    @GetMapping("/userid")
-//    public ResponseEntity<?> getUserId() {
-//        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        System.out.println(principle.getUsername());
-//        return ResponseHandler.handle(HttpStatus.OK, "userid", principle.getUserid());
-//    }
+    @GetMapping("/userid")
+    public ResponseEntity<?> getUserId() {
+        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(principle.getUsername());
+        return ResponseHandler.handle(HttpStatus.OK, "userid", principle.getUserid());
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody UserDTO user, HttpServletRequest request, HttpServletResponse response) {
