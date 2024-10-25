@@ -16,11 +16,15 @@ public class PollyService {
 
     private final PollyClient pollyClient;
 
-    public PollyService() {
+    public PollyService(){
         this.pollyClient = PollyClient.builder()
                 .region(Region.US_WEST_1)
                 .credentialsProvider(ProfileCredentialsProvider.create())
                 .build();
+    }
+
+    public PollyService(PollyClient pollyClient) {
+        this.pollyClient = pollyClient;
     }
 
     public InputStream synthesizeSpeech(String text) {
