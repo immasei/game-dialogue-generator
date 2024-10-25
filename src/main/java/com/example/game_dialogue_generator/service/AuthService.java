@@ -21,9 +21,9 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder bcrypt;
 
-    public List<User> getAllUsers() {
-        return (List<User>) userRepository.findAll();
-    }
+//    public List<User> getAllUsers() {
+//        return (List<User>) userRepository.findAll();
+//    }
 
     public Optional<User> signup(UserDTO user) {
         // duplicate

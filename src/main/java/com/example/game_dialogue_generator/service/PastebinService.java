@@ -53,32 +53,32 @@ public class PastebinService {
         }
     }
 
-    public String callPastebinAiTest(String outputMessage) {
-        // Change to Json
-//        String jsonText = null;
-//        try {
-//            ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-//            jsonText = objectWriter.writeValueAsString(outputMessage);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-
-        WebClient webClient = WebClient.create(pastebinApiUrl);
-
-        String content = "{\"testing\":\"test\"}";
-
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("api_dev_key", pastebinApiKey);
-        formData.add("api_paste_code", content);
-        formData.add("api_paste_format", "json");
-        formData.add("api_option", "paste");
-
-        String result = webClient.post()
-                .bodyValue(formData)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-
-        return result;
-    }
+//    public String callPastebinAiTest(String outputMessage) {
+//        // Change to Json
+////        String jsonText = null;
+////        try {
+////            ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+////            jsonText = objectWriter.writeValueAsString(outputMessage);
+////        } catch (JsonProcessingException e) {
+////            e.printStackTrace();
+////        }
+//
+//        WebClient webClient = WebClient.create(pastebinApiUrl);
+//
+//        String content = "{\"testing\":\"test\"}";
+//
+//        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+//        formData.add("api_dev_key", pastebinApiKey);
+//        formData.add("api_paste_code", content);
+//        formData.add("api_paste_format", "json");
+//        formData.add("api_option", "paste");
+//
+//        String result = webClient.post()
+//                .bodyValue(formData)
+//                .retrieve()
+//                .bodyToMono(String.class)
+//                .block();
+//
+//        return result;
+//    }
 }

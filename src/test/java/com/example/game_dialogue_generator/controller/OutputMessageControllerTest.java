@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -97,6 +99,7 @@ public class OutputMessageControllerTest {
 
         OutputMessageDTO responseDTO = new OutputMessageDTO();
         responseDTO.setId(1L);
+        responseDTO.setUserId(1);
 
         User user = new User();
         user.setUserid(1);
@@ -107,11 +110,12 @@ public class OutputMessageControllerTest {
 
         when(outputMessageService.updateOutputMessage(any(), any()))
                 .thenReturn(responseDTO);
-
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+                .thenReturn(Optional.of(responseDTO));
 
         mockMvc.perform(put("/api/outputmessages/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\": 1}"))
+                        .content("{\"id\": 1, \"userId\": 1}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Dialogue (OutputMessage): 1 has been updated successfully."));
 
@@ -120,14 +124,74 @@ public class OutputMessageControllerTest {
 
     @Test
     public void testUpdateOutputMessage_NotFound() throws Exception {
-        when(outputMessageService.updateOutputMessage(eq(1L), any(OutputMessageDTO.class))).thenReturn(null);
+        User user = new User();
+        user.setUserid(1);
+
+        when(authentication.getPrincipal()).thenReturn(user);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        OutputMessageDTO responseDTO = new OutputMessageDTO();
+        responseDTO.setId(1L);
+        responseDTO.setUserId(1);
+
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+                .thenReturn(Optional.of(responseDTO));
+        when(outputMessageService.updateOutputMessage(eq(1L), any(OutputMessageDTO.class)))
+                .thenReturn(null);
 
         mockMvc.perform(put("/api/outputmessages/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\": 1}"))
+                        .content("{\"id\": 1, \"userId\": 1}"))
                 .andExpect(status().isNotFound());
 
         verify(outputMessageService, times(1)).updateOutputMessage(eq(1L), any(OutputMessageDTO.class));
+    }
+
+    @Test
+    public void testUpdateOutputMessage_NoOutputMessageFound() throws Exception {
+        User user = new User();
+        user.setUserid(1);
+
+        when(authentication.getPrincipal()).thenReturn(user);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(put("/api/outputmessages/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\": 1, \"userId\": 1}"))
+                .andExpect(status().isNotFound());
+
+        verify(outputMessageService, times(1))
+                .findOutputMessageByIdAndUserId(1, 1);
+    }
+
+    @Test
+    public void testUpdateOutputMessage_IDNotMatchUserID() throws Exception {
+        User user = new User();
+        user.setUserid(2);
+
+        when(authentication.getPrincipal()).thenReturn(user);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        OutputMessageDTO responseDTO = new OutputMessageDTO();
+        responseDTO.setId(1L);
+        responseDTO.setUserId(1);
+
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 2))
+                .thenReturn(Optional.of(responseDTO));
+
+        mockMvc.perform(put("/api/outputmessages/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\": 1, \"userId\": 1}"))
+                .andExpect(status().isNotFound());
+
+        verify(outputMessageService, times(1))
+                .findOutputMessageByIdAndUserId(1, 2);
     }
 
     @Test
@@ -139,5 +203,41 @@ public class OutputMessageControllerTest {
                 .andExpect(content().string("Dialogue (OutputMessage): 1 has been deleted successfully."));
 
         verify(outputMessageService, times(1)).deleteOutputMessage(1L);
+    }
+
+    @Test
+    public void testGetOutputMessageByIdandUserID_Success() throws Exception {
+        Optional<OutputMessageDTO> opt = Optional.of(new OutputMessageDTO());
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+                .thenReturn(opt);
+
+        mockMvc.perform(get("/api/outputmessages/u1/1"))
+                .andExpect(status().isOk());
+        verify(outputMessageService, times(1))
+                .findOutputMessageByIdAndUserId(1, 1);
+    }
+
+    @Test
+    public void testGetOutputMessageByIdandUserID_NoOutputMessage() throws Exception {
+        Optional<OutputMessageDTO> opt = Optional.empty();
+        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+                .thenReturn(opt);
+
+        mockMvc.perform(get("/api/outputmessages/u1/1"))
+                .andExpect(status().isNotFound());
+        verify(outputMessageService, times(1))
+                .findOutputMessageByIdAndUserId(1, 1);
+    }
+
+    @Test
+    public void testGetOutputMessageByUserID() throws Exception {
+        List<OutputMessageDTO> outputMessageDTOS = new ArrayList<>();
+        when(outputMessageService.findOutputMessageByUserId(1))
+                .thenReturn(outputMessageDTOS);
+
+        mockMvc.perform(get("/api/outputmessages/u1"))
+                .andExpect(status().isOk());
+        verify(outputMessageService, times(1))
+                .findOutputMessageByUserId(1);
     }
 }
