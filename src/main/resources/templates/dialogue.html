@@ -164,6 +164,7 @@
                 // 1b1 speech btn
                 // i have connected this with a func that print out id of corresponding textarea
                 const speechButton = document.createElement('button');
+                bindClickEvent(speechButton);
                 speechButton.className = 'transparent-btn';
 
                 const speechIcon = document.createElement('i');
@@ -186,9 +187,6 @@
                 paragraph.value = dialogue[key][0]; // [0] = npc's response
                 paragraph.id = `${key}-0`;
 
-                speechButton.onclick = function () {
-                    textToSpeech(paragraph.id);
-                }
                 copyButton.onclick = function () {
                     copy(paragraph.id);
                 }
@@ -256,6 +254,7 @@
                     // i have connected this with a func that print out id of corresponding textarea
                     const speechButton = document.createElement('button');
                     speechButton.className = 'transparent-btn';
+                    bindClickEvent(speechButton);
                     const speechIcon = document.createElement('i');
                     speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
                     speechButton.appendChild(speechIcon);
@@ -271,9 +270,6 @@
                     paragraph.value = dialogue[key][j];
                     paragraph.id = `${key}-${j}`;
 
-                    speechButton.onclick = function() {
-                        textToSpeech(paragraph.id);
-                    }
                     copyButton.onclick = function () {
                         copy(paragraph.id);
                     }
@@ -302,6 +298,7 @@
                 // i have connected this with a func that print out id of corresponding textarea
                 const speechButton = document.createElement('button');
                 speechButton.className = 'transparent-btn';
+                bindClickEvent(speechButton);
                 const speechIcon = document.createElement('i');
                 speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
                 speechButton.appendChild(speechIcon);
@@ -319,9 +316,6 @@
                 paragraph.value = dialogue[key][0]; // [0] = npc's response
                 paragraph.id = `${key}-0`;
 
-                speechButton.onclick = function(){
-                    textToSpeech(paragraph.id);
-                };
                 copyButton.onclick = function () {
                     copy(paragraph.id);
                 }
@@ -390,6 +384,7 @@
                     // i have connected this with a func that print out id of corresponding textarea
                     const speechButton = document.createElement('button');
                     speechButton.className = 'transparent-btn';
+                    bindClickEvent(speechButton);
                     const speechIcon = document.createElement('i');
                     speechIcon.className = "fa-solid fa-volume-high icon-btn-2";
                     speechButton.appendChild(speechIcon);
@@ -405,9 +400,6 @@
                     paragraph.value = dialogue[key][j];
                     paragraph.id = `${key}-${j}`;
 
-                    speechButton.onclick = function(){
-                        textToSpeech(paragraph.id);
-                    };
                     copyButton.onclick = function () {
                         copy(paragraph.id);
                     }
@@ -524,10 +516,6 @@
     $('input').prop('disabled', true);
     $('#theme-switch').prop('disabled', false);
 
-    function textToSpeech(textareaId) {
-        alert('integrate voiceapi for this text area (id): '+ textareaId);
-    }
-
     function copy(textareaId) {
         var textarea = document.getElementById(textareaId);
 
@@ -561,6 +549,26 @@
             });
 
     }
+
+    function playAudio(event) {
+
+    const targetElement = event.target.parentElement.parentElement.previousElementSibling;
+    const text = targetElement.value;
+
+    fetch(`/synthesize?text=${encodeURIComponent(text)}`)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+            audio.play();
+        })
+        .catch(error => console.error('Audio play failed: ', error));
+}
+
+function bindClickEvent(element) {
+    element.removeEventListener('click', playAudio);
+    element.addEventListener('click', playAudio);
+}
 
 
 </script>

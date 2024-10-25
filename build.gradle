@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'software.amazon.awssdk:polly:2.20.45'
+	implementation 'software.amazon.awssdk:core:2.20.45'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
