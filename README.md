@@ -278,4 +278,4 @@ http persist session https://medium.com/@ZiaurrahmanAthaya/how-to-create-session
 write enums into database https://bootify.io/next-steps/load-initial-data-in-spring-boot.html
 https://dev.to/noelopez/spring-rest-working-with-enums-ma
 
-polly voice api https://stackoverflow.com/questions/61131383/how-to-enable-neural-text-to-speech-ntts-in-java-using-amazon-polly https://stackoverflow.com/questions/51184130/aws-polly-java-example https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-polly/1.12.777 https://github.com/gopikrishhnaChokkalamani/springboot-amazon-polly
+polly voice api https://docs.aws.amazon.com/polly/latest/dg/standard-voices.html https://stackoverflow.com/questions/61131383/how-to-enable-neural-text-to-speech-ntts-in-java-using-amazon-polly https://stackoverflow.com/questions/51184130/aws-polly-java-example https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-polly/1.12.777 https://github.com/gopikrishhnaChokkalamani/springboot-amazon-polly
