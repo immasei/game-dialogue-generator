@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.test.web.servlet.MockMvc;
@@ -84,6 +86,28 @@ public class AuthControllerTest {
     }
 
     @Test
+    void testSignup_AuthException() throws Exception {
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("password");
+        when(authService.signup(any())).thenReturn(Optional.of(user));
+        String userJson =  "{\"username\":\"username\",\"password\":\"password\"}";
+
+        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
+        HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
+
+        when(authenticationManager.authenticate(any()))
+                .thenThrow(new BadCredentialsException("Authentication failed"));
+
+        mockMvc.perform(post("/signup")
+                        .content(userJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("Unable to signup"));
+        verify(authService, times(1)).signup(any());
+    }
+
+    @Test
     void testLogin_Success() throws Exception {
         User user = new User();
         user.setUsername("username");
@@ -112,6 +136,28 @@ public class AuthControllerTest {
 
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
+
+        mockMvc.perform(post("/login")
+                .content(userJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Unable to login"));
+        verify(authService, times(1)).login(any());
+    }
+
+    @Test
+    void testLogin_AuthException() throws Exception {
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("password");
+        when(authService.login(any())).thenReturn(Optional.of(user));
+        String userJson =  "{\"username\":\"username\",\"password\":\"password\"}";
+
+        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
+        HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
+
+        when(authenticationManager.authenticate(any()))
+                .thenThrow(new BadCredentialsException("Authentication failed"));
 
         mockMvc.perform(post("/login")
                 .content(userJson)

@@ -81,6 +81,7 @@ public class AuthController {
                 System.out.println("Authentication successful.");
             } catch (AuthenticationException e) {
                 System.out.println("Authentication failed: " + e.getMessage());
+                return ResponseHandler.handle(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to signup", null);
             }
             return ResponseHandler.handle(HttpStatus.CREATED, "Signup OK", newUser);
         }
@@ -108,6 +109,7 @@ public class AuthController {
 
             } catch (AuthenticationException e) {
                 System.out.println("Authentication Failed: " + e.getMessage());
+                return ResponseHandler.handle(HttpStatus.NOT_FOUND, "Unable to login", null);
             }
             return ResponseHandler.handle(HttpStatus.OK, "Login OK", activeUser);
         }
