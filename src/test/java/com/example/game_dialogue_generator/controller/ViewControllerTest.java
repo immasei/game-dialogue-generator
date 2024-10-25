@@ -37,4 +37,12 @@ public class ViewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("auth"));
     }
+
+    @Test
+    void testHome() throws Exception {
+        mockMvc.perform(get("/home"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("home"));
+    }
 }
