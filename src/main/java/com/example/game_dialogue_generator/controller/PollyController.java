@@ -18,13 +18,9 @@ public class PollyController {
     @Autowired
     private PollyService pollyService;
 
-    public PollyController(PollyService pollyService) {
-        this.pollyService = pollyService;
-    }
-
     @GetMapping("/synthesize")
     public ResponseEntity<InputStreamResource> synthesizeSpeech(@RequestParam String text) {
-        InputStream  audioStream = pollyService.synthesizeSpeech(text);
+        InputStream audioStream = pollyService.synthesizeSpeech(text);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=output.mp3")
