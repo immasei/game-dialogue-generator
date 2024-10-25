@@ -58,7 +58,7 @@ public class OutputMessageController {
         int userid = principle.getUserid();
 
         Optional<OutputMessageDTO> outputMessage = service.findOutputMessageByIdAndUserId(id, userid);
-        if (outputMessage.isEmpty() || userid != outputMessageDTO.getUserId()) ResponseEntity.notFound().build();
+        if (outputMessage.isEmpty() || userid != outputMessageDTO.getUserId()) return ResponseEntity.notFound().build();
 
         OutputMessageDTO updatedOutputMessage = service.updateOutputMessage(id, outputMessageDTO);
         if (updatedOutputMessage != null) {

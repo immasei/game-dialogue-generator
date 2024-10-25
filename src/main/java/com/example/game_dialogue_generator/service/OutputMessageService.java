@@ -37,9 +37,9 @@ public class OutputMessageService {
     }
 
     // get all
-    public List<OutputMessageDTO> getAllOutputMessages() {
-        return repository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
+//    public List<OutputMessageDTO> getAllOutputMessages() {
+//        return repository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+//    }
 
     // update
     public OutputMessageDTO updateOutputMessage(Long id, OutputMessageDTO updatedOutputMessageDTO) {
