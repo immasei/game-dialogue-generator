@@ -39,28 +39,28 @@ public class AuthController {
     private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
 
-    @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        // this route is used for -get- testing
-        // will be removed in the future
-        List<User> users = authService.getAllUsers();
-        return ResponseHandler.handle(HttpStatus.OK, "List of all users", users);
-    }
+//    @GetMapping("/users")
+//    public ResponseEntity<?> getAllUsers() {
+//        // this route is used for -get- testing
+//        // will be removed in the future
+//        List<User> users = authService.getAllUsers();
+//        return ResponseHandler.handle(HttpStatus.OK, "List of all users", users);
+//    }
 
-    @GetMapping("/username")
-    public ResponseEntity<?> getUsername() {
-        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(principle);
-        System.out.println(principle.getUsername());
-        return ResponseHandler.handle(HttpStatus.OK, "username", principle.getUsername());
-    }
+//    @GetMapping("/username")
+//    public ResponseEntity<?> getUsername() {
+//        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println(principle);
+//        System.out.println(principle.getUsername());
+//        return ResponseHandler.handle(HttpStatus.OK, "username", principle.getUsername());
+//    }
 
-    @GetMapping("/userid")
-    public ResponseEntity<?> getUserId() {
-        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(principle.getUsername());
-        return ResponseHandler.handle(HttpStatus.OK, "userid", principle.getUserid());
-    }
+//    @GetMapping("/userid")
+//    public ResponseEntity<?> getUserId() {
+//        User principle = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println(principle.getUsername());
+//        return ResponseHandler.handle(HttpStatus.OK, "userid", principle.getUserid());
+//    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody UserDTO user, HttpServletRequest request, HttpServletResponse response) {
