@@ -279,3 +279,5 @@ write enums into database https://bootify.io/next-steps/load-initial-data-in-spr
 https://dev.to/noelopez/spring-rest-working-with-enums-ma
 
 polly voice api https://docs.aws.amazon.com/polly/latest/dg/standard-voices.html https://stackoverflow.com/questions/61131383/how-to-enable-neural-text-to-speech-ntts-in-java-using-amazon-polly https://stackoverflow.com/questions/51184130/aws-polly-java-example https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-polly/1.12.777 https://github.com/gopikrishhnaChokkalamani/springboot-amazon-polly
+
+obj mapper https://medium.com/@bectorhimanshu/using-dto-data-transfer-object-projection-mapping-entities-to-dtos-and-vice-versa-in-java-a7a9fe6b50a4 https://stackoverflow.com/questions/65807229/how-can-i-use-the-modelmapper-in-spring
