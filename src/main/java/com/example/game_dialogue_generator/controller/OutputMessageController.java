@@ -3,6 +3,7 @@ package com.example.game_dialogue_generator.controller;
 import com.example.game_dialogue_generator.dto.OutputMessageDTO;
 import com.example.game_dialogue_generator.model.User;
 import com.example.game_dialogue_generator.service.OutputMessageService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +37,9 @@ public class OutputMessageController {
 
     @Autowired
     OutputMessageService service;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     // Create a new OutputMessage
     @PostMapping

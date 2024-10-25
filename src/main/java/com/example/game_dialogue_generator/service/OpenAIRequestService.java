@@ -9,6 +9,7 @@ import com.example.game_dialogue_generator.repository.OutputMessageRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +41,9 @@ public class OpenAIRequestService {
 
     @Value("${openai.api.key}")
     private String apiKey;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -192,62 +196,70 @@ public class OpenAIRequestService {
     }
 
     // Convert OpenAIRequest model to DTO
-    private OpenAIRequestDTO convertToDTO(OpenAIRequest openAIRequest) {
-        OpenAIRequestDTO dto = new OpenAIRequestDTO();
-        dto.setId(openAIRequest.getId());
-        dto.setGenre(openAIRequest.getGenre());
-        dto.setLanguage(openAIRequest.getLanguage());
-        dto.setSetting(openAIRequest.getSetting());
-        dto.setLocation(openAIRequest.getLocation());
-        dto.setTimePeriod(openAIRequest.getTimePeriod());
-        dto.setPlot(openAIRequest.getPlot());
-        dto.setCharacterNames(openAIRequest.getCharacterNames());
-        dto.setCharacterPersonalities(openAIRequest.getCharacterPersonalities());
-        dto.setCharacterSpeechFeatures(openAIRequest.getCharacterSpeechFeatures());
-        dto.setDepth(openAIRequest.getDepth());
-        dto.setWidth(openAIRequest.getWidth());
-        dto.setUserId(openAIRequest.getUserId());
-        return dto;
-    }
+//    private OpenAIRequestDTO convertToDTO(OpenAIRequest openAIRequest) {
+//        OpenAIRequestDTO dto = new OpenAIRequestDTO();
+//        dto.setId(openAIRequest.getId());
+//        dto.setGenre(openAIRequest.getGenre());
+//        dto.setLanguage(openAIRequest.getLanguage());
+//        dto.setSetting(openAIRequest.getSetting());
+//        dto.setLocation(openAIRequest.getLocation());
+//        dto.setTimePeriod(openAIRequest.getTimePeriod());
+//        dto.setPlot(openAIRequest.getPlot());
+//        dto.setCharacterNames(openAIRequest.getCharacterNames());
+//        dto.setCharacterPersonalities(openAIRequest.getCharacterPersonalities());
+//        dto.setCharacterSpeechFeatures(openAIRequest.getCharacterSpeechFeatures());
+//        dto.setDepth(openAIRequest.getDepth());
+//        dto.setWidth(openAIRequest.getWidth());
+//        dto.setUserId(openAIRequest.getUserId());
+//        return dto;
+//    }
 
     // Convert DTO to OpenAIRequest model
-    private OpenAIRequest convertToModel(OpenAIRequestDTO dto) {
-        OpenAIRequest openAIRequest = new OpenAIRequest();
-        openAIRequest.setId(dto.getId());
-        openAIRequest.setGenre(dto.getGenre());
-        openAIRequest.setLanguage(dto.getLanguage());
-        openAIRequest.setSetting(dto.getSetting());
-        openAIRequest.setLocation(dto.getLocation());
-        openAIRequest.setTimePeriod(dto.getTimePeriod());
-        openAIRequest.setPlot(dto.getPlot());
-        openAIRequest.setCharacterNames(dto.getCharacterNames());
-        openAIRequest.setCharacterPersonalities(dto.getCharacterPersonalities());
-        openAIRequest.setCharacterSpeechFeatures(dto.getCharacterSpeechFeatures());
-        openAIRequest.setDepth(dto.getDepth());
-        openAIRequest.setWidth(dto.getWidth());
-        openAIRequest.setUserId(dto.getUserId());
-        return openAIRequest;
+//    private OpenAIRequest convertToModel(OpenAIRequestDTO dto) {
+//        OpenAIRequest openAIRequest = new OpenAIRequest();
+//        openAIRequest.setId(dto.getId());
+//        openAIRequest.setGenre(dto.getGenre());
+//        openAIRequest.setLanguage(dto.getLanguage());
+//        openAIRequest.setSetting(dto.getSetting());
+//        openAIRequest.setLocation(dto.getLocation());
+//        openAIRequest.setTimePeriod(dto.getTimePeriod());
+//        openAIRequest.setPlot(dto.getPlot());
+//        openAIRequest.setCharacterNames(dto.getCharacterNames());
+//        openAIRequest.setCharacterPersonalities(dto.getCharacterPersonalities());
+//        openAIRequest.setCharacterSpeechFeatures(dto.getCharacterSpeechFeatures());
+//        openAIRequest.setDepth(dto.getDepth());
+//        openAIRequest.setWidth(dto.getWidth());
+//        openAIRequest.setUserId(dto.getUserId());
+//        return openAIRequest;
+//    }
+//
+//    // Convert OutputMessage model to DTO
+//    private OutputMessageDTO convertToDTO(OutputMessage outputMessage) {
+//        OutputMessageDTO dto = new OutputMessageDTO();
+//        dto.setId(outputMessage.getId());
+//        dto.setDepth1(outputMessage.getDepth1());
+//        dto.setDepth2_1(outputMessage.getDepth2_1());
+//        dto.setDepth2_2(outputMessage.getDepth2_2());
+//        dto.setDepth2_3(outputMessage.getDepth2_3());
+//        dto.setDepth3_1_1(outputMessage.getDepth3_1_1());
+//        dto.setDepth3_1_2(outputMessage.getDepth3_1_2());
+//        dto.setDepth3_1_3(outputMessage.getDepth3_1_3());
+//        dto.setDepth3_2_1(outputMessage.getDepth3_2_1());
+//        dto.setDepth3_2_2(outputMessage.getDepth3_2_2());
+//        dto.setDepth3_2_3(outputMessage.getDepth3_2_3());
+//        dto.setDepth3_3_1(outputMessage.getDepth3_3_1());
+//        dto.setDepth3_3_2(outputMessage.getDepth3_3_2());
+//        dto.setDepth3_3_3(outputMessage.getDepth3_3_3());
+//        dto.setUserId(outputMessage.getUserId());
+//        return dto;
+//    }
+
+    public OpenAIRequestDTO convertToDTO(OpenAIRequest openAIRequest) {
+        return modelMapper.map(openAIRequest, OpenAIRequestDTO.class);
     }
 
-    // Convert OutputMessage model to DTO
-    private OutputMessageDTO convertToDTO(OutputMessage outputMessage) {
-        OutputMessageDTO dto = new OutputMessageDTO();
-        dto.setId(outputMessage.getId());
-        dto.setDepth1(outputMessage.getDepth1());
-        dto.setDepth2_1(outputMessage.getDepth2_1());
-        dto.setDepth2_2(outputMessage.getDepth2_2());
-        dto.setDepth2_3(outputMessage.getDepth2_3());
-        dto.setDepth3_1_1(outputMessage.getDepth3_1_1());
-        dto.setDepth3_1_2(outputMessage.getDepth3_1_2());
-        dto.setDepth3_1_3(outputMessage.getDepth3_1_3());
-        dto.setDepth3_2_1(outputMessage.getDepth3_2_1());
-        dto.setDepth3_2_2(outputMessage.getDepth3_2_2());
-        dto.setDepth3_2_3(outputMessage.getDepth3_2_3());
-        dto.setDepth3_3_1(outputMessage.getDepth3_3_1());
-        dto.setDepth3_3_2(outputMessage.getDepth3_3_2());
-        dto.setDepth3_3_3(outputMessage.getDepth3_3_3());
-        dto.setUserId(outputMessage.getUserId());
-        return dto;
+    public OpenAIRequest convertToModel(OpenAIRequestDTO openAIRequestDTO) {
+        return modelMapper.map(openAIRequestDTO, OpenAIRequest.class);
     }
 
     // Convert OpenAIRequest object to JSON String
