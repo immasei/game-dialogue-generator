@@ -533,10 +533,13 @@
             // console.log(`Key: ${key}, Value: ${value}`);
             if (key === 'id' || key === 'userId') continue;
 
-            for (let k = 0; k < value.length; k++) {
-                dialogue[key][k] = $('#'+key+'-'+k).val();
+            curr = [];
+            for (let k = 0; k < 5; k++) {
+                curr.push($('#'+key+'-'+k).val());
                 // console.log($('#'+key+'-'+k).val());
             }
+
+            dialogue[key] = curr;
         }
         console.log(dialogue);
         var url = '../api/outputmessages/' + dialogue['id'];
