@@ -1,28 +1,103 @@
 # FriGroup3
 
-### Setup
+## Table of Contents
+**[How to run](#how-to-run)**<br>
+**[Working Functionalities](#how-to-run)**<br>
+**[Libraries Used and Versions](#libraries-used-and-versions)**<br>
+**[References](#references)**<br>
 
-- go to `application.properties` under `main/java/resources`
-- insert mysql password `spring.datasource.password`
+### How to run
+
+- Go to `application.properties` under `main/java/resources`
+- Insert mysql password `spring.datasource.password`
 - Ensure MySql, Java 17.x, and Gradle 8.x is installed
-- Run `gradle clean build bootrun`
-- Visit localhost:8080
+- Run
+  ```
+    gradle clean build bootrun
+  ```
+- Visit `localhost:8080`
 
 
 ### Working Functionalities
 
-- Sign up
-- Login, Logout
-- Light, dark mode
-- Multi-scenario dialogue generation
-- Dialogue editing
-- Dialogue prompt creation
-- Dialogue regeneration
-- Saved prompt and dialogue history and filter search
-- Dialogue text-to-speech
-- Dialogue pdf, txt, json, pastebin export
-- Dialogue language selection
-- Dialogue clipboard copy
+```
+  Besides login/signup page, all endpoints requires authentication (ie logged in users)
+```
+
+- `/`: Sign up, Login, Logout
+
+- Theme switch: light mode/ dark mode
+
+    - After logged, once switch theme, it will stay in that theme until user closes browser.
+
+- `/home`: Multi-scenario dialogue generation
+
+    - **Prompt creation** (a form)
+
+        - Dialogue can be generated in **chosen language** (limited options)
+
+    - **Form validator**: all fields must be filled
+
+    - **Word count and Word limit**
+
+    - **Generate**:
+
+        - **External Frontend API**: random loader icon from [DiceBear API](https://www.dicebear.com/)
+
+        - **AI API**: prompt is sent to OpenAI using [OpenAI API](https://platform.openai.com/docs/overview) to generate dialogue
+
+        - Once successful, redirect to `/dialogue/{id}`
+
+
+- `/dialogue/{id}`: Generated Dialogue
+    ```
+      can also be accessed via `/archive`
+      generated dialogue by default is `Readonly-mode`
+      cannot access if not the author
+      if not author, show /archive
+    ```
+
+    - **Edit**: change to `Edit-mode`
+
+    - **Save**: save changes
+
+    - **Go to**: visit `/prompt/{id}`
+
+    - **Export As**: `pdf`, `txt`, `json`, `pastebin`
+
+        - **External Backend API**: export as `pastebin` will upload dialogue to Pastebin using [Pastebin API](https://pastebin.com/doc_api)
+
+    - **Copy to Clipboard**
+
+    - **Text to Speech**: using [AWS Polly Voice API](https://docs.aws.amazon.com/polly/latest/dg/API_Reference.html)
+        - works with multiple languages
+
+- `/dialogue/{id}`: Past Prompt
+    ```
+      can also be accessed via `/archive`
+      cannot access if not the author
+      if not author, show /archive
+    ```
+
+    - Prompt can be **edited**, but it won't be saved until `Save`
+
+    - **Save**: save changes
+
+    - **Regenerate**: Use current prompt to generate new dialogue
+
+        - Once successful, redirect to `/dialogue/{id}`
+
+    - **Go to**: visit `/dialogue/{id}`
+
+- `/archive`: Show history of all generated prompts/dialogues of current user
+
+    - **Search filter**
+
+    - **Redirection**:
+
+        - Press link under `Prompt` to visit `/prompt/{id}`
+
+        - Press link under `Dialogue` to visit `/dialogue/{id}`
 
 ### Libraries Used and Versions
 
@@ -45,7 +120,7 @@
 - io.projectreactor:reactor-core
 - com.fasterxml.jackson.core:jackson-databind:2.15.2
 
-Versions not explicitly stated are managed by Spring’s dependency management plugin version 1.1.6. 
+Versions not explicitly stated are managed by Spring’s dependency management plugin version 1.1.6.
 
 ### References
 
