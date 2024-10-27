@@ -38,8 +38,8 @@ public class OutputMessageController {
     @Autowired
     OutputMessageService service;
 
-    @Autowired
-    private ModelMapper modelMapper;
+//    @Autowired
+//    private ModelMapper modelMapper;
 
     // Create a new OutputMessage
     @PostMapping

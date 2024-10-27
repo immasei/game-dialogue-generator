@@ -36,7 +36,7 @@ public class OutputMessageServiceTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        outputMessageService = new OutputMessageService(repository, modelMapper);  // Ensure modelMapper is injected here
+//        outputMessageService = new OutputMessageService(repository, modelMapper);  // Ensure modelMapper is injected here
     }
 
     /**

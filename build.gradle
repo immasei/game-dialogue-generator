@@ -63,5 +63,11 @@ jacocoTestReport {
 		csv.required = false
 	}
 	dependsOn test
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: 'com/example/game_dialogue_generator/service/OpenAIRequestService**')
+		}))
+	}
 }
+
 

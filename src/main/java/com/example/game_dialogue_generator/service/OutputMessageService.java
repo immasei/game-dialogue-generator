@@ -20,11 +20,11 @@ public class OutputMessageService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    public OutputMessageService(OutputMessageRepository repository, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.modelMapper = modelMapper;
-    }
+//    @Autowired
+//    public OutputMessageService(OutputMessageRepository repository, ModelMapper modelMapper) {
+//        this.repository = repository;
+//        this.modelMapper = modelMapper;
+//    }
 
     public Optional<OutputMessageDTO> findOutputMessageByIdAndUserId(long id, int userId) {
         return repository.findOutputMessageByIdAndUserId(id, userId).map(this::convertToDTO);
