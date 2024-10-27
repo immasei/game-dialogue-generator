@@ -2,7 +2,7 @@
 
 ## Table of Contents
 **[How to run](#how-to-run)**<br>
-**[Working Functionalities](#how-to-run)**<br>
+**[Working Functionalities](#working-functionalities)**<br>
 **[Libraries Used and Versions](#libraries-used-and-versions)**<br>
 **[References](#references)**<br>
 
