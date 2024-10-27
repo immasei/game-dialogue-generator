@@ -20,6 +20,12 @@ public class OutputMessageService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    public OutputMessageService(OutputMessageRepository repository, ModelMapper modelMapper) {
+        this.repository = repository;
+        this.modelMapper = modelMapper;
+    }
+
     public Optional<OutputMessageDTO> findOutputMessageByIdAndUserId(long id, int userId) {
         return repository.findOutputMessageByIdAndUserId(id, userId).map(this::convertToDTO);
     }
@@ -41,9 +47,9 @@ public class OutputMessageService {
     }
 
     // get all
-//    public List<OutputMessageDTO> getAllOutputMessages() {
-//        return repository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
-//    }
+    public List<OutputMessageDTO> getAllOutputMessages() {
+        return repository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
 
     // update
     public OutputMessageDTO updateOutputMessage(Long id, OutputMessageDTO updatedOutputMessageDTO) {
