@@ -27,8 +27,8 @@ public class OpenAIRequestControllerTest {
     @Mock
     private OpenAIRequestService openAIRequestService;
 
-    @Mock
-    private OutputMessageService outputMessageService;
+//    @Mock
+//    private OutputMessageService outputMessageService;
 
     @InjectMocks
     private OpenAIRequestController openAIRequestController;

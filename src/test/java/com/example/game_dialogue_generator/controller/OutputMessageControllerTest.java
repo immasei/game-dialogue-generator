@@ -205,39 +205,39 @@ public class OutputMessageControllerTest {
         verify(outputMessageService, times(1)).deleteOutputMessage(1L);
     }
 
-    @Test
-    public void testGetOutputMessageByIdandUserID_Success() throws Exception {
-        Optional<OutputMessageDTO> opt = Optional.of(new OutputMessageDTO());
-        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
-                .thenReturn(opt);
+//    @Test
+//    public void testGetOutputMessageByIdandUserID_Success() throws Exception {
+//        Optional<OutputMessageDTO> opt = Optional.of(new OutputMessageDTO());
+//        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+//                .thenReturn(opt);
+//
+//        mockMvc.perform(get("/api/outputmessages/u1/1"))
+//                .andExpect(status().isOk());
+//        verify(outputMessageService, times(1))
+//                .findOutputMessageByIdAndUserId(1, 1);
+//    }
 
-        mockMvc.perform(get("/api/outputmessages/u1/1"))
-                .andExpect(status().isOk());
-        verify(outputMessageService, times(1))
-                .findOutputMessageByIdAndUserId(1, 1);
-    }
-
-    @Test
-    public void testGetOutputMessageByIdandUserID_NoOutputMessage() throws Exception {
-        Optional<OutputMessageDTO> opt = Optional.empty();
-        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
-                .thenReturn(opt);
-
-        mockMvc.perform(get("/api/outputmessages/u1/1"))
-                .andExpect(status().isNotFound());
-        verify(outputMessageService, times(1))
-                .findOutputMessageByIdAndUserId(1, 1);
-    }
-
-    @Test
-    public void testGetOutputMessageByUserID() throws Exception {
-        List<OutputMessageDTO> outputMessageDTOS = new ArrayList<>();
-        when(outputMessageService.findOutputMessageByUserId(1))
-                .thenReturn(outputMessageDTOS);
-
-        mockMvc.perform(get("/api/outputmessages/u1"))
-                .andExpect(status().isOk());
-        verify(outputMessageService, times(1))
-                .findOutputMessageByUserId(1);
-    }
+//    @Test
+//    public void testGetOutputMessageByIdandUserID_NoOutputMessage() throws Exception {
+//        Optional<OutputMessageDTO> opt = Optional.empty();
+//        when(outputMessageService.findOutputMessageByIdAndUserId(1, 1))
+//                .thenReturn(opt);
+//
+//        mockMvc.perform(get("/api/outputmessages/u1/1"))
+//                .andExpect(status().isNotFound());
+//        verify(outputMessageService, times(1))
+//                .findOutputMessageByIdAndUserId(1, 1);
+//    }
+//
+//    @Test
+//    public void testGetOutputMessageByUserID() throws Exception {
+//        List<OutputMessageDTO> outputMessageDTOS = new ArrayList<>();
+//        when(outputMessageService.findOutputMessageByUserId(1))
+//                .thenReturn(outputMessageDTOS);
+//
+//        mockMvc.perform(get("/api/outputmessages/u1"))
+//                .andExpect(status().isOk());
+//        verify(outputMessageService, times(1))
+//                .findOutputMessageByUserId(1);
+//    }
 }

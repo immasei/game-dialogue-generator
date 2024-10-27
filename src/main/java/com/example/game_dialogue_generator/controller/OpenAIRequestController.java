@@ -38,9 +38,9 @@ public class OpenAIRequestController {
 
     @Autowired
     private OpenAIRequestService openAIRequestService;
-
-    @Autowired
-    private OutputMessageService outputMessageService;
+//
+//    @Autowired
+//    private OutputMessageService outputMessageService;
 
     // Create new request and return the generated OutputMessage
     @PostMapping
@@ -87,51 +87,51 @@ public class OpenAIRequestController {
     }
 
     // Test OpenAI API call with a mock request
-    @GetMapping("/test")
-    public ResponseEntity<Long> testOpenAI() {
-        OpenAIRequestDTO mockRequestDTO = new OpenAIRequestDTO();
-        mockRequestDTO.setGenre("scifi, fantasy");
-        mockRequestDTO.setSetting("Planet of Penacony - the land of dreams (from the Honkai: Star Rail universe)");
-        mockRequestDTO.setLocation("Penacony Grand Hotel");
-        mockRequestDTO.setTimePeriod("Day");
-        mockRequestDTO.setLanguage("ENGLISH");
-        mockRequestDTO.setPlot("The Trailblazer is attempting to check in at the hotel, but she is not on the invite list.");
-        mockRequestDTO.setCharacterNames(List.of("Trailblazer", "Hotel Manager"));
-        mockRequestDTO.setCharacterPersonalities(List.of("curious, slightly dumb", "polite and patient"));
-        mockRequestDTO.setCharacterSpeechFeatures(List.of(
-                "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
-                "polite speech, attempting to explain how she cannot let the Trailblazer check in if she is not on the guest list"));
-        mockRequestDTO.setDepth(2);
-        mockRequestDTO.setWidth(2);
-        mockRequestDTO.setUserId(1);  // Assuming a test user ID
-
-        // Call OpenAI API and retrieve the output message
-        Long response = openAIRequestService.createOpenAIRequest(mockRequestDTO);
-
-        return ResponseEntity.ok(response);
-    }
-
-    // Test getting raw json string
-    @GetMapping("/test/string")
-    public ResponseEntity<String> getRawContentFromChatGPT() {
-        OpenAIRequestDTO mockRequestDTO = new OpenAIRequestDTO();
-        mockRequestDTO.setGenre("scifi, fantasy");
-        mockRequestDTO.setSetting("Planet of Penacony - the land of dreams");
-        mockRequestDTO.setLocation("Penacony Grand Hotel");
-        mockRequestDTO.setTimePeriod("Day");
-        mockRequestDTO.setLanguage("English");
-        mockRequestDTO.setPlot("The Trailblazer is attempting to check in at the hotel, but she is not on the invite list.");
-        mockRequestDTO.setCharacterNames(List.of("Trailblazer", "Hotel Manager"));
-        mockRequestDTO.setCharacterPersonalities(List.of("curious, slightly dumb", "polite and patient"));
-        mockRequestDTO.setCharacterSpeechFeatures(List.of(
-                "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
-                "polite speech, attempting to explain how she can't let the Trailblazer check in if she's not on the guest list"
-        ));
-        mockRequestDTO.setDepth(3);
-        mockRequestDTO.setWidth(2);
-        mockRequestDTO.setUserId(1);  // Assuming a test user ID
-
-        String content = openAIRequestService.getOpenAIResponseContent(mockRequestDTO);
-        return ResponseEntity.ok(content);
-    }
+//    @GetMapping("/test")
+//    public ResponseEntity<Long> testOpenAI() {
+//        OpenAIRequestDTO mockRequestDTO = new OpenAIRequestDTO();
+//        mockRequestDTO.setGenre("scifi, fantasy");
+//        mockRequestDTO.setSetting("Planet of Penacony - the land of dreams (from the Honkai: Star Rail universe)");
+//        mockRequestDTO.setLocation("Penacony Grand Hotel");
+//        mockRequestDTO.setTimePeriod("Day");
+//        mockRequestDTO.setLanguage("ENGLISH");
+//        mockRequestDTO.setPlot("The Trailblazer is attempting to check in at the hotel, but she is not on the invite list.");
+//        mockRequestDTO.setCharacterNames(List.of("Trailblazer", "Hotel Manager"));
+//        mockRequestDTO.setCharacterPersonalities(List.of("curious, slightly dumb", "polite and patient"));
+//        mockRequestDTO.setCharacterSpeechFeatures(List.of(
+//                "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
+//                "polite speech, attempting to explain how she cannot let the Trailblazer check in if she is not on the guest list"));
+//        mockRequestDTO.setDepth(2);
+//        mockRequestDTO.setWidth(2);
+//        mockRequestDTO.setUserId(1);  // Assuming a test user ID
+//
+//        // Call OpenAI API and retrieve the output message
+//        Long response = openAIRequestService.createOpenAIRequest(mockRequestDTO);
+//
+//        return ResponseEntity.ok(response);
+//    }
+//
+//    // Test getting raw json string
+//    @GetMapping("/test/string")
+//    public ResponseEntity<String> getRawContentFromChatGPT() {
+//        OpenAIRequestDTO mockRequestDTO = new OpenAIRequestDTO();
+//        mockRequestDTO.setGenre("scifi, fantasy");
+//        mockRequestDTO.setSetting("Planet of Penacony - the land of dreams");
+//        mockRequestDTO.setLocation("Penacony Grand Hotel");
+//        mockRequestDTO.setTimePeriod("Day");
+//        mockRequestDTO.setLanguage("English");
+//        mockRequestDTO.setPlot("The Trailblazer is attempting to check in at the hotel, but she is not on the invite list.");
+//        mockRequestDTO.setCharacterNames(List.of("Trailblazer", "Hotel Manager"));
+//        mockRequestDTO.setCharacterPersonalities(List.of("curious, slightly dumb", "polite and patient"));
+//        mockRequestDTO.setCharacterSpeechFeatures(List.of(
+//                "refers to herself as the galactic baseballer, likes trash cans, catchphrase: rules are meant to be broken",
+//                "polite speech, attempting to explain how she can't let the Trailblazer check in if she's not on the guest list"
+//        ));
+//        mockRequestDTO.setDepth(3);
+//        mockRequestDTO.setWidth(2);
+//        mockRequestDTO.setUserId(1);  // Assuming a test user ID
+//
+//        String content = openAIRequestService.getOpenAIResponseContent(mockRequestDTO);
+//        return ResponseEntity.ok(content);
+//    }
 }
