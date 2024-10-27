@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -83,7 +84,7 @@ public class PastebinServiceTest {
        Mockito.mockStatic(WebClient.class);
        when(WebClient.create(pastebinApiUrl)).thenReturn(webClient);
        when(webClient.post()).thenReturn(requestBodyUriSpec);
-       when(requestBodyUriSpec.bodyValue(formData)).thenReturn(requestHeadersSpec);
+       when(requestBodyUriSpec.bodyValue(any())).thenReturn(requestHeadersSpec);
        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
        when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.just(expected));
 
@@ -97,7 +98,7 @@ public class PastebinServiceTest {
    void testCallPastebinApi_JsonException() throws JsonProcessingException {
        ObjectWriter objectWriter = mock(ObjectWriter.class);
        when(objectWriter.withDefaultPrettyPrinter()).thenReturn(objectWriter);
-       when(objectWriter.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+       when(objectWriter.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
 
        try (MockedConstruction<ObjectMapper> mockedObjectMapper = Mockito.mockConstruction(ObjectMapper.class,
                (mock, context) -> {
@@ -141,7 +142,7 @@ public class PastebinServiceTest {
 
        when(WebClient.create(pastebinApiUrl)).thenReturn(webClient);
        when(webClient.post()).thenReturn(requestBodyUriSpec);
-       when(requestBodyUriSpec.bodyValue(formData)).thenReturn(requestHeadersSpec);
+       when(requestBodyUriSpec.bodyValue(any())).thenReturn(requestHeadersSpec);
        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
        when(responseSpec.bodyToMono(String.class))
                .thenReturn(Mono.error(new WebClientResponseException("Bad API request", 400, "Bad Request",
