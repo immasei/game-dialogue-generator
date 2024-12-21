@@ -1,16 +1,30 @@
-# FriGroup3
+# Game Dialogue Generator
+
+A product of teamwork, soon to be revamped.
+
+Status: Paused
 
 ## Table of Contents
+**[Tech Stack](#techstack)**<br>
 **[How to run](#how-to-run)**<br>
 **[Working Functionalities](#working-functionalities)**<br>
-**[Libraries Used and Versions](#libraries-used-and-versions)**<br>
 **[References](#references)**<br>
+**[Acknowledgement](#acknowledgement)**<br>
+
+### Techstack
+
+|            | Current                 | 
+| :--------  | :-----------------------| 
+| Frontend   | HTML/ CSS               |
+| Backend    | Java Spring Boot    	   | 
+| Database   | MySQL						  	   |
 
 ### How to run
 
 - Go to `application.properties` under `main/java/resources`
 - Insert mysql password `spring.datasource.password`
 - Ensure MySql, Java 17.x, and Gradle 8.x is installed
+- And fill in all of your api keys
 - Run
   ```
     gradle clean build bootrun
@@ -99,28 +113,6 @@
 
         - Press link under `Dialogue` to visit `/dialogue/{id}`
 
-### Libraries Used and Versions
-
-- jakarta.validation:jakarta.validation-api:3.0.2
-- com.amazonaws:aws-java-sdk-polly:12.777
-- org.modelmapper:modelmapper:2.1.1
-- org.springframework.boot:spring-boot-starter-validation
-- org.springframework.boot:spring-boot-starter
-- org.springframework.boot:spring-boot-starter-web
-- org.springframework.boot:spring-boot-starter-security
-- org.springframework.boot:spring-boot-starter-thymeleaf
-- org.springframework.boot:spring-boot-starter-data-jpa
-- org.projectlombok:lombok
-- org.springframework.boot:spring-boot-starter-test
-- org.springframework.boot:spring-boot-devtools
-- com.mysql:mysql-connector-j
-- org.junit.platform:junit-platform-launcher
-- org.mockito:mockito-core
-- org.springframework.boot:spring-boot-starter-webflux
-- io.projectreactor:reactor-core
-- com.fasterxml.jackson.core:jackson-databind:2.15.2
-
-Versions not explicitly stated are managed by Spring’s dependency management plugin version 1.1.6.
 
 ### References
 
@@ -223,3 +215,14 @@ polly voice api https://docs.aws.amazon.com/polly/latest/dg/standard-voices.html
 obj mapper https://medium.com/@bectorhimanshu/using-dto-data-transfer-object-projection-mapping-entities-to-dtos-and-vice-versa-in-java-a7a9fe6b50a4 https://stackoverflow.com/questions/65807229/how-can-i-use-the-modelmapper-in-spring
 
 gradle exclude https://stackoverflow.com/questions/29887805/filter-jacoco-coverage-reports-with-gradle
+
+### Acknowledgement
+This project was joinly built by (USYD) ELEC5619 S2 2024 (Group 3), with contributions from the following members:
+
+|                      | Username                | Role             | 
+| :--------------------| :-----------------------| :--------------- |
+| Lan Linh Nguyen (me) | immasei (lngu8896)      | FE & BE          |
+| Megan Gock Kwai      | mgoc2312  	             | BE & Testing     |
+| George Zhou          | yzho5574 						   | BE (OpenAI)      |
+| Gavin Qiao (Gavin)   | kqia8770  						   | FE & Testing     |
+| Xinyi He (Cecilia)   | xihe0208  						   | FE               |
